@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    // ESNext y no ES2022: `useGrouping: 'always'` de `Intl.NumberFormat`
+    // (format.ts) solo está tipado como cadena a partir de ES2023. Las dos
+    // aplicaciones ya usan esta misma librería.
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "preserve",

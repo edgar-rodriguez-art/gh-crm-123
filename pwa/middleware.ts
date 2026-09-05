@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { actualizarSesion } from '@crm123/core/supabase/middleware';
+import { actualizarSesion, respuestaSinConfigurar } from '@crm123/core/supabase/middleware';
 
 /**
  * Middleware de la PWA. Las mismas reglas de TECHNICAL_SPEC §6, más una:
@@ -15,7 +15,12 @@ const PUBLICAS = ['/login', '/api/auth/login'];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const { response, perfil } = await actualizarSesion(request);
+  const { response, perfil, faltanVariables } = await actualizarSesion(request);
+
+  // Sin configuración no se puede decidir nada sobre la sesión. Se para aquí
+  // con un mensaje que dice qué falta, en vez de reventar con un 500 opaco.
+  if (faltanVariables.length > 0) return respuestaSinConfigurar(faltanVariables);
+
   const esPublica = PUBLICAS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
   if (!perfil || !perfil.is_active) {
