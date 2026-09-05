@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es-ES" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0088b0" />
+    <title>Sin conexión · CRM-123</title>
+    <style>
+      /*
+        Los tokens van escritos a mano en este archivo, y solo en este: lo
+        sirve el service worker sin conexión, así que no puede depender de que
+        una hoja de estilos llegue por la red.
+      */
+      html, body { margin: 0; padding: 0; }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f2f2;
+        color: #201e1d;
+        font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+        font-size: 16px;
+        line-height: 1.45;
+        padding: 24px;
+      }
+      main { max-width: 340px; text-align: center; }
+      h1 { font-size: 21px; font-weight: 600; margin: 0 0 10px; }
+      p { margin: 0 0 20px; font-size: 14px; color: #444141; }
+      button {
+        min-height: 48px;
+        width: 100%;
+        border: none;
+        border-radius: 2px;
+        background: #0088b0;
+        color: #fff;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      button:focus-visible { outline: 2px solid #0088b0; outline-offset: 2px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Sin conexión</h1>
+      <p>Vuelve a intentarlo cuando tengas cobertura.</p>
+      <button type="button" onclick="location.reload()">Reintentar</button>
+    </main>
+  </body>
+</html>

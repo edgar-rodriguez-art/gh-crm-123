@@ -1,0 +1,37 @@
+{
+  "name": "@crm123/core",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Capa compartida por /web y /pwa: entorno, clientes de Supabase, tipos generados, formatos y auditoría.",
+  "type": "module",
+  "exports": {
+    "./env": "./src/env.ts",
+    "./types": "./src/types/database.ts",
+    "./supabase/client": "./src/supabase/client.ts",
+    "./supabase/server": "./src/supabase/server.ts",
+    "./supabase/admin": "./src/supabase/admin.ts",
+    "./supabase/middleware": "./src/supabase/middleware.ts",
+    "./auth": "./src/auth.ts",
+    "./audit": "./src/audit.ts",
+    "./format": "./src/format.ts",
+    "./labels": "./src/labels.ts",
+    "./password": "./src/password.ts",
+    "./rate-limit": "./src/rate-limit.ts",
+    "./http": "./src/http.ts",
+    "./styles/tokens.css": "./styles/tokens.css"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.6",
+    "@supabase/supabase-js": "^2.115.0",
+    "server-only": "^0.0.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "next": "^14.2.15",
+    "typescript": "^5.6.3"
+  }
+}

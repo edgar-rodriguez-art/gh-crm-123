@@ -1,0 +1,149 @@
+/* =====================================================================
+   CRM-123 · Tokens visuales
+   =====================================================================
+
+   Origen: sistema de diseño Broadsheet
+   (docs/_ds/broadsheet-affd264b-5f6a-467e-945a-5e9935e94c55/styles.css).
+
+   Los valores NO se retocan aquí: CLAUDE.md prohibición 22 impide
+   reinterpretar el sistema que decidió Claude Design. En el código se usa
+   siempre la variable, nunca el hexadecimal (README.handoff §3).
+
+   Solo hay DOS añadidos, ambos documentados en README.handoff §3 y §6:
+
+     --crm-surface   #fdfcfc   La superficie que usó el prototipo para barra
+                               lateral, tablas, tarjetas, diálogos y marco de
+                               la PWA. Broadsheet define --color-surface como
+                               #eae9e9, pensado para su maquetación editorial;
+                               a densidad de CRM no separa la superficie del
+                               lienzo. El prototipo entregado usa #fdfcfc.
+
+     --crm-won       #17714a   Verde de venta ganada. Broadsheet no tiene
+                               verde y el brief §12 lo exige, reservado a la
+                               venta ganada y a nada más. Única tinta fuera
+                               del sistema.
+   ===================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* --- Broadsheet, literal ------------------------------------------ */
+  --color-bg: #f3f2f2;
+  --color-text: #201e1d;
+  --color-accent: #0088b0;
+  --color-accent-2: #d6006c;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
+
+  --color-neutral-100: #f8f4f4;
+  --color-neutral-200: #eae7e7;
+  --color-neutral-300: #d7d3d3;
+  --color-neutral-400: #bab6b6;
+  --color-neutral-500: #9b9797;
+  --color-neutral-600: #7d7979;
+  --color-neutral-700: #605d5d;
+  --color-neutral-800: #444141;
+  --color-neutral-900: #2d2b2b;
+
+  --color-accent-100: #e9f8ff;
+  --color-accent-200: #cbeeff;
+  --color-accent-300: #99e0ff;
+  --color-accent-400: #62c5ee;
+  --color-accent-500: #38a6cf;
+  --color-accent-600: #1186ac;
+  --color-accent-700: #006786;
+  --color-accent-800: #004961;
+  --color-accent-900: #0a303e;
+
+  --color-accent-2-100: #fff1f4;
+  --color-accent-2-200: #ffdee6;
+  --color-accent-2-300: #ffc0d0;
+  --color-accent-2-400: #ff90b1;
+  --color-accent-2-500: #ff458e;
+  --color-accent-2-600: #d82071;
+  --color-accent-2-700: #aa0b56;
+  --color-accent-2-800: #790e3d;
+  --color-accent-2-900: #4b1528;
+
+  --font-heading: 'Source Serif 4', system-ui, sans-serif;
+  --font-heading-weight: 600;
+  --font-body: 'Source Serif 4', system-ui, sans-serif;
+
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-6: 30px;
+  --space-8: 40px;
+
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2d2b2b 22%, transparent);
+
+  /* --- Añadidos del CRM, documentados arriba ------------------------ */
+  --crm-surface: #fdfcfc;
+  --crm-won: #17714a;
+
+  /* Medidas duras del diseño entregado (README.handoff §3) */
+  --crm-sidebar: 240px;
+  --crm-row: 44px;
+}
+
+/* Cifras de ancho fijo en toda la aplicación: es lo que alinea las columnas
+   de importes. DESIGN_BRIEF §12 pedía una sans con buenos números; Broadsheet
+   obliga a la serif, así que el objetivo real se cumple con tabular-nums
+   (README.handoff §6, desviación documentada y aceptada). */
+html {
+  font-variant-numeric: tabular-nums;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+}
+
+/* Anillo de foco único del sistema. DESIGN_BRIEF §13: todo lo interactivo se
+   alcanza con el teclado y lo enseña. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Movimiento: casi ninguno (DESIGN_BRIEF §12). 150 ms en pulsación y en la
+   apertura de ventanas, y nada más. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Esqueletos de carga: la forma real del contenido, no un girador
+   (DESIGN_BRIEF §6.1). */
+@keyframes crmPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}

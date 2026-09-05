@@ -1,0 +1,21 @@
+{
+  "name": "crm-123",
+  "private": true,
+  "version": "0.2.0",
+  "description": "CRM-123 — gestión comercial de calzado y moda. Hito 2.",
+  "workspaces": [
+    "packages/*",
+    "web",
+    "pwa"
+  ],
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "dev:web": "npm run dev --workspace web",
+    "dev:pwa": "npm run dev --workspace pwa",
+    "build": "npm run build --workspace web && npm run build --workspace pwa",
+    "lint": "npm run lint --workspace web && npm run lint --workspace pwa",
+    "typecheck": "npm run typecheck --workspace @crm123/core && npm run typecheck --workspace web && npm run typecheck --workspace pwa"
+  }
+}

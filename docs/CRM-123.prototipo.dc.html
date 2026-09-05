@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_ds/broadsheet-affd264b-5f6a-467e-945a-5e9935e94c55/styles.css">
+<script src="_ds/broadsheet-affd264b-5f6a-467e-945a-5e9935e94c55/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: var(--color-bg); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent-600); text-decoration: underline; }
+  *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  input, select, textarea, button { font-family: var(--font-body); font-size: 14px; color: var(--color-text); }
+  table { border-collapse: collapse; }
+  @keyframes crmPulse { 0% { opacity: .35 } 50% { opacity: .8 } 100% { opacity: .35 } }
+  @keyframes crmBar { 0% { transform: translateX(-60%) } 100% { transform: translateX(220%) } }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:14px;line-height:1.45;font-variant-numeric:tabular-nums">
+
+  <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px">
+      <div style="width:100%;max-width:400px">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:28px;letter-spacing:-.01em;margin-bottom:4px">CRM-123</div>
+        <div style="color:var(--color-neutral-700);font-size:13px;margin-bottom:30px">Gestión comercial · Calzado y moda</div>
+        <div style="background:#fdfcfc;box-shadow:var(--shadow-sm);border-radius:var(--radius-md);padding:30px">
+          <label for="lg-user" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:6px">Usuario</label>
+          <input id="lg-user" autofocus value="{{ loginUser }}" onChange="{{ h.setLoginUser }}" style="width:100%;box-sizing:border-box;height:40px;padding:0 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);text-transform:lowercase">
+          <label for="lg-pass" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin:16px 0 6px">Contraseña</label>
+          <div style="display:flex;gap:6px">
+            <input id="lg-pass" type="{{ passInputType }}" value="{{ loginPass }}" onChange="{{ h.setLoginPass }}" style="flex:1;min-width:0;box-sizing:border-box;height:40px;padding:0 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+            <button type="button" onClick="{{ h.togglePass }}" aria-label="Mostrar u ocultar la contraseña" style="width:44px;height:40px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;color:var(--color-neutral-700)">{{ passToggleLabel }}</button>
+          </div>
+          <sc-if value="{{ loginError }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="margin-top:14px;background:var(--color-accent-2-100);color:var(--color-accent-2-800);padding:9px 11px;border-radius:var(--radius-md);font-size:13px">{{ loginError }}</div>
+          </sc-if>
+          <button type="button" onClick="{{ h.login }}" disabled="{{ loginSending }}" style="width:100%;height:44px;margin-top:22px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);font-size:15px;cursor:pointer;transition:background 150ms" style-hover="background:var(--color-accent-600)">{{ loginBtnLabel }}</button>
+        </div>
+        <div style="margin-top:16px;font-size:12px;color:var(--color-neutral-700)">Si has olvidado tu contraseña, pídesela a tu supervisor.</div>
+        <div style="margin-top:22px;font-size:12px;color:var(--color-neutral-800)">Prueba con <strong>{{ demoUser }}</strong> y la contraseña <strong>Demo1234!</strong></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPwChange }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px">
+      <div style="width:100%;max-width:400px">
+        <div style="font-family:var(--font-heading);font-weight:600;font-size:28px;margin-bottom:26px">CRM-123</div>
+        <div style="background:#fdfcfc;box-shadow:var(--shadow-sm);border-radius:var(--radius-md);padding:30px">
+          <h1 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin:0 0 6px">Elige tu contraseña</h1>
+          <p style="margin:0 0 22px;color:var(--color-neutral-700);font-size:13px">Es tu primer acceso. Crea una contraseña personal para continuar.</p>
+          <label for="pw1" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:6px">Contraseña nueva</label>
+          <input id="pw1" type="password" value="{{ pw1 }}" onChange="{{ h.setPw1 }}" style="width:100%;box-sizing:border-box;height:40px;padding:0 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+          <ul style="list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:5px">
+            <sc-for list="{{ pwRules }}" as="r" hint-placeholder-count="2">
+              <li style="display:flex;gap:8px;align-items:center;font-size:12.5px;color:{{ r.color }}"><span style="width:14px;text-align:center">{{ r.mark }}</span>{{ r.text }}</li>
+            </sc-for>
+          </ul>
+          <label for="pw2" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin:18px 0 6px">Repite la contraseña</label>
+          <input id="pw2" type="password" value="{{ pw2 }}" onChange="{{ h.setPw2 }}" style="width:100%;box-sizing:border-box;height:40px;padding:0 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+          <div style="min-height:18px;margin-top:7px;font-size:12.5px;color:{{ pwMatchColor }}">{{ pwMatchText }}</div>
+          <button type="button" onClick="{{ h.savePw }}" disabled="{{ pwDisabled }}" style="width:100%;height:44px;margin-top:14px;background:{{ pwBtnBg }};color:#fff;border:0;border-radius:var(--radius-md);font-size:15px;cursor:pointer">{{ pwBtnLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isDesktopApp }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;min-height:100vh;align-items:stretch">
+
+      <nav style="width:240px;flex:0 0 240px;background:#fdfcfc;box-shadow:1px 0 0 var(--color-divider);display:flex;flex-direction:column;padding:24px 0">
+        <div style="padding:0 20px 26px">
+          <div style="font-family:var(--font-heading);font-weight:600;font-size:20px;letter-spacing:-.01em">CRM-123</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;padding:0 8px;flex:1">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="5">
+            <button type="button" onClick="{{ n.go }}" style="text-align:left;padding:9px 12px;background:{{ n.bg }};color:{{ n.color }};border:0;border-radius:var(--radius-md);cursor:pointer;font-size:14.5px;font-weight:{{ n.weight }};transition:background 150ms" style-hover="background:var(--color-neutral-200)">{{ n.label }}</button>
+          </sc-for>
+        </div>
+        <div style="padding:16px 20px 0;box-shadow:0 -1px 0 var(--color-divider);margin:0 12px">
+          <div style="font-weight:600">{{ me.name }}</div>
+          <div style="font-size:12.5px;color:var(--color-neutral-700);margin-bottom:10px">{{ me.roleLabel }}</div>
+          <button type="button" onClick="{{ h.logout }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13px">Salir</button>
+        </div>
+      </nav>
+
+      <main style="flex:1;min-width:0;padding:26px 30px 60px">
+
+        <sc-if value="{{ viewBoard }}" hint-placeholder-val="{{ true }}">
+          <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px">
+            <h1 style="font-family:var(--font-heading);font-weight:600;font-size:26px;margin:0">{{ greeting }}</h1>
+            <div style="display:flex;align-items:center;gap:16px">
+              <span style="color:var(--color-neutral-700);font-size:13.5px">{{ todayLong }}</span>
+              <button type="button" onClick="{{ h.openNewCustomer }}" style="height:38px;padding:0 16px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer;font-size:14px;transition:background 150ms" style-hover="background:var(--color-accent-600)">+ Nuevo cliente</button>
+            </div>
+          </header>
+
+          <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:10px;max-width:1100px">
+              <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="6">
+                <div style="height:56px;background:var(--color-neutral-200);border-radius:var(--radius-md);animation:crmPulse 1.4s ease-in-out infinite"></div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+            <div style="max-width:520px;padding:26px 0">
+              <h2 style="font-family:var(--font-heading);font-size:19px;margin:0 0 6px">No se ha podido cargar tu tablero</h2>
+              <p style="margin:0 0 16px;color:var(--color-neutral-700)">La conexión se ha interrumpido.</p>
+              <button type="button" onClick="{{ h.retry }}" style="height:36px;padding:0 14px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer">Reintentar</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ boardReady }}" hint-placeholder-val="{{ true }}">
+            <section style="margin-bottom:38px;max-width:1180px">
+              <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="width:9px;height:9px;border-radius:50%;background:var(--color-accent-2);display:inline-block"></span>
+                <h2 style="font-family:var(--font-heading);font-weight:600;font-size:21px;margin:0">Atrasadas ({{ overdueCount }})</h2>
+              </div>
+              <sc-if value="{{ hasOverdue }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column">
+                  <sc-for list="{{ overdueRows }}" as="r" hint-placeholder-count="5">
+                    <div style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:11px 12px 11px 10px;background:#fdfcfc;box-shadow:inset 3px 0 0 var(--color-accent-2), 0 1px 0 var(--color-divider);transition:background 150ms" style-hover="background:var(--color-neutral-100)">
+                      <div style="flex:1 1 320px;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) 132px 96px;grid-template-areas:'name stage amount' 'reason reason reason';gap:5px 12px;align-items:center">
+                        <div style="grid-area:name;min-width:0;min-height:36px">
+                          <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3">{{ r.name }}</div>
+                          <div style="font-size:12.5px;color:var(--color-neutral-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25">{{ r.company }}</div>
+                        </div>
+                        <span style="grid-area:stage;justify-self:start;font-size:12.5px;padding:3px 9px;background:var(--color-neutral-200);border-radius:var(--radius-md);color:var(--color-neutral-800);white-space:nowrap">{{ r.stage }}</span>
+                        <div style="grid-area:amount;text-align:right;font-weight:600;white-space:nowrap">{{ r.amount }}</div>
+                        <div style="grid-area:reason;min-width:0;color:var(--color-accent-2-700);font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.reason }}</div>
+                      </div>
+                      <div style="flex:0 0 auto;display:flex;gap:8px;margin-left:auto">
+                        <button type="button" onClick="{{ r.activity }}" style="height:32px;padding:0 12px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer;font-size:13px;white-space:nowrap;transition:background 150ms" style-hover="background:var(--color-accent-600)">Registrar actividad</button>
+                        <button type="button" onClick="{{ r.open }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Abrir</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ overdueMore }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ h.goOverdueTable }}" style="margin-top:12px;background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13.5px">{{ overdueMoreLabel }}</button>
+                </sc-if>
+              </sc-if>
+              <sc-if value="{{ noOverdue }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;color:var(--color-neutral-700);font-size:15px;font-style:italic">Nada atrasado. Todo tu embudo está al día.</p>
+              </sc-if>
+            </section>
+
+            <section style="margin-bottom:38px;max-width:1180px">
+              <h2 style="font-family:var(--font-heading);font-weight:600;font-size:21px;margin:0 0 12px">Para hoy ({{ todayCount }})</h2>
+              <sc-if value="{{ hasToday }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column">
+                  <sc-for list="{{ todayRows }}" as="r" hint-placeholder-count="3">
+                    <div style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;padding:11px 12px;background:#fdfcfc;box-shadow:0 1px 0 var(--color-divider);transition:background 150ms" style-hover="background:var(--color-neutral-100)">
+                      <div style="flex:1 1 320px;min-width:0;display:grid;grid-template-columns:minmax(0,1fr) 132px 96px;grid-template-areas:'name stage amount' 'reason reason reason';gap:5px 12px;align-items:center">
+                        <div style="grid-area:name;min-width:0;min-height:36px">
+                          <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3">{{ r.name }}</div>
+                          <div style="font-size:12.5px;color:var(--color-neutral-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25">{{ r.company }}</div>
+                        </div>
+                        <span style="grid-area:stage;justify-self:start;font-size:12.5px;padding:3px 9px;background:var(--color-neutral-200);border-radius:var(--radius-md);color:var(--color-neutral-800);white-space:nowrap">{{ r.stage }}</span>
+                        <div style="grid-area:amount;text-align:right;font-weight:600;white-space:nowrap">{{ r.amount }}</div>
+                        <div style="grid-area:reason;min-width:0;color:var(--color-neutral-800);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.reason }}</div>
+                      </div>
+                      <div style="flex:0 0 auto;display:flex;gap:8px;margin-left:auto">
+                        <button type="button" onClick="{{ r.activity }}" style="height:32px;padding:0 12px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer;font-size:13px">Registrar actividad</button>
+                        <button type="button" onClick="{{ r.open }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Abrir</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ noToday }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;color:var(--color-neutral-700)">No tienes acciones agendadas para hoy.</p>
+              </sc-if>
+            </section>
+
+            <section style="max-width:1180px">
+              <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 14px">Mi mes</h2>
+              <div style="display:flex;gap:52px;flex-wrap:wrap;align-items:flex-end">
+                <sc-for list="{{ monthFigures }}" as="f" hint-placeholder-count="4">
+                  <div>
+                    <div style="font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:3px">{{ f.label }}</div>
+                    <div style="font-family:var(--font-heading);font-weight:600;font-size:22px">{{ f.value }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ hasQuota }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:16px;height:6px;background:var(--color-neutral-300);border-radius:var(--radius-sm);overflow:hidden">
+                  <div style="height:100%;width:{{ quotaWidth }};background:var(--color-accent)"></div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ noQuota }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:14px 0 0;color:var(--color-neutral-700);font-size:13px">Tu supervisor aún no ha fijado tu meta de este mes.</p>
+              </sc-if>
+              <p style="margin:10px 0 0;font-size:12.5px;color:var(--color-neutral-700)">{{ wonThisMonthText }} · Importes sin IVA</p>
+              <button type="button" onClick="{{ h.goOpps }}" style="margin-top:26px;background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13.5px">Ver todas mis oportunidades</button>
+            </section>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ viewOpps }}" hint-placeholder-val="{{ false }}">
+          <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:20px">
+            <h1 style="font-family:var(--font-heading);font-weight:600;font-size:26px;margin:0">Oportunidades</h1>
+            <button type="button" onClick="{{ h.openNewCustomer }}" style="height:38px;padding:0 16px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer">+ Nuevo cliente</button>
+          </header>
+
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+            <input placeholder="Buscar por cliente, empresa o teléfono" aria-label="Buscar por cliente, empresa o teléfono" value="{{ fq }}" onChange="{{ h.setQ }}" style="height:34px;width:300px;padding:0 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+            <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Etapa
+              <select value="{{ fstage }}" onChange="{{ h.setStage }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                <option value="all">Todas</option>
+                <option value="new">Nuevo</option>
+                <option value="contacted">Contactado</option>
+                <option value="proposal_sent">Propuesta enviada</option>
+                <option value="negotiation">Negociación</option>
+              </select>
+            </label>
+            <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Estado
+              <select value="{{ fstatus }}" onChange="{{ h.setStatus }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                <option value="open">Abiertas</option>
+                <option value="won">Ganadas</option>
+                <option value="lost">Perdidas</option>
+                <option value="all">Todas</option>
+              </select>
+            </label>
+            <sc-if value="{{ isSup }}" hint-placeholder-val="{{ false }}">
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Vendedor
+                <select value="{{ fseller }}" onChange="{{ h.setSeller }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <option value="all">Todos</option>
+                  <sc-for list="{{ sellerOptions }}" as="s" hint-placeholder-count="3">
+                    <option value="{{ s.id }}">{{ s.name }}</option>
+                  </sc-for>
+                </select>
+              </label>
+            </sc-if>
+            <label style="display:flex;gap:7px;align-items:center;font-size:13px;color:var(--color-neutral-800);cursor:pointer">
+              <input type="checkbox" checked="{{ fonly }}" onChange="{{ h.setOnly }}" style="width:15px;height:15px;accent-color:var(--color-accent)">Solo atrasadas
+            </label>
+            <span style="margin-left:auto;font-size:13px;color:var(--color-neutral-700)">{{ resultCount }}</span>
+          </div>
+
+          <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <sc-for list="{{ skeletons }}" as="s" hint-placeholder-count="8">
+                <div style="height:44px;background:var(--color-neutral-200);animation:crmPulse 1.4s ease-in-out infinite"></div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ oppsReady }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto;background:#fdfcfc;border-radius:var(--radius-md)">
+              <table style="width:100%;min-width:{{ oppTableMin }};font-size:13.5px">
+                <thead>
+                  <tr>
+                    <sc-for list="{{ oppColumns }}" as="c" hint-placeholder-count="9">
+                      <th scope="col" style="text-align:{{ c.align }};padding:9px 10px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);font-weight:600;box-shadow:0 1px 0 var(--color-text);white-space:nowrap;width:{{ c.width }}">{{ c.label }}</th>
+                    </sc-for>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ oppRows }}" as="r" hint-placeholder-count="8">
+                    <tr onClick="{{ r.open }}" style="height:44px;background:{{ r.zebra }};box-shadow:0 1px 0 var(--color-divider);cursor:pointer;transition:background 150ms" style-hover="background:var(--color-accent-100)">
+                      <td style="padding:0 0 0 10px;width:22px"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{{ r.dot }}"></span></td>
+                      <td style="padding:2px 10px">
+                        <div style="font-weight:600;white-space:nowrap;line-height:1.3">{{ r.name }}</div>
+                        <div style="font-size:12px;color:var(--color-neutral-700);white-space:nowrap;line-height:1.25">{{ r.company }}</div>
+                      </td>
+                      <sc-if value="{{ isSup }}" hint-placeholder-val="{{ false }}">
+                        <td style="padding:5px 10px;color:var(--color-neutral-800)">{{ r.seller }}</td>
+                      </sc-if>
+                      <td style="padding:5px 10px;white-space:nowrap">{{ r.phone }}</td>
+                      <td style="padding:5px 10px"><span style="font-size:12.5px;padding:3px 8px;background:var(--color-neutral-200);border-radius:var(--radius-md);color:var(--color-neutral-800);white-space:nowrap">{{ r.stage }}</span></td>
+                      <td style="padding:5px 10px;text-align:right;font-weight:600;white-space:nowrap">{{ r.amount }}</td>
+                      <td style="padding:5px 10px;white-space:nowrap;color:var(--color-neutral-800)">{{ r.last }}</td>
+                      <td style="padding:5px 10px;white-space:nowrap;color:{{ r.nextColor }};font-weight:{{ r.nextWeight }}">{{ r.next }}</td>
+                      <td style="padding:5px 10px;color:var(--color-neutral-700);font-size:12.5px">{{ r.channel }}</td>
+                      <td style="padding:5px 10px;text-align:right;position:relative">
+                        <button type="button" onClick="{{ r.menu }}" aria-label="Acciones de la oportunidad" style="width:28px;height:28px;background:transparent;border:0;border-radius:var(--radius-md);cursor:pointer;color:var(--color-neutral-700);font-size:16px">⋯</button>
+                        <sc-if value="{{ r.menuOpen }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:absolute;right:8px;top:34px;z-index:5;background:#fff;box-shadow:var(--shadow-md);border-radius:var(--radius-md);padding:5px;display:flex;flex-direction:column;min-width:210px;text-align:left">
+                            <sc-for list="{{ r.menuItems }}" as="m" hint-placeholder-count="5">
+                              <button type="button" onClick="{{ m.act }}" style="text-align:left;padding:8px 10px;background:transparent;border:0;border-radius:var(--radius-md);cursor:pointer;font-size:13.5px" style-hover="background:var(--color-neutral-200)">{{ m.label }}</button>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12.5px;color:var(--color-neutral-700)">
+              <span>{{ pageText }}</span>
+              <span>Importes sin IVA</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ oppsFiltered }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:40px 0;max-width:520px">
+              <h2 style="font-family:var(--font-heading);font-size:19px;margin:0 0 6px">Sin resultados</h2>
+              <p style="margin:0 0 14px;color:var(--color-neutral-700)">{{ activeFiltersText }}</p>
+              <button type="button" onClick="{{ h.clearFilters }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer">Quitar filtros</button>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ viewCustomer }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ h.goOpps }}" style="background:transparent;border:0;padding:0;margin-bottom:16px;color:var(--color-accent-700);cursor:pointer;font-size:13px">← Oportunidades</button>
+          <sc-if value="{{ cust.archived }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--color-neutral-200);padding:11px 14px;border-radius:var(--radius-md);margin-bottom:20px">
+              <span>Este cliente está archivado.</span>
+              <sc-if value="{{ isSup }}" hint-placeholder-val="{{ false }}">
+                <button type="button" onClick="{{ h.unarchive }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-500);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Desarchivar</button>
+              </sc-if>
+            </div>
+          </sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:44px;align-items:start">
+
+            <div>
+              <h1 style="font-family:var(--font-heading);font-weight:600;font-size:27px;margin:0 0 2px">{{ cust.name }}</h1>
+              <div style="color:var(--color-neutral-700);margin-bottom:20px">{{ cust.company }}</div>
+              <dl style="margin:0 0 8px;display:grid;grid-template-columns:auto 1fr;gap:9px 18px;font-size:13.5px">
+                <sc-for list="{{ cust.fields }}" as="f" hint-placeholder-count="4">
+                  <dt style="color:var(--color-neutral-700)">{{ f.label }}</dt>
+                  <dd style="margin:0;font-weight:600">{{ f.value }}</dd>
+                </sc-for>
+              </dl>
+              <div style="display:flex;gap:14px;margin-bottom:34px">
+                <button type="button" onClick="{{ h.copyPhone }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13px">Copiar teléfono</button>
+                <sc-if value="{{ cust.editable }}" hint-placeholder-val="{{ true }}">
+                  <button type="button" onClick="{{ h.editCustomer }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13px">Editar</button>
+                </sc-if>
+              </div>
+
+              <sc-if value="{{ cust.hasOpen }}" hint-placeholder-val="{{ true }}">
+                <section style="margin-bottom:34px">
+                  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 12px">Oportunidad abierta</h2>
+                  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;margin-bottom:18px;align-items:stretch">
+                    <sc-for list="{{ cust.stages }}" as="s" hint-placeholder-count="5">
+                      <button type="button" onClick="{{ s.pick }}" disabled="{{ s.disabled }}" style="min-width:0;padding:8px 3px;background:{{ s.bg }};color:{{ s.color }};border:0;box-shadow:inset 0 -2px 0 {{ s.rule }};cursor:{{ s.cursor }};font-size:11px;line-height:1.25;text-align:center;white-space:normal;overflow-wrap:break-word;hyphens:auto;font-weight:{{ s.weight }};transition:background 150ms">{{ s.label }}</button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;gap:34px;flex-wrap:wrap;align-items:flex-end">
+                    <div>
+                      <label for="est" style="display:block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:4px">Importe estimado</label>
+                      <div style="display:flex;align-items:baseline;gap:6px">
+                        <input id="est" value="{{ cust.estimated }}" onChange="{{ h.setEstimated }}" disabled="{{ cust.readOnly }}" style="width:120px;height:34px;padding:0 8px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);text-align:right;font-weight:600">
+                        <span style="color:var(--color-neutral-700)">€</span>
+                      </div>
+                      <div style="font-size:11.5px;color:var(--color-neutral-700);margin-top:4px">Importes sin IVA</div>
+                    </div>
+                    <div>
+                      <label for="nxt" style="display:block;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:4px">Próxima acción</label>
+                      <input id="nxt" type="datetime-local" value="{{ cust.nextAction }}" onChange="{{ h.setNextAction }}" disabled="{{ cust.readOnly }}" style="height:34px;padding:0 8px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                    </div>
+                  </div>
+                  <sc-if value="{{ cust.overdue }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;gap:8px;align-items:center;margin-top:16px;color:var(--color-accent-2-700);font-weight:600;font-size:13.5px">
+                      <span style="width:9px;height:9px;border-radius:50%;background:var(--color-accent-2);display:inline-block"></span>{{ cust.overdueText }}
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ cust.canClose }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;gap:10px;margin-top:30px;padding-top:18px;box-shadow:inset 0 1px 0 var(--color-divider)">
+                      <button type="button" onClick="{{ h.openWon }}" style="height:34px;padding:0 13px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Marcar como ganada</button>
+                      <button type="button" onClick="{{ h.openLost }}" style="height:34px;padding:0 13px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Marcar como perdida</button>
+                    </div>
+                  </sc-if>
+                </section>
+              </sc-if>
+              <sc-if value="{{ cust.canCreateOpp }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-bottom:34px">
+                  <button type="button" onClick="{{ h.openNewOpp }}" style="height:38px;padding:0 16px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer">+ Nueva oportunidad</button>
+                </div>
+              </sc-if>
+
+              <section>
+                <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 12px">Historial de ventas</h2>
+                <sc-if value="{{ cust.hasHistory }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column">
+                    <sc-for list="{{ cust.history }}" as="hh" hint-placeholder-count="2">
+                      <div style="display:grid;grid-template-columns:92px 1fr auto;gap:12px;align-items:baseline;padding:9px 0;box-shadow:0 1px 0 var(--color-divider)">
+                        <span style="color:var(--color-neutral-700);font-size:13px">{{ hh.date }}</span>
+                        <span style="color:{{ hh.color }};font-weight:600;font-size:13.5px">{{ hh.result }}</span>
+                        <span style="font-weight:600">{{ hh.amount }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ cust.noHistory }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:0;color:var(--color-neutral-700)">Sin ventas cerradas todavía.</p>
+                </sc-if>
+              </section>
+
+              <sc-if value="{{ isSup }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:38px;padding-top:16px;box-shadow:inset 0 1px 0 var(--color-divider);display:flex;gap:10px;flex-wrap:wrap">
+                  <button type="button" onClick="{{ h.openReassign }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Reasignar a otro vendedor</button>
+                  <sc-if value="{{ cust.canArchive }}" hint-placeholder-val="{{ true }}">
+                    <button type="button" onClick="{{ h.openArchive }}" style="height:32px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Archivar cliente</button>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+
+            <div>
+              <sc-if value="{{ cust.canWriteActivity }}" hint-placeholder-val="{{ true }}">
+                <section style="background:#fdfcfc;box-shadow:var(--shadow-sm);border-radius:var(--radius-md);padding:20px;margin-bottom:30px">
+                  <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 14px">Registrar actividad</h2>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+                    <sc-for list="{{ actTypes }}" as="t" hint-placeholder-count="5">
+                      <button type="button" onClick="{{ t.pick }}" style="height:34px;padding:0 13px;background:{{ t.bg }};color:{{ t.color }};border:1px solid {{ t.border }};border-radius:var(--radius-md);cursor:pointer;font-size:13px;transition:background 150ms">{{ t.label }}</button>
+                    </sc-for>
+                  </div>
+                  <label for="act-note" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:6px">¿Qué ha pasado?</label>
+                  <textarea id="act-note" rows="3" value="{{ actNote }}" onChange="{{ h.setActNote }}" style="width:100%;box-sizing:border-box;padding:9px 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);resize:vertical"></textarea>
+                  <label for="act-next" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin:14px 0 6px">Próxima acción (opcional)</label>
+                  <input id="act-next" type="datetime-local" value="{{ actNext }}" onChange="{{ h.setActNext }}" style="height:36px;padding:0 8px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <div style="margin-top:16px">
+                    <button type="button" onClick="{{ h.registerActivity }}" disabled="{{ actDisabled }}" style="height:38px;padding:0 18px;background:{{ actBtnBg }};color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer">{{ actBtnLabel }}</button>
+                  </div>
+                </section>
+              </sc-if>
+
+              <section>
+                <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 16px">Actividad</h2>
+                <div style="display:flex;flex-direction:column;gap:18px">
+                  <sc-for list="{{ cust.activities }}" as="a" hint-placeholder-count="4">
+                    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px">
+                      <div style="width:26px;height:26px;border-radius:50%;background:var(--color-neutral-200);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--color-neutral-800);font-weight:600">{{ a.icon }}</div>
+                      <div>
+                        <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:2px">
+                          <span style="font-weight:600;font-size:13.5px">{{ a.type }}</span>
+                          <span style="font-size:12.5px;color:var(--color-neutral-700)">{{ a.author }} · {{ a.when }}</span>
+                        </div>
+                        <div style="font-size:13.5px">{{ a.note }}</div>
+                        <sc-if value="{{ a.hasNext }}" hint-placeholder-val="{{ false }}">
+                          <div style="font-size:12.5px;color:var(--color-neutral-700);margin-top:3px">Próxima acción: {{ a.next }}</div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <p style="margin:22px 0 0;font-size:12px;color:var(--color-neutral-800)">El historial no se puede modificar.</p>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ viewTeam }}" hint-placeholder-val="{{ false }}">
+          <h1 style="font-family:var(--font-heading);font-weight:600;font-size:26px;margin:0 0 22px">Equipo</h1>
+          <section style="display:flex;gap:52px;flex-wrap:wrap;margin-bottom:36px">
+            <sc-for list="{{ team.figures }}" as="f" hint-placeholder-count="4">
+              <div>
+                <div style="font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:3px">{{ f.label }}</div>
+                <div style="font-family:var(--font-heading);font-weight:600;font-size:22px;color:{{ f.color }}">{{ f.value }}</div>
+              </div>
+            </sc-for>
+          </section>
+
+          <section style="margin-bottom:44px">
+            <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 12px">Vendedores</h2>
+            <div style="overflow-x:auto;background:#fdfcfc;border-radius:var(--radius-md)">
+              <table style="width:100%;min-width:840px;font-size:13.5px">
+                <thead>
+                  <tr>
+                    <sc-for list="{{ team.columns }}" as="c" hint-placeholder-count="6">
+                      <th scope="col" style="text-align:{{ c.align }};padding:9px 10px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);font-weight:600;box-shadow:0 1px 0 var(--color-text);white-space:nowrap">{{ c.label }}</th>
+                    </sc-for>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ team.rows }}" as="r" hint-placeholder-count="10">
+                    <tr onClick="{{ r.open }}" style="height:44px;background:{{ r.zebra }};box-shadow:0 1px 0 var(--color-divider);cursor:pointer" style-hover="background:var(--color-accent-100)">
+                      <td style="padding:5px 10px;font-weight:600">{{ r.name }}</td>
+                      <td style="padding:5px 10px;text-align:right;white-space:nowrap">{{ r.closed }}</td>
+                      <td style="padding:5px 10px;text-align:right;white-space:nowrap;color:var(--color-neutral-700)">{{ r.quota }}</td>
+                      <td style="padding:5px 10px">
+                        <div style="display:flex;gap:9px;align-items:center">
+                          <div style="flex:1;min-width:70px;height:5px;background:var(--color-neutral-300);border-radius:var(--radius-sm);overflow:hidden">
+                            <div style="height:100%;width:{{ r.pctWidth }};background:var(--color-accent)"></div>
+                          </div>
+                          <span style="width:52px;text-align:right">{{ r.pct }}</span>
+                        </div>
+                      </td>
+                      <td style="padding:5px 10px;text-align:right">{{ r.won }}</td>
+                      <td style="padding:5px 10px;text-align:right;color:{{ r.overdueColor }};font-weight:{{ r.overdueWeight }}">{{ r.overdue }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <h2 style="font-family:var(--font-heading);font-weight:600;font-size:17px;margin:0 0 12px">Motivos de pérdida este mes</h2>
+            <sc-if value="{{ team.hasLosses }}" hint-placeholder-val="{{ true }}">
+              <div style="max-width:560px;display:flex;flex-direction:column">
+                <sc-for list="{{ team.losses }}" as="l" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:1fr auto auto;gap:20px;padding:9px 0;box-shadow:0 1px 0 var(--color-divider);align-items:baseline">
+                    <span>{{ l.reason }}</span>
+                    <span style="color:var(--color-neutral-700);font-size:13px">{{ l.count }}</span>
+                    <span style="font-weight:600;width:110px;text-align:right">{{ l.amount }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="margin:12px 0 0;font-size:12px;color:var(--color-neutral-700)">Importes estimados, sin IVA</p>
+            </sc-if>
+            <sc-if value="{{ team.noLosses }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;color:var(--color-neutral-700)">Ninguna oportunidad perdida este mes.</p>
+            </sc-if>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ viewAdmin }}" hint-placeholder-val="{{ false }}">
+          <h1 style="font-family:var(--font-heading);font-weight:600;font-size:26px;margin:0 0 18px">Administración</h1>
+          <div style="display:flex;gap:4px;margin-bottom:24px">
+            <sc-for list="{{ adminTabs }}" as="t" hint-placeholder-count="3">
+              <button type="button" onClick="{{ t.pick }}" style="padding:8px 14px;background:transparent;border:0;box-shadow:inset 0 -2px 0 {{ t.rule }};color:{{ t.color }};font-weight:{{ t.weight }};cursor:pointer;font-size:14.5px">{{ t.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ tabUsers }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+              <button type="button" onClick="{{ h.openNewUser }}" style="height:36px;padding:0 15px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer">+ Nuevo usuario</button>
+            </div>
+            <div style="overflow-x:auto;background:#fdfcfc;border-radius:var(--radius-md)">
+              <table style="width:100%;min-width:900px;font-size:13.5px">
+                <thead>
+                  <tr>
+                    <sc-for list="{{ userColumns }}" as="c" hint-placeholder-count="7">
+                      <th scope="col" style="text-align:{{ c.align }};padding:9px 10px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);font-weight:600;box-shadow:0 1px 0 var(--color-text);white-space:nowrap">{{ c.label }}</th>
+                    </sc-for>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ users }}" as="u" hint-placeholder-count="6">
+                    <tr style="height:44px;background:{{ u.zebra }};box-shadow:0 1px 0 var(--color-divider)">
+                      <td style="padding:5px 10px;font-weight:600">{{ u.username }}</td>
+                      <td style="padding:5px 10px;white-space:nowrap">{{ u.name }}</td>
+                      <td style="padding:5px 10px;color:var(--color-neutral-700);white-space:nowrap">{{ u.email }}</td>
+                      <td style="padding:5px 10px;white-space:nowrap">{{ u.role }}</td>
+                      <td style="padding:5px 10px;color:{{ u.stateColor }}">{{ u.state }}</td>
+                      <td style="padding:5px 10px;white-space:nowrap;color:var(--color-neutral-700)">{{ u.last }}</td>
+                      <td style="padding:5px 10px;text-align:right">
+                        <div style="display:flex;gap:12px;justify-content:flex-end;flex-wrap:nowrap;white-space:nowrap">
+                          <button type="button" onClick="{{ u.edit }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13px">Editar</button>
+                          <button type="button" onClick="{{ u.reset }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13px">Restablecer contraseña</button>
+                          <button type="button" onClick="{{ u.toggle }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer;font-size:13px">{{ u.toggleLabel }}</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabQuotas }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap">
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Mes
+                <select value="{{ quotaMonth }}" onChange="{{ h.setQuotaMonth }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <sc-for list="{{ monthOptions }}" as="m" hint-placeholder-count="12">
+                    <option value="{{ m.v }}">{{ m.label }}</option>
+                  </sc-for>
+                </select>
+              </label>
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Año
+                <select value="{{ quotaYear }}" onChange="{{ h.setQuotaYear }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                </select>
+              </label>
+              <button type="button" onClick="{{ h.copyQuotas }}" style="height:34px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Copiar las metas del mes anterior</button>
+            </div>
+            <div style="max-width:620px;background:#fdfcfc;border-radius:var(--radius-md);padding:4px 0">
+              <table style="width:100%;font-size:13.5px">
+                <thead>
+                  <tr>
+                    <th scope="col" style="text-align:left;padding:9px 12px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);box-shadow:0 1px 0 var(--color-text)">Vendedor</th>
+                    <th scope="col" style="text-align:right;padding:9px 12px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);box-shadow:0 1px 0 var(--color-text)">Meta del mes (€)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ quotaRows }}" as="q" hint-placeholder-count="10">
+                    <tr style="height:44px;box-shadow:0 1px 0 var(--color-divider)">
+                      <td style="padding:5px 12px">{{ q.name }}</td>
+                      <td style="padding:5px 12px;text-align:right">
+                        <input value="{{ q.value }}" onChange="{{ q.set }}" aria-label="Meta del mes" style="width:120px;height:32px;padding:0 8px;text-align:right;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                      </td>
+                    </tr>
+                  </sc-for>
+                  <tr style="height:44px">
+                    <td style="padding:5px 12px;font-weight:600">Total del equipo</td>
+                    <td style="padding:5px 12px;text-align:right;font-weight:600">{{ quotaTotal }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="display:flex;gap:14px;align-items:center;margin-top:18px">
+              <button type="button" onClick="{{ h.saveQuotas }}" disabled="{{ saving }}" style="height:38px;padding:0 16px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer">{{ saveQuotasLabel }}</button>
+              <span style="font-size:12px;color:var(--color-neutral-700)">Importes sin IVA</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabAudit }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Desde
+                <input type="date" value="{{ auditFrom }}" onChange="{{ h.setAuditFrom }}" style="height:34px;padding:0 8px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+              </label>
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Hasta
+                <input type="date" value="{{ auditTo }}" onChange="{{ h.setAuditTo }}" style="height:34px;padding:0 8px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+              </label>
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Entidad
+                <select value="{{ auditEntity }}" onChange="{{ h.setAuditEntity }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <option value="all">Todas</option>
+                  <option value="customer">Cliente</option>
+                  <option value="opportunity">Oportunidad</option>
+                  <option value="profile">Usuario</option>
+                  <option value="quota">Cuota</option>
+                  <option value="automation">Automatización</option>
+                </select>
+              </label>
+              <label style="display:flex;gap:6px;align-items:center;font-size:13px;color:var(--color-neutral-700)">Usuario
+                <select value="{{ auditActor }}" onChange="{{ h.setAuditActor }}" style="height:34px;padding:0 6px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <option value="all">Todos</option>
+                  <sc-for list="{{ auditActors }}" as="a" hint-placeholder-count="3">
+                    <option value="{{ a.id }}">{{ a.name }}</option>
+                  </sc-for>
+                </select>
+              </label>
+            </div>
+            <div style="overflow-x:auto;background:#fdfcfc;border-radius:var(--radius-md)">
+              <table style="width:100%;min-width:880px;font-size:13.5px">
+                <thead>
+                  <tr>
+                    <sc-for list="{{ auditColumns }}" as="c" hint-placeholder-count="5">
+                      <th scope="col" style="text-align:left;padding:9px 10px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-neutral-700);font-weight:600;box-shadow:0 1px 0 var(--color-text);white-space:nowrap">{{ c }}</th>
+                    </sc-for>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ auditRows }}" as="a" hint-placeholder-count="8">
+                    <tr style="height:44px;background:{{ a.zebra }};box-shadow:0 1px 0 var(--color-divider)">
+                      <td style="padding:5px 10px;white-space:nowrap;color:var(--color-neutral-800)">{{ a.when }}</td>
+                      <td style="padding:5px 10px">{{ a.actor }}</td>
+                      <td style="padding:5px 10px">{{ a.action }}</td>
+                      <td style="padding:5px 10px;color:var(--color-neutral-700)">{{ a.entity }}</td>
+                      <td style="padding:5px 10px;color:var(--color-neutral-700)">{{ a.detail }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+            <sc-if value="{{ auditEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:34px 0">
+                <h2 style="font-family:var(--font-heading);font-size:19px;margin:0 0 6px">Sin resultados</h2>
+                <p style="margin:0 0 12px;color:var(--color-neutral-700)">Ningún registro con los filtros puestos.</p>
+                <button type="button" onClick="{{ h.clearAudit }}" style="background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer">Quitar filtros</button>
+              </div>
+            </sc-if>
+          </sc-if>
+        </sc-if>
+
+      </main>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPwaApp }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:34px 16px 70px">
+      <div style="width:390px;max-width:100%;min-height:800px;position:relative;background:#fdfcfc;box-shadow:var(--shadow-lg);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column">
+
+        <sc-if value="{{ pwaBlocked }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:80px 26px;display:flex;flex-direction:column;gap:16px">
+            <h1 style="font-family:var(--font-heading);font-weight:600;font-size:22px;margin:0">Solo para supervisores</h1>
+            <p style="margin:0;color:var(--color-neutral-700)">Esta aplicación es solo para supervisores. Entra desde el escritorio.</p>
+            <button type="button" onClick="{{ h.logout }}" style="height:48px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer">Salir</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ pwaPanel }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1;padding:26px 20px 150px;display:flex;flex-direction:column;gap:22px">
+            <header>
+              <h1 style="font-family:var(--font-heading);font-weight:600;font-size:24px;margin:0">El equipo hoy</h1>
+              <div style="color:var(--color-neutral-700);font-size:13.5px">{{ todayLong }}</div>
+            </header>
+
+            <section style="background:var(--color-neutral-100);border-radius:var(--radius-md);padding:18px">
+              <div style="font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:4px">Avance del mes</div>
+              <div style="font-family:var(--font-heading);font-weight:600;font-size:40px;line-height:1">{{ team.pct }}</div>
+              <div style="margin-top:14px;height:6px;background:var(--color-neutral-300);border-radius:var(--radius-sm);overflow:hidden">
+                <div style="height:100%;width:{{ team.pctWidth }};background:var(--color-accent)"></div>
+              </div>
+              <div style="margin-top:10px;font-size:13px;color:var(--color-neutral-800)">{{ team.closedShort }} · Meta {{ team.quotaShort }}</div>
+            </section>
+
+            <sc-if value="{{ team.hasOverdue }}" hint-placeholder-val="{{ true }}">
+              <section style="background:var(--color-accent-2-100);border-radius:var(--radius-md);padding:16px 18px;display:flex;gap:12px;align-items:flex-start">
+                <span style="width:10px;height:10px;border-radius:50%;background:var(--color-accent-2);margin-top:6px;flex:0 0 10px"></span>
+                <div>
+                  <div style="font-weight:600;color:var(--color-accent-2-800);font-size:16px">{{ team.overdueTitle }}</div>
+                  <div style="font-size:13px;color:var(--color-accent-2-800)">{{ team.overdueSub }}</div>
+                </div>
+              </section>
+            </sc-if>
+
+            <section>
+              <h2 style="font-family:var(--font-heading);font-weight:600;font-size:16px;margin:0 0 6px">Semáforo del equipo</h2>
+              <p style="margin:0 0 10px;font-size:12px;color:var(--color-neutral-700)">Quien más lo necesita, primero.</p>
+              <div style="display:flex;flex-direction:column">
+                <sc-for list="{{ pwaSellers }}" as="s" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ s.open }}" style="display:grid;grid-template-columns:1fr 54px 46px;gap:10px;align-items:center;min-height:56px;padding:8px 4px;background:transparent;border:0;box-shadow:0 1px 0 var(--color-divider);cursor:pointer;text-align:left">
+                    <div style="min-width:0">
+                      <div style="font-weight:600;font-size:14.5px">{{ s.name }}</div>
+                      <div style="margin-top:6px;height:5px;background:var(--color-neutral-300);border-radius:var(--radius-sm);overflow:hidden">
+                        <div style="height:100%;width:{{ s.pctWidth }};background:var(--color-accent)"></div>
+                      </div>
+                    </div>
+                    <span style="text-align:right;font-size:13.5px">{{ s.pct }}</span>
+                    <span style="text-align:right;font-weight:600;color:{{ s.overdueColor }};font-size:13.5px">{{ s.overdueText }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </section>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ pwaDetail }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;padding:26px 20px 120px;display:flex;flex-direction:column;gap:22px">
+            <button type="button" onClick="{{ h.pwaBack }}" style="align-self:flex-start;min-height:44px;background:transparent;border:0;padding:0;color:var(--color-accent-700);cursor:pointer">← Panel</button>
+            <h1 style="font-family:var(--font-heading);font-weight:600;font-size:24px;margin:0">{{ detail.name }}</h1>
+            <section style="display:grid;grid-template-columns:1fr 1fr;gap:18px 12px">
+              <sc-for list="{{ detail.figures }}" as="f" hint-placeholder-count="4">
+                <div>
+                  <div style="font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:3px">{{ f.label }}</div>
+                  <div style="font-family:var(--font-heading);font-weight:600;font-size:20px">{{ f.value }}</div>
+                </div>
+              </sc-for>
+            </section>
+            <section>
+              <h2 style="font-family:var(--font-heading);font-weight:600;font-size:16px;margin:0 0 10px">{{ detail.overdueTitle }}</h2>
+              <sc-if value="{{ detail.hasList }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column">
+                  <sc-for list="{{ detail.list }}" as="d" hint-placeholder-count="4">
+                    <div style="min-height:56px;padding:10px 0;box-shadow:0 1px 0 var(--color-divider)">
+                      <div style="font-weight:600">{{ d.name }}</div>
+                      <div style="font-size:13px;color:var(--color-neutral-700)">{{ d.stage }} · <span style="color:var(--color-accent-2-700);font-weight:600">{{ d.reason }}</span></div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ detail.noList }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;color:var(--color-neutral-700)">Nada atrasado.</p>
+              </sc-if>
+            </section>
+            <p style="margin:0;font-size:12px;color:var(--color-neutral-800)">Vista de consulta. La gestión se hace desde el escritorio.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ pwaPanel }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;left:0;right:0;bottom:56px;padding:14px 20px 12px;background:linear-gradient(to top, #fdfcfc 70%, transparent)">
+            <button type="button" onClick="{{ h.openDigest }}" style="width:100%;min-height:52px;background:var(--color-accent);color:#fff;border:0;border-radius:var(--radius-md);cursor:pointer;font-size:16px">Enviar resumen matutino ahora</button>
+            <div style="margin-top:8px;font-size:12px;color:var(--color-neutral-700);text-align:center">{{ lastDigestText }}</div>
+          </div>
+        </sc-if>
+
+        <nav style="position:absolute;left:0;right:0;bottom:0;height:56px;display:flex;box-shadow:0 -1px 0 var(--color-divider);background:#fdfcfc">
+          <sc-for list="{{ pwaNav }}" as="n" hint-placeholder-count="2">
+            <button type="button" onClick="{{ n.go }}" style="flex:1;min-height:56px;background:transparent;border:0;cursor:pointer;color:{{ n.color }};font-weight:{{ n.weight }};font-size:14px">{{ n.label }}</button>
+          </sc-for>
+        </nav>
+
+        <sc-if value="{{ digestToast }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="position:absolute;left:16px;right:16px;bottom:124px;background:var(--color-neutral-900);color:var(--color-neutral-100);padding:13px 15px;border-radius:var(--radius-md);font-size:13.5px;box-shadow:var(--shadow-md)">{{ digestToast }}</div>
+        </sc-if>
+
+        <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;background:color-mix(in srgb, #201e1d 45%, transparent);display:flex;align-items:flex-end">
+            <div role="dialog" aria-modal="true" style="width:100%;background:#fdfcfc;border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:24px 20px 26px;box-shadow:var(--shadow-lg)">
+              <h2 style="font-family:var(--font-heading);font-weight:600;font-size:20px;margin:0 0 8px;color:{{ sheet.titleColor }}">{{ sheet.title }}</h2>
+              <p style="margin:0 0 18px;color:var(--color-neutral-800);font-size:14px">{{ sheet.body }}</p>
+              <sc-if value="{{ sheet.running }}" hint-placeholder-val="{{ false }}">
+                <div style="height:5px;background:var(--color-neutral-300);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px">
+                  <div style="height:100%;width:45%;background:var(--color-accent);animation:crmBar 1.1s linear infinite"></div>
+                </div>
+                <p style="margin:0;font-size:13px;color:var(--color-neutral-700)">Esto tarda menos de un minuto. Puedes cerrar la aplicación, el envío continuará.</p>
+              </sc-if>
+              <sc-if value="{{ sheet.hasButtons }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;gap:10px;margin-top:6px">
+                  <sc-for list="{{ sheet.buttons }}" as="b" hint-placeholder-count="2">
+                    <button type="button" onClick="{{ b.act }}" style="flex:1;min-height:50px;background:{{ b.bg }};color:{{ b.color }};border:{{ b.border }};border-radius:var(--radius-md);cursor:pointer;font-size:15px">{{ b.label }}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:40;background:color-mix(in srgb, #201e1d 42%, transparent);display:flex;align-items:center;justify-content:center;padding:24px">
+      <div role="dialog" aria-modal="true" style="width:100%;max-width:{{ modal.width }};background:#fdfcfc;border-radius:var(--radius-md);box-shadow:var(--shadow-lg);padding:26px">
+        <h2 style="font-family:var(--font-heading);font-weight:600;font-size:20px;margin:0 0 6px">{{ modal.title }}</h2>
+        <sc-if value="{{ modal.intro }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0 0 18px;color:var(--color-neutral-800);font-size:13.5px">{{ modal.intro }}</p>
+        </sc-if>
+
+        <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:22px">
+          <sc-for list="{{ modal.fields }}" as="f" hint-placeholder-count="2">
+            <div>
+              <label for="{{ f.id }}" style="display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-neutral-700);margin-bottom:6px">{{ f.label }}</label>
+
+              <sc-if value="{{ f.isText }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:0">
+                  <sc-if value="{{ f.prefix }}" hint-placeholder-val="{{ false }}">
+                    <span style="height:38px;display:flex;align-items:center;padding:0 10px;background:var(--color-neutral-200);border:1px solid var(--color-neutral-400);border-right:0;border-radius:var(--radius-md) 0 0 var(--radius-md);color:var(--color-neutral-800)">{{ f.prefix }}</span>
+                  </sc-if>
+                  <input id="{{ f.id }}" value="{{ f.value }}" onChange="{{ f.set }}" onBlur="{{ f.blur }}" placeholder="{{ f.placeholder }}" style="flex:1;min-width:0;height:38px;padding:0 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);text-align:{{ f.align }}">
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ f.isSelect }}" hint-placeholder-val="{{ false }}">
+                <select id="{{ f.id }}" value="{{ f.value }}" onChange="{{ f.set }}" style="width:100%;height:38px;padding:0 8px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md)">
+                  <sc-for list="{{ f.options }}" as="o" hint-placeholder-count="4">
+                    <option value="{{ o.v }}">{{ o.label }}</option>
+                  </sc-for>
+                </select>
+              </sc-if>
+
+              <sc-if value="{{ f.isArea }}" hint-placeholder-val="{{ false }}">
+                <textarea id="{{ f.id }}" rows="3" value="{{ f.value }}" onChange="{{ f.set }}" maxlength="{{ f.max }}" style="width:100%;box-sizing:border-box;padding:9px 10px;background:#fff;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);resize:vertical"></textarea>
+              </sc-if>
+
+              <sc-if value="{{ f.isChips }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <sc-for list="{{ f.chips }}" as="c" hint-placeholder-count="5">
+                    <button type="button" onClick="{{ c.pick }}" style="height:34px;padding:0 13px;background:{{ c.bg }};color:{{ c.color }};border:1px solid {{ c.border }};border-radius:var(--radius-md);cursor:pointer;font-size:13px">{{ c.label }}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ f.isReveal }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:8px;align-items:center">
+                  <code style="flex:1;min-width:0;height:38px;display:flex;align-items:center;padding:0 10px;background:var(--color-neutral-200);border-radius:var(--radius-md);font-family:var(--font-body);font-weight:600;letter-spacing:.02em">{{ f.value }}</code>
+                  <button type="button" onClick="{{ f.copy }}" style="height:38px;padding:0 12px;background:transparent;border:1px solid var(--color-neutral-400);border-radius:var(--radius-md);cursor:pointer;font-size:13px">Copiar</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ f.hint }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:6px;font-size:12px;color:{{ f.hintColor }};font-weight:{{ f.hintWeight }}">{{ f.hint }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ modal.notice }}" hint-placeholder-val="{{ false }}">
+          <div style="background:var(--color-neutral-200);padding:12px 14px;border-radius:var(--radius-md);font-size:13px;margin-bottom:20px">{{ modal.notice }}</div>
+        </sc-if>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px">
+          <sc-for list="{{ modal.buttons }}" as="b" hint-placeholder-count="2">
+            <button type="button" onClick="{{ b.act }}" disabled="{{ b.disabled }}" style="height:40px;padding:0 16px;background:{{ b.bg }};color:{{ b.color }};border:{{ b.border }};border-radius:var(--radius-md);cursor:pointer;font-size:14px">{{ b.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;z-index:60;left:50%;transform:translateX(-50%);bottom:76px;background:var(--color-neutral-900);color:var(--color-neutral-100);padding:13px 18px;border-radius:var(--radius-md);box-shadow:var(--shadow-md);font-size:13.5px;max-width:520px">{{ toast }}</div>
+  </sc-if>
+
+  <div style="position:fixed;z-index:70;right:16px;bottom:16px;display:flex;gap:6px;align-items:center;background:#fdfcfc;box-shadow:var(--shadow-md);border-radius:var(--radius-md);padding:6px 8px;font-size:12.5px">
+    <span style="color:var(--color-neutral-600);letter-spacing:.05em;text-transform:uppercase;font-size:10.5px;padding-right:2px">Prototipo</span>
+    <sc-for list="{{ protoSwitch }}" as="p" hint-placeholder-count="4">
+      <button type="button" onClick="{{ p.act }}" style="height:26px;padding:0 9px;background:{{ p.bg }};color:{{ p.color }};border:0;border-radius:var(--radius-md);cursor:pointer;font-size:12.5px">{{ p.label }}</button>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;dataState&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;normal&quot;, &quot;cargando&quot;, &quot;vacio&quot;, &quot;error&quot;], &quot;default&quot;: &quot;normal&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Estados de pantalla&quot; },
+  &quot;firstAccess&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Estados de pantalla&quot; },
+  &quot;digestOutcome&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;exito&quot;, &quot;fallo&quot;, &quot;limite&quot;], &quot;default&quot;: &quot;exito&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;PWA · resumen matutino&quot; }
+}">
+class Component extends DCLogic {
+  static NOW = new Date('2026-09-04T09:42:00+02:00');
+
+  static STAGE = { new: 'Nuevo', contacted: 'Contactado', proposal_sent: 'Propuesta enviada', negotiation: 'Negociación', closed: 'Cerrado' };
+  static SOURCE = { physical_store: 'Tienda física', whatsapp: 'WhatsApp', instagram: 'Instagram', trade_show: 'Feria / showroom', referral: 'Referido', inbound_call: 'Llamada entrante', other: 'Otro' };
+  static LOSS = { price: 'Precio', no_response: 'No responde', bought_from_competitor: 'Compró a la competencia', no_budget: 'Sin presupuesto', bad_timing: 'No era el momento', cancellation: 'Cancelación', other: 'Otro' };
+  static ACT = { call: 'Llamada', whatsapp: 'WhatsApp', email: 'Email', visit: 'Visita', note: 'Nota' };
+  static ACT_ICON = { call: 'LL', whatsapp: 'WA', email: '@', visit: 'V', note: 'N' };
+  static AUDIT_ACTION = {
+    'customer.created': 'Creó un cliente', 'customer.updated': 'Editó un cliente', 'customer.archived': 'Archivó un cliente',
+    'customer.reassigned': 'Reasignó un cliente', 'opportunity.created': 'Creó una oportunidad', 'opportunity.stage_changed': 'Cambió la etapa',
+    'opportunity.won': 'Marcó una venta ganada', 'opportunity.lost': 'Marcó una oportunidad perdida', 'user.created': 'Creó un usuario',
+    'user.deactivated': 'Desactivó un usuario', 'user.reactivated': 'Reactivó un usuario', 'user.password_changed': 'Cambió su contraseña',
+    'quota.changed': 'Cambió una meta', 'automation.manual_trigger': 'Disparó el resumen matutino'
+  };
+  static ENTITY = { customer: 'Cliente', opportunity: 'Oportunidad', profile: 'Usuario', quota: 'Cuota', automation: 'Automatización' };
+  static WON_INK = '#17714a';
+
+  state = Component.seed();
+
+  static seed() {
+    const P = [
+      { id: 'v1', username: 'pedro.ventas', full_name: 'Pedro Ventas', email: 'pedro.ventas@crm123.es', role: 'seller', is_active: true, last: '04/09/2026 08:12', quota: 18000, closed: 12300, won: 3, overdue: null },
+      { id: 'v2', username: 'sara.comercial', full_name: 'Sara Comercial', email: 'sara.comercial@crm123.es', role: 'seller', is_active: true, last: '04/09/2026 09:05', quota: 15000, closed: 9850, won: 2, overdue: null },
+      { id: 'v3', username: 'laura.pineda', full_name: 'Laura Pineda', email: 'laura.pineda@crm123.es', role: 'seller', is_active: true, last: '03/09/2026 18:40', quota: 15000, closed: 3200, won: 1, overdue: 5 },
+      { id: 'v4', username: 'diego.abad', full_name: 'Diego Abad', email: 'diego.abad@crm123.es', role: 'seller', is_active: true, last: '04/09/2026 07:55', quota: 12000, closed: 11400, won: 4, overdue: 1 },
+      { id: 'v5', username: 'nerea.gil', full_name: 'Nerea Gil', email: 'nerea.gil@crm123.es', role: 'seller', is_active: true, last: '04/09/2026 08:30', quota: 15000, closed: 14600, won: 5, overdue: 0 },
+      { id: 'v6', username: 'tomas.rey', full_name: 'Tomás Rey', email: 'tomas.rey@crm123.es', role: 'seller', is_active: true, last: '02/09/2026 17:20', quota: 12000, closed: 2100, won: 1, overdue: 4 },
+      { id: 'v7', username: 'claudia.mir', full_name: 'Claudia Mir', email: 'claudia.mir@crm123.es', role: 'seller', is_active: true, last: '04/09/2026 09:10', quota: 9000, closed: 7300, won: 3, overdue: 2 },
+      { id: 'v8', username: 'hugo.varela', full_name: 'Hugo Varela', email: 'hugo.varela@crm123.es', role: 'seller', is_active: true, last: '03/09/2026 16:02', quota: 9000, closed: 5900, won: 2, overdue: 0 },
+      { id: 'v9', username: 'irene.solis', full_name: 'Irene Solís', email: 'irene.solis@crm123.es', role: 'seller', is_active: true, last: '01/09/2026 12:45', quota: null, closed: 1800, won: 1, overdue: 1 },
+      { id: 'v10', username: 'marc.bosch', full_name: 'Marc Bosch', email: 'marc.bosch@crm123.es', role: 'seller', is_active: false, last: '22/08/2026 10:15', quota: 12000, closed: 0, won: 0, overdue: 3 },
+      { id: 's1', username: 'ana.supervisora', full_name: 'Ana Supervisora', email: 'ana.supervisora@crm123.es', role: 'supervisor', is_active: true, last: '04/09/2026 09:40', quota: null, closed: 0, won: 0, overdue: 0 }
+    ];
+
+    const c = (id, phone, name, company, source, owner) => ({ id, phone, full_name: name, company, source, owner_id: owner, is_archived: false, created_at: '2026-02-11T10:00:00+01:00' });
+    const customers = [
+      c('c1', '+34612345678', 'Marta Bustos', 'Calzado Bustos', 'physical_store', 'v1'),
+      c('c2', '+34613002145', 'Javier Peña', 'Zapatería El Paso', 'trade_show', 'v1'),
+      c('c3', '+34614887210', 'Lucía Fernández', 'Calzados Aurora', 'instagram', 'v1'),
+      c('c4', '+34615223341', 'Carmen Ortega', null, 'whatsapp', 'v1'),
+      c('c5', '+34616774590', 'Rocío Herrero', 'Tienda Sirena', 'referral', 'v1'),
+      c('c6', '+34617445120', 'Sergio Alcalde', 'Alcalde Distribución', 'trade_show', 'v1'),
+      c('c7', '+34618330977', 'Elena Camino', 'Camino Shoes', 'instagram', 'v1'),
+      c('c8', '+34619556301', 'Nuria Sanchís', null, 'inbound_call', 'v1'),
+      c('c9', '+34620117744', 'Alberto Cano', 'Moda Lienzo', 'physical_store', 'v1'),
+      c('c10', '+34621908455', 'Paula Redondo', null, 'referral', 'v1'),
+      c('c11', '+34622330188', 'Andrés Villalba', 'Villalba Retail', 'other', 'v1'),
+      c('c12', '+34623774021', 'Rubén Prieto', null, 'whatsapp', 'v1'),
+      c('c13', '+34624119008', 'Iván Salgado', null, 'whatsapp', 'v1'),
+      c('c14', '+34625660712', 'Beatriz Nogales', 'Nogales Moda', 'instagram', 'v1'),
+      c('c15', '+34626443190', 'Mario Iglesias', 'Boutique Marés', 'physical_store', 'v1'),
+      c('c16', '+34627880341', 'Ana Belén Ruiz', null, 'trade_show', 'v1'),
+      c('c17', '+34628110945', 'Nacho Peiró', 'Peiró Calzados', 'referral', 'v2'),
+      c('c18', '+34629557003', 'Silvia Duarte', null, 'instagram', 'v2'),
+      c('c19', '+34630228871', 'Óscar Lamas', 'Lamas Moda', 'physical_store', 'v2')
+    ];
+
+    const o = (id, cid, owner, stage, status, est, extra) => Object.assign({
+      id, customer_id: cid, owner_id: owner, stage, status, estimated_amount: est,
+      final_amount: null, loss_reason: null, loss_note: null, next_action_at: null,
+      last_activity_at: '2026-09-04T08:00:00+02:00', closed_at: null
+    }, extra || {});
+
+    const opps = [
+      o('o1', 'c1', 'v1', 'negotiation', 'open', 2450, { next_action_at: '2026-09-02T10:00:00+02:00', last_activity_at: '2026-09-01T11:20:00+02:00' }),
+      o('o2', 'c2', 'v1', 'proposal_sent', 'open', 1250, { last_activity_at: '2026-08-30T17:05:00+02:00' }),
+      o('o3', 'c3', 'v1', 'contacted', 'open', 890, { next_action_at: '2026-09-03T09:00:00+02:00', last_activity_at: '2026-09-02T09:30:00+02:00' }),
+      o('o4', 'c4', 'v1', 'new', 'open', 640, { last_activity_at: '2026-08-31T12:00:00+02:00' }),
+      o('o5', 'c5', 'v1', 'negotiation', 'open', 3100, { next_action_at: '2026-09-01T16:30:00+02:00', last_activity_at: '2026-09-02T10:10:00+02:00' }),
+      o('o6', 'c6', 'v1', 'proposal_sent', 'open', 1780, { last_activity_at: '2026-09-01T09:15:00+02:00' }),
+      o('o7', 'c7', 'v1', 'contacted', 'open', 1150, { last_activity_at: '2026-09-01T18:40:00+02:00' }),
+      o('o8', 'c8', 'v1', 'proposal_sent', 'open', 2200, { next_action_at: '2026-09-04T11:00:00+02:00', last_activity_at: '2026-09-04T08:05:00+02:00' }),
+      o('o9', 'c9', 'v1', 'contacted', 'open', 760, { next_action_at: '2026-09-04T15:30:00+02:00', last_activity_at: '2026-09-03T13:20:00+02:00' }),
+      o('o10', 'c10', 'v1', 'new', 'open', 1490, { next_action_at: '2026-09-04T17:00:00+02:00', last_activity_at: '2026-09-03T16:45:00+02:00' }),
+      o('o11', 'c11', 'v1', 'negotiation', 'open', 4300, { next_action_at: '2026-09-08T10:00:00+02:00', last_activity_at: '2026-09-04T08:10:00+02:00' }),
+      o('o12', 'c12', 'v1', 'new', 'open', 520, { next_action_at: '2026-09-05T12:00:00+02:00', last_activity_at: '2026-09-03T11:00:00+02:00' }),
+      o('o13', 'c13', 'v1', 'closed', 'won', 4300, { final_amount: 4100, closed_at: '2026-09-01T13:00:00+02:00', last_activity_at: '2026-09-01T13:00:00+02:00' }),
+      o('o14', 'c14', 'v1', 'closed', 'won', 5400, { final_amount: 5200, closed_at: '2026-09-02T12:30:00+02:00', last_activity_at: '2026-09-02T12:30:00+02:00' }),
+      o('o15', 'c15', 'v1', 'closed', 'won', 3200, { final_amount: 3000, closed_at: '2026-09-03T17:20:00+02:00', last_activity_at: '2026-09-03T17:20:00+02:00' }),
+      o('o16', 'c16', 'v1', 'closed', 'lost', 1600, { loss_reason: 'price', loss_note: 'Se ha ido con un descuento del 12 % de otro proveedor.', closed_at: '2026-09-02T10:00:00+02:00', last_activity_at: '2026-09-02T10:00:00+02:00' }),
+      o('o17', 'c1', 'v1', 'closed', 'won', 3100, { final_amount: 2980, closed_at: '2026-06-12T11:00:00+02:00', last_activity_at: '2026-06-12T11:00:00+02:00' }),
+      o('o18', 'c1', 'v1', 'closed', 'lost', 1900, { loss_reason: 'bad_timing', closed_at: '2026-03-15T10:00:00+01:00', last_activity_at: '2026-03-15T10:00:00+01:00' }),
+      o('o19', 'c17', 'v2', 'proposal_sent', 'open', 2650, { next_action_at: '2026-09-03T11:00:00+02:00', last_activity_at: '2026-09-02T11:00:00+02:00' }),
+      o('o20', 'c18', 'v2', 'new', 'open', 980, { last_activity_at: '2026-08-31T10:00:00+02:00' }),
+      o('o21', 'c19', 'v2', 'negotiation', 'open', 5100, { next_action_at: '2026-09-07T09:30:00+02:00', last_activity_at: '2026-09-04T09:00:00+02:00' })
+    ];
+
+    const acts = [
+      { id: 'a1', opportunity_id: 'o1', customer_id: 'c1', author_id: 'v1', type: 'visit', note: 'Visita en tienda. Ha probado la línea de otoño y pide condiciones para 40 pares.', next_action_at: '2026-09-02T10:00:00+02:00', created_at: '2026-09-01T11:20:00+02:00' },
+      { id: 'a2', opportunity_id: 'o1', customer_id: 'c1', author_id: 'v1', type: 'whatsapp', note: 'Le he mandado el catálogo de temporada y la tarifa mayorista.', next_action_at: null, created_at: '2026-08-28T09:40:00+02:00' },
+      { id: 'a3', opportunity_id: 'o1', customer_id: 'c1', author_id: 'v1', type: 'call', note: 'Primer contacto sobre la colección de temporada. Interesada en botas.', next_action_at: null, created_at: '2026-08-24T16:10:00+02:00' },
+      { id: 'a4', opportunity_id: 'o17', customer_id: 'c1', author_id: 'v1', type: 'note', note: 'Cierre de la campaña de primavera: 2.980,00 € en 32 pares.', next_action_at: null, created_at: '2026-06-12T11:00:00+02:00' }
+    ];
+
+    const audit = [
+      { id: 'g1', when: '04/09/2026 09:12', actor: 's1', action: 'automation.manual_trigger', entity_type: 'automation', detail: '10 correos enviados' },
+      { id: 'g2', when: '04/09/2026 08:41', actor: 'v1', action: 'opportunity.stage_changed', entity_type: 'opportunity', detail: 'Contactado → Propuesta enviada' },
+      { id: 'g3', when: '03/09/2026 17:20', actor: 'v1', action: 'opportunity.won', entity_type: 'opportunity', detail: '3.000,00 €' },
+      { id: 'g4', when: '03/09/2026 12:03', actor: 's1', action: 'quota.changed', entity_type: 'quota', detail: 'Laura Pineda · 09/2026 · 15.000,00 €' },
+      { id: 'g5', when: '02/09/2026 16:55', actor: 'v2', action: 'customer.created', entity_type: 'customer', detail: 'Óscar Lamas' },
+      { id: 'g6', when: '02/09/2026 10:00', actor: 'v1', action: 'opportunity.lost', entity_type: 'opportunity', detail: 'Precio' },
+      { id: 'g7', when: '01/09/2026 09:30', actor: 's1', action: 'customer.reassigned', entity_type: 'customer', detail: 'Silvia Duarte · Laura Pineda → Sara Comercial' },
+      { id: 'g8', when: '22/08/2026 10:15', actor: 's1', action: 'user.deactivated', entity_type: 'profile', detail: 'marc.bosch' }
+    ];
+
+    const quotaEdits = {};
+    P.filter(p => p.role === 'seller').forEach(p => { quotaEdits[p.id] = p.quota == null ? '' : String(p.quota); });
+
+    return {
+      device: 'desktop', screen: 'login', role: 'seller', view: 'board', adminTab: 'usuarios',
+      loginUser: '', loginPass: '', loginError: '', loginSending: false, showPass: false,
+      pw1: '', pw2: '',
+      filters: { q: '', stage: 'all', status: 'open', onlyOverdue: false, seller: 'all' },
+      menuFor: null, modal: null, form: {}, toast: null, saving: false, retried: 0,
+      customerId: 'c1', actType: 'call', actNote: '', actNext: '',
+      quotaMonth: '9', quotaYear: '2026', quotaEdits,
+      auditFrom: '', auditTo: '', auditEntity: 'all', auditActor: 'all',
+      pwaView: 'panel', pwaSeller: null, sheet: null, digestToast: null,
+      lastDigest: { ok: true, time: '07:30', count: 10, at: null },
+      profiles: P, customers, opps, acts, audit
+    };
+  }
+
+  // ---------- formato ----------
+  eur(n, dec) { if (n == null) return '—'; const d = dec === false ? 0 : 2; return n.toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d, useGrouping: 'always' }) + ' €'; }
+  pct(n) { return n == null ? '—' : n.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %'; }
+  d2(n) { return String(n).padStart(2, '0'); }
+  dt(v) { return new Date(v); }
+  // Todo se formatea en la zona de negocio: Europe/Madrid.
+  madrid(v) {
+    const parts = new Intl.DateTimeFormat('es-ES', {
+      timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hour12: false
+    }).formatToParts(this.dt(v)).reduce((a, p) => { a[p.type] = p.value; return a; }, {});
+    return { y: parts.year, m: parts.month, d: parts.day, hh: parts.hour === '24' ? '00' : parts.hour, mm: parts.minute };
+  }
+  fdate(v) { const p = this.madrid(v); return p.d + '/' + p.m + '/' + p.y; }
+  fdm(v) { const p = this.madrid(v); return p.d + '/' + p.m; }
+  ftime(v) { const p = this.madrid(v); return p.hh + ':' + p.mm; }
+  fdmhm(v) { return this.fdm(v) + ' ' + this.ftime(v); }
+  fphone(p) { return p.slice(0, 3) + ' ' + p.slice(3, 6) + ' ' + p.slice(6, 9) + ' ' + p.slice(9); }
+  days(v) { const p = this.madrid(v); const a = Date.UTC(+p.y, +p.m - 1, +p.d); const b = Date.UTC(2026, 8, 4); return Math.max(0, Math.round((b - a) / 86400000)); }
+  frel(v) { const n = this.days(v); return n === 0 ? 'Hoy' : n === 1 ? 'Ayer' : 'Hace ' + n + ' días'; }
+  threshold(stage) { return stage === 'proposal_sent' || stage === 'negotiation' ? 2 : 3; }
+  toLocalInput(v) { if (!v) return ''; const p = this.madrid(v); return p.y + '-' + p.m + '-' + p.d + 'T' + p.hh + ':' + p.mm; }
+
+  board(op) {
+    const cust = this.state.customers.find(c => c.id === op.customer_id);
+    const overdue = !!op.next_action_at && this.dt(op.next_action_at) < Component.NOW;
+    const dwa = this.days(op.last_activity_at);
+    const stale = dwa >= this.threshold(op.stage);
+    const dueToday = !!op.next_action_at && this.fdate(op.next_action_at) === '04/09/2026' && !overdue;
+    return { op, cust, overdue, dwa, stale, dueToday, needs: overdue || stale };
+  }
+  openBoard(ownerFilter) {
+    return this.state.opps
+      .filter(o => o.status === 'open')
+      .map(o => this.board(o))
+      .filter(b => b.cust && !b.cust.is_archived && (!ownerFilter || b.op.owner_id === ownerFilter));
+  }
+  reason(b) { return b.overdue ? 'Acción vencida el ' + this.fdm(b.op.next_action_at) : b.dwa + ' días sin actividad'; }
+  seller(id) { const p = this.state.profiles.find(p => p.id === id); return p ? p.full_name : '—'; }
+  // v_seller_month_progress filtra pr.is_active = true: los desactivados no
+  // cuentan en el equipo ni reciben meta. Solo se ven en Administración › Usuarios.
+  sellers() { return this.state.profiles.filter(p => p.role === 'seller' && p.is_active); }
+  overdueCountFor(id) {
+    if (id === 'v1' || id === 'v2') return this.openBoard(id).filter(b => b.needs).length;
+    const p = this.state.profiles.find(p => p.id === id); return p.overdue || 0;
+  }
+  myId() { return this.state.role === 'supervisor' ? 'v1' : 'v1'; }
+
+  // ---------- mutaciones ----------
+  set(patch) { this.setState(patch); }
+  toast(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 4200); }
+  closeModal() { this.setState({ modal: null, form: {}, menuFor: null }); }
+
+  addActivity(oppId, type, note, next) {
+    const opps = this.state.opps.map(o => o.id === oppId
+      ? Object.assign({}, o, { last_activity_at: '2026-09-04T09:42:00+02:00', next_action_at: next ? new Date(next).toISOString() : o.next_action_at })
+      : o);
+    const op = this.state.opps.find(o => o.id === oppId);
+    const acts = [{ id: 'a' + Date.now(), opportunity_id: oppId, customer_id: op.customer_id, author_id: 'v1', type, note, next_action_at: next ? new Date(next).toISOString() : null, created_at: '2026-09-04T09:42:00+02:00' }].concat(this.state.acts);
+    this.setState({ opps, acts });
+  }
+
+  renderVals() {
+    const S = this.state, C = Component, isSup = S.role === 'supervisor';
+    const ds = this.props.dataState ?? 'normal';
+    const firstAccess = this.props.firstAccess ?? true;
+    const outcome = this.props.digestOutcome ?? 'exito';
+    const me = isSup ? S.profiles.find(p => p.id === 's1') : S.profiles.find(p => p.id === 'v1');
+    const isLoading = ds === 'cargando';
+    const isError = ds === 'error';
+    const isEmptyFirst = ds === 'vacio';
+    const h = {};
+
+    // ---- sesión ----
+    h.setLoginUser = e => this.set({ loginUser: e.target.value.toLowerCase(), loginError: '' });
+    h.setLoginPass = e => this.set({ loginPass: e.target.value, loginError: '' });
+    h.togglePass = () => this.set({ showPass: !S.showPass });
+    h.login = () => {
+      if (S.loginPass !== 'Demo1234!') { this.set({ loginError: 'Usuario o contraseña incorrectos.' }); return; }
+      this.set({ loginSending: true });
+      setTimeout(() => this.set({ loginSending: false, screen: firstAccess ? 'pw' : 'app', loginError: '' }), 500);
+    };
+    h.setPw1 = e => this.set({ pw1: e.target.value });
+    h.setPw2 = e => this.set({ pw2: e.target.value });
+    const pwLong = S.pw1.length >= 10;
+    const pwNoUser = S.pw1.length > 0 && (!S.loginUser || S.pw1.toLowerCase().indexOf(S.loginUser.toLowerCase()) === -1);
+    const pwMatch = S.pw2.length > 0 && S.pw1 === S.pw2;
+    h.savePw = () => { this.set({ saving: true }); setTimeout(() => this.set({ saving: false, screen: 'app', pw1: '', pw2: '' }), 500); };
+    h.logout = () => this.set(Object.assign(Component.seed(), { device: S.device, role: S.role }));
+
+    // ---- navegación ----
+    const go = v => () => this.set({ view: v, menuFor: null });
+    const navDefs = [['board', 'Tablero del día'], ['opps', 'Oportunidades'], ['customer', 'Clientes']]
+      .concat(isSup ? [['team', 'Equipo'], ['admin', 'Administración']] : []);
+    const nav = navDefs.map(([k, label]) => ({
+      label, go: go(k),
+      bg: S.view === k ? 'var(--color-accent-100)' : 'transparent',
+      color: S.view === k ? 'var(--color-accent-800)' : 'var(--color-neutral-800)',
+      weight: S.view === k ? '600' : '400'
+    }));
+    h.goOpps = go('opps'); h.goBoard = go('board');
+    h.goOverdueTable = () => this.set({ view: 'opps', filters: Object.assign({}, S.filters, { onlyOverdue: true, status: 'open' }) });
+    h.retry = () => this.toast('Reintentando… cambia el estado de datos a «normal» en Tweaks.');
+
+    // ---- tablero ----
+    const mine = this.openBoard(isSup ? null : 'v1');
+    const scoped = isSup ? mine.filter(b => b.op.owner_id === 'v1') : mine;
+    const overdueAll = scoped.filter(b => b.needs).sort((a, b) => (b.overdue ? 1 : 0) - (a.overdue ? 1 : 0) || (a.overdue ? this.dt(a.op.next_action_at) - this.dt(b.op.next_action_at) : b.dwa - a.dwa));
+    const todayAll = scoped.filter(b => b.dueToday && !b.needs).sort((a, b) => this.dt(a.op.next_action_at) - this.dt(b.op.next_action_at));
+    const rowOf = (b, isOverdueRow) => ({
+      name: b.cust.full_name,
+      company: b.cust.company || '',
+      stage: C.STAGE[b.op.stage],
+      amount: this.eur(b.op.estimated_amount),
+      reason: isOverdueRow ? this.reason(b) : this.ftime(b.op.next_action_at),
+      open: () => this.set({ view: 'customer', customerId: b.cust.id }),
+      activity: () => this.set({ modal: 'activity', form: { oppId: b.op.id, name: b.cust.full_name, type: 'call', note: '', next: '' } })
+    });
+    const overdueShown = overdueAll.slice(0, 8);
+    const won = S.opps.filter(o => o.status === 'won' && o.closed_at && this.fdate(o.closed_at).slice(3) === '09/2026' && o.owner_id === 'v1');
+    const closedAmount = won.reduce((s, o) => s + o.final_amount, 0);
+    const quota = S.profiles.find(p => p.id === 'v1').quota;
+    const quotaPct = quota ? Math.round((closedAmount / quota) * 1000) / 10 : null;
+    const emptyBoard = isEmptyFirst;
+
+    // ---- tabla de oportunidades ----
+    const F = S.filters;
+    h.setQ = e => this.set({ filters: Object.assign({}, F, { q: e.target.value }) });
+    h.setStage = e => this.set({ filters: Object.assign({}, F, { stage: e.target.value }) });
+    h.setStatus = e => this.set({ filters: Object.assign({}, F, { status: e.target.value }) });
+    h.setSeller = e => this.set({ filters: Object.assign({}, F, { seller: e.target.value }) });
+    h.setOnly = e => this.set({ filters: Object.assign({}, F, { onlyOverdue: e.target.checked }) });
+    h.clearFilters = () => this.set({ filters: { q: '', stage: 'all', status: 'open', onlyOverdue: false, seller: 'all' } });
+
+    let list = S.opps.filter(o => {
+      const cust = S.customers.find(c => c.id === o.customer_id);
+      if (!cust || cust.is_archived) return false;
+      if (!isSup && o.owner_id !== 'v1') return false;
+      if (isSup && F.seller !== 'all' && o.owner_id !== F.seller) return false;
+      if (F.status !== 'all' && o.status !== F.status) return false;
+      if (F.stage !== 'all' && o.stage !== F.stage) return false;
+      if (F.q) {
+        const q = F.q.toLowerCase();
+        const hay = (cust.full_name + ' ' + (cust.company || '') + ' ' + cust.phone).toLowerCase();
+        if (hay.indexOf(q) === -1) return false;
+      }
+      if (F.onlyOverdue) { if (o.status !== 'open') return false; const b = this.board(o); if (!b.needs) return false; }
+      return true;
+    });
+    const oppRows = list.map((o, i) => {
+      const b = this.board(o);
+      const menuOpen = S.menuFor === o.id;
+      const items = [
+        { label: 'Registrar actividad', act: e => { e.stopPropagation(); this.set({ menuFor: null, modal: 'activity', form: { oppId: o.id, name: b.cust.full_name, type: 'call', note: '', next: '' } }); } },
+        { label: 'Cambiar etapa', act: e => { e.stopPropagation(); this.set({ menuFor: null, modal: 'stage', form: { oppId: o.id, stage: o.stage } }); } },
+        { label: 'Marcar como ganada', act: e => { e.stopPropagation(); this.set({ menuFor: null, modal: 'won', form: { oppId: o.id, amount: String(o.estimated_amount) } }); } },
+        { label: 'Marcar como perdida', act: e => { e.stopPropagation(); this.set({ menuFor: null, modal: 'lost', form: { oppId: o.id, reason: '', note: '' } }); } },
+        { label: 'Abrir ficha', act: e => { e.stopPropagation(); this.set({ menuFor: null, view: 'customer', customerId: b.cust.id }); } }
+      ];
+      return {
+        name: b.cust.full_name, company: b.cust.company || '', seller: this.seller(o.owner_id),
+        phone: this.fphone(b.cust.phone), stage: C.STAGE[o.stage], amount: this.eur(o.estimated_amount, false),
+        last: this.frel(o.last_activity_at),
+        next: o.next_action_at ? this.fdmhm(o.next_action_at) : '—',
+        nextColor: o.status === 'open' && b.overdue ? 'var(--color-accent-2-700)' : 'var(--color-neutral-800)',
+        nextWeight: o.status === 'open' && b.overdue ? '600' : '400',
+        channel: b.cust.source ? C.SOURCE[b.cust.source] : '—',
+        dot: o.status === 'open' && b.needs ? 'var(--color-accent-2)' : 'transparent',
+        zebra: i % 2 ? 'var(--color-neutral-100)' : 'transparent',
+        open: () => this.set({ view: 'customer', customerId: b.cust.id, menuFor: null }),
+        menu: e => { e.stopPropagation(); this.set({ menuFor: menuOpen ? null : o.id }); },
+        menuOpen, menuItems: items
+      };
+    });
+    const oppColumns = [{ label: '', align: 'left', width: '22px' }, { label: 'Cliente', align: 'left', width: 'auto' }]
+      .concat(isSup ? [{ label: 'Vendedor', align: 'left', width: '150px' }] : [])
+      .concat([
+        { label: 'Teléfono', align: 'left', width: '150px' }, { label: 'Etapa', align: 'left', width: '150px' },
+        { label: 'Importe', align: 'right', width: '110px' }, { label: 'Última actividad', align: 'left', width: '130px' },
+        { label: 'Próxima acción', align: 'left', width: '130px' }, { label: 'Canal', align: 'left', width: '130px' },
+        { label: '', align: 'right', width: '56px' }
+      ]);
+    const filterNames = [];
+    if (F.status !== 'all') filterNames.push('Estado: ' + { open: 'Abiertas', won: 'Ganadas', lost: 'Perdidas' }[F.status]);
+    if (F.stage !== 'all') filterNames.push('Etapa: ' + C.STAGE[F.stage]);
+    if (F.onlyOverdue) filterNames.push('Solo atrasadas');
+    if (F.q) filterNames.push('Búsqueda: «' + F.q + '»');
+    if (isSup && F.seller !== 'all') filterNames.push('Vendedor: ' + this.seller(F.seller));
+
+    // ---- ficha de cliente ----
+    const cu = S.customers.find(c => c.id === S.customerId) || S.customers[0];
+    const openOpp = S.opps.find(o => o.customer_id === cu.id && o.status === 'open');
+    const ob = openOpp ? this.board(openOpp) : null;
+    const history = S.opps.filter(o => o.customer_id === cu.id && o.status !== 'open')
+      .sort((a, b) => this.dt(b.closed_at) - this.dt(a.closed_at))
+      .map(o => ({
+        date: this.fdate(o.closed_at),
+        result: o.status === 'won' ? 'Ganada' : 'Perdida · ' + C.LOSS[o.loss_reason],
+        color: o.status === 'won' ? C.WON_INK : 'var(--color-neutral-800)',
+        amount: o.status === 'won' ? this.eur(o.final_amount) : ''
+      }));
+    const custActs = S.acts.filter(a => a.customer_id === cu.id).map(a => ({
+      icon: C.ACT_ICON[a.type], type: C.ACT[a.type], author: this.seller(a.author_id),
+      when: this.frel(a.created_at), note: a.note,
+      hasNext: !!a.next_action_at, next: a.next_action_at ? this.fdmhm(a.next_action_at) : ''
+    }));
+    const stageOrder = ['new', 'contacted', 'proposal_sent', 'negotiation', 'closed'];
+    h.setEstimated = e => {
+      const v = parseFloat(String(e.target.value).replace(/\./g, '').replace(',', '.')) || 0;
+      this.set({ opps: S.opps.map(o => o.id === (openOpp && openOpp.id) ? Object.assign({}, o, { estimated_amount: v }) : o) });
+    };
+    h.setNextAction = e => this.set({ opps: S.opps.map(o => o.id === (openOpp && openOpp.id) ? Object.assign({}, o, { next_action_at: e.target.value ? new Date(e.target.value).toISOString() : null }) : o) });
+    h.copyPhone = () => this.toast('Teléfono copiado: ' + this.fphone(cu.phone));
+    h.editCustomer = () => this.set({ modal: 'editCustomer', form: { name: cu.full_name, company: cu.company || '', source: cu.source || '' } });
+    h.openWon = () => this.set({ modal: 'won', form: { oppId: openOpp.id, amount: String(openOpp.estimated_amount) } });
+    h.openLost = () => this.set({ modal: 'lost', form: { oppId: openOpp.id, reason: '', note: '' } });
+    h.openNewOpp = () => this.set({ modal: 'newOpp', form: { amount: '', next: '' } });
+    h.openReassign = () => this.set({ modal: 'reassign', form: { to: '' } });
+    h.openArchive = () => this.set({ modal: 'archive', form: {} });
+    h.unarchive = () => this.set({ customers: S.customers.map(c => c.id === cu.id ? Object.assign({}, c, { is_archived: false }) : c) });
+    h.setActNote = e => this.set({ actNote: e.target.value });
+    h.setActNext = e => this.set({ actNext: e.target.value });
+    h.registerActivity = () => {
+      if (!S.actNote.trim() || !openOpp) return;
+      this.addActivity(openOpp.id, S.actType, S.actNote.trim(), S.actNext);
+      this.set({ actNote: '', actNext: '' });
+      this.toast('Actividad registrada.');
+    };
+    const actTypes = Object.keys(C.ACT).map(k => ({
+      label: C.ACT[k], pick: () => this.set({ actType: k }),
+      bg: S.actType === k ? 'var(--color-accent)' : 'transparent',
+      color: S.actType === k ? '#fff' : 'var(--color-neutral-800)',
+      border: S.actType === k ? 'var(--color-accent)' : 'var(--color-neutral-400)'
+    }));
+
+    // ---- equipo ----
+    const sellers = this.sellers();
+    const teamRows = sellers.map(p => {
+      const closed = p.id === 'v1' ? closedAmount : p.closed;
+      const q = p.quota;
+      const pc = q ? Math.round((closed / q) * 1000) / 10 : null;
+      const ov = this.overdueCountFor(p.id);
+      return {
+        id: p.id, name: p.full_name, closed: this.eur(closed, false), quota: q ? this.eur(q, false) : '—',
+        pct: this.pct(pc), pctWidth: Math.min(100, pc || 0) + '%', won: p.id === 'v1' ? won.length : p.won,
+        overdue: ov, sortPct: pc == null ? 0 : pc,
+        overdueColor: ov >= 3 ? 'var(--color-accent-2-700)' : 'var(--color-neutral-800)',
+        overdueWeight: ov >= 3 ? '600' : '400',
+        open: () => this.set({ view: 'opps', filters: Object.assign({}, F, { seller: p.id, status: 'open' }) })
+      };
+    });
+    const teamClosed = sellers.reduce((s, p) => s + (p.id === 'v1' ? closedAmount : p.closed), 0);
+    const teamQuota = sellers.reduce((s, p) => s + (p.quota || 0), 0);
+    const teamPct = teamQuota ? Math.round((teamClosed / teamQuota) * 1000) / 10 : null;
+    const teamOverdue = sellers.reduce((s, p) => s + this.overdueCountFor(p.id), 0);
+    const sellersWithOverdue = sellers.filter(p => this.overdueCountFor(p.id) > 0).length;
+    const losses = [
+      { reason: 'Precio', count: '4 casos', amount: this.eur(6200) },
+      { reason: 'No responde', count: '3 casos', amount: this.eur(3900) },
+      { reason: 'Compró a la competencia', count: '2 casos', amount: this.eur(4100) },
+      { reason: 'Sin presupuesto', count: '1 caso', amount: this.eur(900) },
+      { reason: 'No era el momento', count: '1 caso', amount: this.eur(1600) }
+    ];
+
+    // ---- administración ----
+    const adminTabs = [['usuarios', 'Usuarios'], ['cuotas', 'Cuotas'], ['auditoria', 'Auditoría']].map(([k, label]) => ({
+      label, pick: () => this.set({ adminTab: k }),
+      rule: S.adminTab === k ? 'var(--color-accent)' : 'transparent',
+      color: S.adminTab === k ? 'var(--color-text)' : 'var(--color-neutral-700)',
+      weight: S.adminTab === k ? '600' : '400'
+    }));
+    h.openNewUser = () => this.set({ modal: 'newUser', form: { name: '', username: '', email: '', role: 'seller', pass: '', quota: '' } });
+    const users = S.profiles.map((p, i) => ({
+      username: p.username, name: p.full_name, email: p.email,
+      role: p.role === 'supervisor' ? 'Supervisor' : 'Vendedor',
+      state: p.is_active ? 'Activo' : 'Desactivado',
+      stateColor: p.is_active ? 'var(--color-neutral-800)' : 'var(--color-neutral-600)',
+      last: p.last, zebra: i % 2 ? 'var(--color-neutral-100)' : 'transparent',
+      toggleLabel: p.is_active ? 'Desactivar' : 'Reactivar',
+      edit: () => this.set({ modal: 'editUser', form: { id: p.id, name: p.full_name, email: p.email, role: p.role } }),
+      reset: () => this.set({ modal: 'userCreated', form: { username: p.username, pass: 'Kx7-tela-9RM', title: 'Contraseña restablecida' } }),
+      toggle: () => this.set({ profiles: S.profiles.map(x => x.id === p.id ? Object.assign({}, x, { is_active: !x.is_active }) : x) })
+    }));
+    h.setQuotaMonth = e => this.set({ quotaMonth: e.target.value });
+    h.setQuotaYear = e => this.set({ quotaYear: e.target.value });
+    h.copyQuotas = () => { const q = {}; sellers.forEach(p => { q[p.id] = String(p.quota || 0); }); this.set({ quotaEdits: q }); this.toast('Metas copiadas del mes anterior. Revísalas y guarda.'); };
+    h.saveQuotas = () => {
+      this.set({ saving: true });
+      setTimeout(() => {
+        this.set({
+          saving: false,
+          profiles: S.profiles.map(p => p.role === 'seller' ? Object.assign({}, p, { quota: S.quotaEdits[p.id] === '' ? null : parseFloat(String(S.quotaEdits[p.id]).replace(/\./g, '').replace(',', '.')) }) : p)
+        });
+        this.toast('Metas guardadas.');
+      }, 600);
+    };
+    const quotaRows = sellers.map(p => ({
+      name: p.full_name, value: S.quotaEdits[p.id],
+      set: e => { const q = Object.assign({}, S.quotaEdits); q[p.id] = e.target.value; this.set({ quotaEdits: q }); }
+    }));
+    const quotaTotalNum = sellers.reduce((s, p) => s + (parseFloat(String(S.quotaEdits[p.id] || '0').replace(/\./g, '').replace(',', '.')) || 0), 0);
+    const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+    h.setAuditFrom = e => this.set({ auditFrom: e.target.value });
+    h.setAuditTo = e => this.set({ auditTo: e.target.value });
+    h.setAuditEntity = e => this.set({ auditEntity: e.target.value });
+    h.setAuditActor = e => this.set({ auditActor: e.target.value });
+    h.clearAudit = () => this.set({ auditFrom: '', auditTo: '', auditEntity: 'all', auditActor: 'all' });
+    const auditRows = S.audit
+      .filter(a => (S.auditEntity === 'all' || a.entity_type === S.auditEntity) && (S.auditActor === 'all' || a.actor === S.auditActor))
+      .map((a, i) => ({
+        when: a.when, actor: this.seller(a.actor), action: C.AUDIT_ACTION[a.action],
+        entity: C.ENTITY[a.entity_type], detail: a.detail,
+        zebra: i % 2 ? 'var(--color-neutral-100)' : 'transparent'
+      }));
+
+    // ---- PWA ----
+    h.pwaBack = () => this.set({ pwaView: 'panel', pwaSeller: null });
+    const pwaNav = [['panel', 'Panel'], ['team', 'Equipo']].map(([k, label]) => ({
+      label, go: () => this.set({ pwaView: k === 'panel' ? 'panel' : 'panel' }),
+      color: 'var(--color-accent-800)', weight: k === 'panel' ? '600' : '400'
+    }));
+    const pwaSellers = teamRows.slice().sort((a, b) => a.sortPct - b.sortPct).map(r => ({
+      name: r.name, pct: r.pct, pctWidth: r.pctWidth,
+      overdueText: r.overdue > 0 ? String(r.overdue) : '·',
+      overdueColor: r.overdue >= 3 ? 'var(--color-accent-2-700)' : 'var(--color-neutral-700)',
+      open: () => this.set({ pwaView: 'detail', pwaSeller: r.id })
+    }));
+    const dSeller = S.pwaSeller ? S.profiles.find(p => p.id === S.pwaSeller) : null;
+    const dRow = dSeller ? teamRows.find(r => r.id === dSeller.id) : null;
+    const dList = dSeller ? this.openBoard(dSeller.id).filter(b => b.needs).slice(0, 5).map(b => ({
+      name: b.cust.full_name, stage: C.STAGE[b.op.stage], reason: this.reason(b)
+    })) : [];
+
+    h.openDigest = () => {
+      if (outcome === 'limite') { this.set({ digestToast: 'Ya has enviado el resumen hace 4 minutos. Podrás volver a enviarlo a las 09:52.' }); clearTimeout(this._dt); this._dt = setTimeout(() => this.set({ digestToast: null }), 5000); return; }
+      this.set({ sheet: 'confirm', digestToast: null });
+    };
+    h.sendDigest = () => {
+      this.set({ sheet: 'running' });
+      setTimeout(() => this.set({ sheet: outcome === 'fallo' ? 'failed' : 'done', lastDigest: outcome === 'fallo' ? { ok: false, time: '09:42', count: 0 } : { ok: true, time: '09:42', count: 10 } }), 2000);
+    };
+    h.closeSheet = () => this.set({ sheet: null });
+    const sheetDefs = {
+      confirm: {
+        title: 'Enviar el resumen matutino', titleColor: 'var(--color-text)',
+        body: 'Se enviará un correo a cada vendedor activo con sus oportunidades atrasadas, sus acciones de hoy y su avance de meta.',
+        running: false, hasButtons: true,
+        buttons: [
+          { label: 'Cancelar', act: h.closeSheet, bg: 'transparent', color: 'var(--color-text)', border: '1px solid var(--color-neutral-400)' },
+          { label: 'Enviar ahora', act: h.sendDigest, bg: 'var(--color-accent)', color: '#fff', border: '0' }
+        ]
+      },
+      running: { title: 'Enviando resúmenes…', titleColor: 'var(--color-text)', body: '', running: true, hasButtons: false, buttons: [] },
+      done: {
+        title: '✓ Resúmenes enviados', titleColor: C.WON_INK, body: '10 correos enviados a las 09:42.', running: false, hasButtons: true,
+        buttons: [{ label: 'Cerrar', act: h.closeSheet, bg: 'var(--color-accent)', color: '#fff', border: '0' }]
+      },
+      failed: {
+        title: '✕ No se han podido enviar', titleColor: 'var(--color-accent-2-700)', body: 'El envío ha fallado. Vuelve a intentarlo en unos minutos.', running: false, hasButtons: true,
+        buttons: [
+          { label: 'Cerrar', act: h.closeSheet, bg: 'transparent', color: 'var(--color-text)', border: '1px solid var(--color-neutral-400)' },
+          { label: 'Reintentar', act: h.sendDigest, bg: 'var(--color-accent)', color: '#fff', border: '0' }
+        ]
+      }
+    };
+    const sheet = sheetDefs[S.sheet] || { title: '', body: '', running: false, hasButtons: false, buttons: [], titleColor: 'var(--color-text)' };
+
+    // ---- ventanas modales ----
+    const setF = k => e => { const f = Object.assign({}, S.form); f[k] = e.target.value; this.set({ form: f }); };
+    const F2 = S.form;
+    const txt = (id, label, opts) => Object.assign({ id, label, isText: true, isSelect: false, isArea: false, isChips: false, isReveal: false, value: '', set: () => {}, blur: () => {}, placeholder: '', align: 'left', prefix: '', hint: '', hintColor: 'var(--color-neutral-700)', hintWeight: '400', max: null, options: [], chips: [], copy: () => {} }, opts);
+    const sel = (id, label, opts) => txt(id, label, Object.assign({ isText: false, isSelect: true }, opts));
+    const area = (id, label, opts) => txt(id, label, Object.assign({ isText: false, isArea: true }, opts));
+    const chips = (id, label, opts) => txt(id, label, Object.assign({ isText: false, isChips: true }, opts));
+    const reveal = (id, label, opts) => txt(id, label, Object.assign({ isText: false, isReveal: true }, opts));
+    const btn = (label, act, primary, disabled) => ({
+      label, act, disabled: !!disabled,
+      bg: primary ? (disabled ? 'var(--color-neutral-400)' : 'var(--color-accent)') : 'transparent',
+      color: primary ? '#fff' : 'var(--color-text)',
+      border: primary ? '0' : '1px solid var(--color-neutral-400)'
+    });
+    const cancel = btn('Cancelar', () => this.closeModal(), false, false);
+
+    let modal = { width: '440px', title: '', intro: '', fields: [], notice: '', buttons: [] };
+
+    if (S.modal === 'activity') {
+      modal = {
+        width: '460px', title: 'Registrar actividad', intro: F2.name, notice: '',
+        fields: [
+          chips('m-type', 'Tipo', {
+            chips: Object.keys(C.ACT).map(k => ({
+              label: C.ACT[k], pick: () => { const f = Object.assign({}, F2); f.type = k; this.set({ form: f }); },
+              bg: F2.type === k ? 'var(--color-accent)' : 'transparent',
+              color: F2.type === k ? '#fff' : 'var(--color-neutral-800)',
+              border: F2.type === k ? 'var(--color-accent)' : 'var(--color-neutral-400)'
+            }))
+          }),
+          area('m-note', '¿Qué ha pasado?', { value: F2.note || '', set: setF('note'), max: 1000 }),
+          txt('m-next', 'Próxima acción (opcional)', { value: F2.next || '', set: setF('next'), placeholder: 'dd/mm/aaaa hh:mm' })
+        ],
+        buttons: [cancel, btn(S.saving ? 'Guardando…' : 'Registrar', () => {
+          this.set({ saving: true });
+          setTimeout(() => { this.addActivity(F2.oppId, F2.type, (F2.note || '').trim() || 'Sin detalle.', ''); this.set({ saving: false }); this.closeModal(); this.toast('Actividad registrada.'); }, 450);
+        }, true, S.saving || !(F2.note || '').trim())]
+      };
+    } else if (S.modal === 'newCustomer') {
+      const raw = (F2.phone || '').replace(/\s/g, '');
+      const full = '+34' + raw;
+      const dup = S.customers.find(c => c.phone === full);
+      const dupMine = dup && dup.owner_id === (isSup ? 's1' : 'v1');
+      const checked = !!F2.checked;
+      let hint = '', hintColor = 'var(--color-neutral-700)', hintWeight = '400';
+      if (checked && dup && !dupMine) { hint = '⚠ Este cliente ya existe en el sistema y lo lleva otro compañero.'; hintColor = 'var(--color-accent-2-800)'; hintWeight = '600'; }
+      else if (checked && dupMine) { hint = 'Ya tienes a este cliente registrado.'; hintColor = 'var(--color-accent-2-800)'; hintWeight = '600'; }
+      else if (checked && raw && !/^[6-9]\d{8}$/.test(raw)) { hint = 'Escribe un móvil español de nueve cifras.'; hintColor = 'var(--color-accent-2-800)'; }
+      const blocked = checked && (!!dup || !/^[6-9]\d{8}$/.test(raw));
+      modal = {
+        width: '440px', title: 'Nuevo cliente', intro: '', notice: '',
+        fields: [
+          txt('m-phone', 'Teléfono *', { value: F2.phone || '', set: setF('phone'), blur: () => { const f = Object.assign({}, F2); f.checked = true; this.set({ form: f }); }, prefix: '+34', placeholder: '612 345 678', hint, hintColor, hintWeight }),
+          txt('m-name', 'Nombre *', { value: F2.name || '', set: setF('name') }),
+          txt('m-company', 'Empresa', { value: F2.company || '', set: setF('company') }),
+          sel('m-source', 'Canal', {
+            value: F2.source || '', set: setF('source'),
+            options: [{ v: '', label: '—' }].concat(Object.keys(C.SOURCE).map(k => ({ v: k, label: C.SOURCE[k] })))
+          })
+        ],
+        buttons: (dupMine && checked ? [btn('Abrir su ficha', () => { this.closeModal(); this.set({ view: 'customer', customerId: dup.id }); }, false, false)] : []).concat([
+          cancel,
+          btn(S.saving ? 'Guardando…' : 'Crear cliente', () => {
+            this.set({ saving: true });
+            setTimeout(() => {
+              const id = 'c' + Date.now();
+              this.set({
+                saving: false,
+                customers: S.customers.concat([{ id, phone: full, full_name: F2.name, company: F2.company || null, source: F2.source || null, owner_id: 'v1', is_archived: false, created_at: '2026-09-04T09:42:00+02:00' }]),
+                modal: null, form: {}, view: 'customer', customerId: id
+              });
+              this.toast('Cliente creado.');
+            }, 500);
+          }, true, S.saving || blocked || !(F2.name || '').trim() || !raw)
+        ])
+      };
+    } else if (S.modal === 'newOpp') {
+      modal = {
+        width: '420px', title: 'Nueva oportunidad', intro: 'La etapa arranca en Nuevo.', notice: '',
+        fields: [
+          txt('m-amount', 'Importe estimado *', { value: F2.amount || '', set: setF('amount'), align: 'right', hint: 'Importes sin IVA' }),
+          txt('m-next', 'Próxima acción', { value: F2.next || '', set: setF('next'), placeholder: 'dd/mm/aaaa hh:mm' })
+        ],
+        buttons: [cancel, btn(S.saving ? 'Guardando…' : 'Crear oportunidad', () => {
+          this.set({ saving: true });
+          setTimeout(() => {
+            const amount = parseFloat(String(F2.amount).replace(/\./g, '').replace(',', '.')) || 0;
+            this.set({
+              saving: false, modal: null, form: {},
+              opps: S.opps.concat([{ id: 'o' + Date.now(), customer_id: cu.id, owner_id: cu.owner_id, stage: 'new', status: 'open', estimated_amount: amount, final_amount: null, loss_reason: null, loss_note: null, next_action_at: null, last_activity_at: '2026-09-04T09:42:00+02:00', closed_at: null }])
+            });
+            this.toast('Oportunidad creada en etapa Nuevo.');
+          }, 450);
+        }, true, S.saving || !(F2.amount || '').trim())]
+      };
+    } else if (S.modal === 'won') {
+      modal = {
+        width: '430px', title: 'Marcar como ganada', intro: 'Confirma el importe final de la venta.', notice: 'Este importe cuenta para tu meta del mes. Sin IVA.',
+        fields: [txt('m-final', 'Importe final *', { value: F2.amount || '', set: setF('amount'), align: 'right' })],
+        buttons: [cancel, btn(S.saving ? 'Guardando…' : 'Confirmar venta', () => {
+          this.set({ saving: true });
+          setTimeout(() => {
+            const amount = parseFloat(String(F2.amount).replace(/\./g, '').replace(',', '.')) || 0;
+            const opps = S.opps.map(o => o.id === F2.oppId ? Object.assign({}, o, { status: 'won', stage: 'closed', final_amount: amount, closed_at: '2026-09-04T09:42:00+02:00' }) : o);
+            const newClosed = closedAmount + amount;
+            const pc = quota ? Math.round((newClosed / quota) * 1000) / 10 : null;
+            this.set({ saving: false, opps, modal: null, form: {} });
+            this.toast('Venta registrada: ' + this.eur(amount) + (pc == null ? '' : '. Llevas el ' + this.pct(pc) + ' de tu meta.'));
+          }, 500);
+        }, true, S.saving || !(F2.amount || '').trim())]
+      };
+    } else if (S.modal === 'lost') {
+      modal = {
+        width: '440px', title: 'Marcar como perdida', intro: '', notice: '',
+        fields: [
+          sel('m-reason', 'Motivo *', { value: F2.reason || '', set: setF('reason'), options: [{ v: '', label: 'Elige un motivo' }].concat(Object.keys(C.LOSS).map(k => ({ v: k, label: C.LOSS[k] }))) }),
+          area('m-lnote', 'Nota', { value: F2.note || '', set: setF('note'), max: 500, hint: (F2.note || '').length + ' / 500' })
+        ],
+        buttons: [cancel, btn(S.saving ? 'Guardando…' : 'Marcar como perdida', () => {
+          this.set({ saving: true });
+          setTimeout(() => {
+            this.set({
+              saving: false, modal: null, form: {},
+              opps: S.opps.map(o => o.id === F2.oppId ? Object.assign({}, o, { status: 'lost', stage: 'closed', loss_reason: F2.reason, loss_note: F2.note || null, closed_at: '2026-09-04T09:42:00+02:00' }) : o)
+            });
+            this.toast('Oportunidad marcada como perdida.');
+          }, 450);
+        }, true, S.saving || !F2.reason)]
+      };
+    } else if (S.modal === 'stage') {
+      modal = {
+        width: '400px', title: 'Cambiar etapa', intro: '', notice: '',
+        fields: [sel('m-stage', 'Etapa', { value: F2.stage || 'new', set: setF('stage'), options: ['new', 'contacted', 'proposal_sent', 'negotiation'].map(k => ({ v: k, label: C.STAGE[k] })) })],
+        buttons: [cancel, btn('Guardar', () => {
+          this.set({ opps: S.opps.map(o => o.id === F2.oppId ? Object.assign({}, o, { stage: F2.stage }) : o), modal: null, form: {} });
+          this.toast('Etapa actualizada.');
+        }, true, false)]
+      };
+    } else if (S.modal === 'reassign') {
+      modal = {
+        width: '440px', title: 'Reasignar cliente', intro: '', notice: 'Se traspasarán también sus oportunidades y su historial.',
+        fields: [sel('m-to', 'Vendedor', { value: F2.to || '', set: setF('to'), options: [{ v: '', label: 'Elige un vendedor' }].concat(sellers.filter(p => p.is_active && p.id !== cu.owner_id).map(p => ({ v: p.id, label: p.full_name }))) })],
+        buttons: [cancel, btn('Reasignar', () => {
+          this.set({
+            customers: S.customers.map(c => c.id === cu.id ? Object.assign({}, c, { owner_id: F2.to }) : c),
+            opps: S.opps.map(o => o.customer_id === cu.id ? Object.assign({}, o, { owner_id: F2.to }) : o),
+            modal: null, form: {}
+          });
+          this.toast('Cliente reasignado a ' + this.seller(F2.to) + '.');
+        }, true, !F2.to)]
+      };
+    } else if (S.modal === 'archive') {
+      modal = {
+        width: '440px', title: 'Archivar cliente', intro: 'El cliente dejará de aparecer en las listas. Su historial se conserva y puedes desarchivarlo cuando quieras.', notice: '',
+        fields: [],
+        buttons: [cancel, btn('Archivar', () => {
+          this.set({ customers: S.customers.map(c => c.id === cu.id ? Object.assign({}, c, { is_archived: true }) : c), modal: null, form: {} });
+          this.toast('Cliente archivado.');
+        }, true, false)]
+      };
+    } else if (S.modal === 'editCustomer') {
+      modal = {
+        width: '440px', title: 'Editar cliente', intro: '', notice: '',
+        fields: [
+          txt('m-ename', 'Nombre *', { value: F2.name || '', set: setF('name') }),
+          txt('m-ecompany', 'Empresa', { value: F2.company || '', set: setF('company') }),
+          sel('m-esource', 'Canal', { value: F2.source || '', set: setF('source'), options: [{ v: '', label: '—' }].concat(Object.keys(C.SOURCE).map(k => ({ v: k, label: C.SOURCE[k] }))) })
+        ],
+        buttons: [cancel, btn('Guardar', () => {
+          this.set({ customers: S.customers.map(c => c.id === cu.id ? Object.assign({}, c, { full_name: F2.name, company: F2.company || null, source: F2.source || null }) : c), modal: null, form: {} });
+          this.toast('Cliente actualizado.');
+        }, true, !(F2.name || '').trim())]
+      };
+    } else if (S.modal === 'newUser' || S.modal === 'editUser') {
+      const isNew = S.modal === 'newUser';
+      const taken = S.profiles.some(p => p.username === (F2.username || '').toLowerCase());
+      modal = {
+        width: '470px', title: isNew ? 'Nuevo usuario' : 'Editar usuario', intro: '', notice: '',
+        fields: [
+          txt('m-uname', 'Nombre completo *', { value: F2.name || '', set: setF('name') })
+        ].concat(isNew ? [
+          txt('m-uuser', 'Nombre de usuario *', {
+            value: F2.username || '', set: e => { const f = Object.assign({}, F2); f.username = e.target.value.toLowerCase().replace(/\s/g, ''); this.set({ form: f }); },
+            hint: !F2.username ? 'Minúsculas, sin espacios.' : (taken ? 'Ese nombre de usuario ya está en uso.' : 'Disponible.'),
+            hintColor: F2.username && taken ? 'var(--color-accent-2-800)' : 'var(--color-neutral-700)'
+          })
+        ] : []).concat([
+          txt('m-uemail', 'Email *', { value: F2.email || '', set: setF('email'), hint: 'Solo se usa para enviarle el resumen matutino. El usuario nunca lo verá.' }),
+          sel('m-urole', 'Rol *', { value: F2.role || 'seller', set: setF('role'), options: [{ v: 'seller', label: 'Vendedor' }, { v: 'supervisor', label: 'Supervisor' }] })
+        ]).concat(isNew ? [
+          txt('m-upass', 'Contraseña inicial *', { value: F2.pass || '', set: setF('pass'), hint: 'Se le pedirá cambiarla en su primer acceso.' }),
+          txt('m-uquota', 'Meta de este mes', { value: F2.quota || '', set: setF('quota'), align: 'right', hint: 'Opcional. Sin IVA.' })
+        ] : []),
+        buttons: (isNew ? [btn('Generar contraseña', () => { const f = Object.assign({}, F2); f.pass = 'Kx7-tela-9RM'; this.set({ form: f }); }, false, false)] : []).concat([
+          cancel,
+          btn(S.saving ? 'Guardando…' : (isNew ? 'Crear usuario' : 'Guardar'), () => {
+            this.set({ saving: true });
+            setTimeout(() => {
+              if (isNew) {
+                this.set({
+                  saving: false,
+                  profiles: S.profiles.concat([{ id: 'u' + Date.now(), username: F2.username, full_name: F2.name, email: F2.email, role: F2.role, is_active: true, last: '—', quota: F2.quota ? parseFloat(F2.quota) : null, closed: 0, won: 0, overdue: 0 }]),
+                  modal: 'userCreated', form: { username: F2.username, pass: F2.pass, title: 'Usuario creado' }
+                });
+              } else {
+                this.set({
+                  saving: false, modal: null, form: {},
+                  profiles: S.profiles.map(p => p.id === F2.id ? Object.assign({}, p, { full_name: F2.name, email: F2.email, role: F2.role }) : p)
+                });
+                this.toast('Usuario actualizado.');
+              }
+            }, 500);
+          }, true, S.saving || !(F2.name || '').trim() || !(F2.email || '').trim() || (isNew && (!F2.username || taken || !F2.pass)))
+        ])
+      };
+    } else if (S.modal === 'userCreated') {
+      modal = {
+        width: '460px', title: F2.title || 'Usuario creado', intro: '',
+        notice: 'Entrega esta contraseña al usuario en persona. No volverá a mostrarse. Se le pedirá cambiarla en su primer acceso.',
+        fields: [
+          reveal('m-cu', 'Usuario', { value: F2.username || '', copy: () => this.toast('Usuario copiado.') }),
+          reveal('m-cp', 'Contraseña', { value: F2.pass || '', copy: () => this.toast('Contraseña copiada.') })
+        ],
+        buttons: [btn('Hecho', () => this.closeModal(), true, false)]
+      };
+    }
+    h.openNewCustomer = () => this.set({ modal: 'newCustomer', form: { phone: '', name: '', company: '', source: '', checked: false } });
+
+    // ---- switch de prototipo ----
+    const proto = [
+      { label: 'Escritorio', k: 'desktop' }, { label: 'PWA', k: 'pwa' }
+    ].map(p => ({
+      label: p.label, act: () => this.set({ device: p.k, screen: p.k === 'pwa' ? 'app' : S.screen === 'login' ? 'app' : S.screen, role: p.k === 'pwa' ? 'supervisor' : S.role }),
+      bg: S.device === p.k ? 'var(--color-accent)' : 'var(--color-neutral-200)',
+      color: S.device === p.k ? '#fff' : 'var(--color-neutral-800)'
+    })).concat([
+      { label: 'Vendedor', k: 'seller' }, { label: 'Supervisor', k: 'supervisor' }
+    ].map(r => ({
+      label: r.label, act: () => this.set({ role: r.k, view: r.k === 'seller' && (S.view === 'team' || S.view === 'admin') ? 'board' : S.view }),
+      bg: S.role === r.k ? 'var(--color-accent-2)' : 'var(--color-neutral-200)',
+      color: S.role === r.k ? '#fff' : 'var(--color-neutral-800)'
+    })));
+
+    const isApp = S.screen === 'app';
+    const monthLabel = 'septiembre de 2026';
+
+    return {
+      h, isSup, me: { name: me.full_name, roleLabel: me.role === 'supervisor' ? 'Supervisor' : 'Vendedor' },
+      isLogin: S.screen === 'login', isPwChange: S.screen === 'pw',
+      isDesktopApp: isApp && S.device === 'desktop',
+      isPwaApp: isApp && S.device === 'pwa',
+      pwaBlocked: S.device === 'pwa' && !isSup,
+      pwaPanel: S.device === 'pwa' && isSup && S.pwaView === 'panel',
+      pwaDetail: S.device === 'pwa' && isSup && S.pwaView === 'detail',
+
+      loginUser: S.loginUser, loginPass: S.loginPass, loginError: S.loginError, loginSending: S.loginSending,
+      passInputType: S.showPass ? 'text' : 'password', passToggleLabel: S.showPass ? 'Ocultar' : 'Ver',
+      loginBtnLabel: S.loginSending ? 'Entrando…' : 'Entrar',
+      demoUser: isSup ? 'ana.supervisora' : 'pedro.ventas',
+
+      pw1: S.pw1, pw2: S.pw2,
+      pwRules: [
+        { text: 'Mínimo 10 caracteres', mark: pwLong ? '✓' : '·', color: pwLong ? C.WON_INK : 'var(--color-neutral-700)' },
+        { text: 'No puede contener tu nombre de usuario', mark: pwNoUser ? '✓' : '·', color: pwNoUser ? C.WON_INK : 'var(--color-neutral-700)' }
+      ],
+      pwMatchText: S.pw2 ? (pwMatch ? 'Las contraseñas coinciden.' : 'Las contraseñas no coinciden.') : '',
+      pwMatchColor: pwMatch ? C.WON_INK : 'var(--color-accent-2-800)',
+      pwDisabled: !(pwLong && pwNoUser && pwMatch) || S.saving,
+      pwBtnBg: pwLong && pwNoUser && pwMatch ? 'var(--color-accent)' : 'var(--color-neutral-400)',
+      pwBtnLabel: S.saving ? 'Guardando…' : 'Guardar y continuar',
+
+      nav, view: S.view,
+      viewBoard: S.view === 'board', viewOpps: S.view === 'opps', viewCustomer: S.view === 'customer',
+      viewTeam: S.view === 'team', viewAdmin: S.view === 'admin',
+      greeting: 'Buenos días, ' + me.full_name.split(' ')[0],
+      todayLong: 'Viernes, 04/09/2026',
+      isLoading, isError, skeletons: [1, 2, 3, 4, 5, 6],
+      boardReady: !isLoading && !isError,
+
+      overdueCount: emptyBoard ? 0 : overdueAll.length,
+      overdueRows: emptyBoard ? [] : overdueShown.map(b => rowOf(b, true)),
+      hasOverdue: !emptyBoard && overdueAll.length > 0,
+      noOverdue: emptyBoard || overdueAll.length === 0,
+      overdueMore: overdueAll.length > 8,
+      overdueMoreLabel: 'Ver las ' + overdueAll.length + ' atrasadas',
+      todayCount: emptyBoard ? 0 : todayAll.length,
+      todayRows: emptyBoard ? [] : todayAll.map(b => rowOf(b, false)),
+      hasToday: !emptyBoard && todayAll.length > 0,
+      noToday: emptyBoard || todayAll.length === 0,
+      monthFigures: [
+        { label: 'Cerrado', value: this.eur(emptyBoard ? 0 : closedAmount) },
+        { label: 'Meta', value: quota ? this.eur(quota) : '—' },
+        { label: 'Falta', value: quota ? this.eur(Math.max(0, quota - (emptyBoard ? 0 : closedAmount))) : '—' },
+        { label: 'Avance', value: quota ? this.pct(emptyBoard ? 0 : quotaPct) : '—' }
+      ],
+      hasQuota: !!quota, noQuota: !quota,
+      quotaWidth: Math.min(100, quotaPct || 0) + '%',
+      wonThisMonthText: (emptyBoard ? 0 : won.length) + ' oportunidades ganadas este mes',
+
+      fq: F.q, fstage: F.stage, fstatus: F.status, fseller: F.seller, fonly: F.onlyOverdue,
+      sellerOptions: sellers.map(p => ({ id: p.id, name: p.full_name })),
+      oppTableMin: isSup ? '1220px' : '1040px',
+      oppColumns, oppRows: isLoading || isError ? [] : oppRows,
+      oppsReady: !isLoading && !isError && oppRows.length > 0,
+      oppsFiltered: !isLoading && !isError && oppRows.length === 0,
+      resultCount: oppRows.length + (oppRows.length === 1 ? ' oportunidad' : ' oportunidades'),
+      activeFiltersText: 'Filtros puestos — ' + (filterNames.join(' · ') || 'ninguno'),
+      pageText: 'Mostrando ' + oppRows.length + ' de ' + oppRows.length + ' · 50 por página',
+
+      cust: {
+        name: cu.full_name, company: cu.company || '', archived: cu.is_archived,
+        editable: !cu.is_archived, readOnly: cu.is_archived,
+        fields: [
+          { label: 'Teléfono', value: this.fphone(cu.phone) },
+          { label: 'Canal', value: cu.source ? C.SOURCE[cu.source] : '—' },
+          { label: 'Cliente desde', value: this.fdate(cu.created_at) }
+        ].concat(isSup ? [{ label: 'Vendedor', value: this.seller(cu.owner_id) }] : []),
+        hasOpen: !!openOpp && !cu.is_archived,
+        canCreateOpp: !openOpp && !cu.is_archived,
+        canClose: !!openOpp && !cu.is_archived,
+        canWriteActivity: !!openOpp && !cu.is_archived,
+        canArchive: !cu.is_archived,
+        stages: stageOrder.map(k => {
+          const active = openOpp && openOpp.stage === k;
+          const locked = k === 'closed' || cu.is_archived;
+          return {
+            label: C.STAGE[k],
+            pick: () => { if (!locked && openOpp) this.set({ opps: S.opps.map(o => o.id === openOpp.id ? Object.assign({}, o, { stage: k }) : o) }); },
+            disabled: locked, cursor: locked ? 'default' : 'pointer',
+            bg: active ? 'var(--color-accent-100)' : 'transparent',
+            color: locked ? 'var(--color-neutral-500)' : active ? 'var(--color-accent-800)' : 'var(--color-neutral-800)',
+            rule: active ? 'var(--color-accent)' : 'var(--color-neutral-300)',
+            weight: active ? '600' : '400'
+          };
+        }),
+        estimated: openOpp ? this.eur(openOpp.estimated_amount).replace(' €', '') : '',
+        nextAction: openOpp ? this.toLocalInput(openOpp.next_action_at) : '',
+        overdue: !!(ob && ob.needs), overdueText: ob && ob.needs ? this.reason(ob) : '',
+        history, hasHistory: history.length > 0, noHistory: history.length === 0,
+        activities: custActs
+      },
+      actTypes, actNote: S.actNote, actNext: S.actNext,
+      actDisabled: !S.actNote.trim(), actBtnBg: S.actNote.trim() ? 'var(--color-accent)' : 'var(--color-neutral-400)',
+      actBtnLabel: 'Registrar',
+
+      team: {
+        figures: [
+          { label: 'Cerrado del equipo', value: this.eur(teamClosed), color: 'var(--color-text)' },
+          { label: 'Meta del equipo', value: this.eur(teamQuota), color: 'var(--color-text)' },
+          { label: 'Avance', value: this.pct(teamPct), color: 'var(--color-text)' },
+          { label: 'Atrasadas', value: String(teamOverdue), color: teamOverdue > 0 ? 'var(--color-accent-2-700)' : 'var(--color-text)' }
+        ],
+        columns: [
+          { label: 'Vendedor', align: 'left' }, { label: 'Cerrado', align: 'right' }, { label: 'Meta', align: 'right' },
+          { label: 'Avance', align: 'left' }, { label: 'Ganadas', align: 'right' }, { label: 'Atrasadas', align: 'right' }
+        ],
+        rows: teamRows.map((r, i) => Object.assign({}, r, { zebra: i % 2 ? 'var(--color-neutral-100)' : 'transparent' })),
+        losses, hasLosses: true, noLosses: false,
+        pct: this.pct(teamPct), pctWidth: Math.min(100, teamPct || 0) + '%',
+        closedShort: 'Cerrado ' + this.eur(teamClosed, false), quotaShort: this.eur(teamQuota, false),
+        hasOverdue: teamOverdue > 0,
+        overdueTitle: teamOverdue + ' oportunidades atrasadas',
+        overdueSub: 'en ' + sellersWithOverdue + ' vendedores'
+      },
+
+      adminTabs, tabUsers: S.adminTab === 'usuarios', tabQuotas: S.adminTab === 'cuotas', tabAudit: S.adminTab === 'auditoria',
+      userColumns: [
+        { label: 'Usuario', align: 'left' }, { label: 'Nombre', align: 'left' }, { label: 'Email', align: 'left' },
+        { label: 'Rol', align: 'left' }, { label: 'Estado', align: 'left' }, { label: 'Último acceso', align: 'left' }, { label: '', align: 'right' }
+      ],
+      users,
+      quotaMonth: S.quotaMonth, quotaYear: S.quotaYear,
+      monthOptions: monthNames.map((m, i) => ({ v: String(i + 1), label: m })),
+      quotaRows, quotaTotal: this.eur(quotaTotalNum),
+      saving: S.saving, saveQuotasLabel: S.saving ? 'Guardando…' : 'Guardar cambios',
+      auditFrom: S.auditFrom, auditTo: S.auditTo, auditEntity: S.auditEntity, auditActor: S.auditActor,
+      auditActors: S.profiles.map(p => ({ id: p.id, name: p.full_name })),
+      auditColumns: ['Fecha y hora', 'Quién', 'Qué hizo', 'Sobre qué', 'Detalle'],
+      auditRows, auditEmpty: auditRows.length === 0,
+
+      pwaNav, pwaSellers,
+      lastDigestText: S.lastDigest.ok ? 'Último envío: hoy a las ' + S.lastDigest.time + ' · ' + S.lastDigest.count + ' correos.' : 'Último envío: falló a las ' + S.lastDigest.time + '.',
+      digestToast: S.digestToast, sheetOpen: !!S.sheet, sheet,
+      detail: dRow ? {
+        name: dRow.name,
+        figures: [
+          { label: 'Cerrado', value: dRow.closed }, { label: 'Meta', value: dRow.quota },
+          { label: 'Avance', value: dRow.pct }, { label: 'Ganadas', value: String(dRow.won) }
+        ],
+        overdueTitle: dRow.overdue + ' oportunidades atrasadas',
+        list: dList, hasList: dList.length > 0, noList: dList.length === 0
+      } : { name: '', figures: [], overdueTitle: '', list: [], hasList: false, noList: true },
+
+      modalOpen: !!S.modal, modal, toast: S.toast, protoSwitch: proto, monthLabel
+    };
+  }
+}
+
+</script>
+</body>
+</html>

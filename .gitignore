@@ -1,0 +1,20 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Variables de entorno. NINGUNA clave se versiona jamás.
+.env
+.env.*
+!.env.example
+
+.vercel
+.DS_Store
+*.log
+npm-debug.log*
+coverage/
+
+# Lo genera Next en cada arranque
+next-env.d.ts
