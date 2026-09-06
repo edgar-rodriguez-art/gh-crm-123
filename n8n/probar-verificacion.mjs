@@ -242,5 +242,41 @@ for (const [nombre, entorno] of Object.entries(ENTORNOS)) {
   );
 }
 
+
+/* ────────────────────────────────────────────────────────────────────
+ * APP_BASE_URL con una ruta pegada
+ *
+ * En producción la variable llevaba `/login` porque se copió de la barra del
+ * navegador. La llamada acabó en `/login/api/n8n/digest-payload` y la
+ * aplicación respondió 404, un error que no se parece a su causa.
+ * ──────────────────────────────────────────────────────────────────── */
+console.log('\n— APP_BASE_URL: se queda con el origen —\n');
+
+for (const [entrada, esperada] of [
+  ['https://gh-crm-123-web.vercel.app', 'https://gh-crm-123-web.vercel.app'],
+  ['https://gh-crm-123-web.vercel.app/', 'https://gh-crm-123-web.vercel.app'],
+  ['https://gh-crm-123-web.vercel.app/login', 'https://gh-crm-123-web.vercel.app'],
+  ['https://gh-crm-123-web.vercel.app/tablero?x=1#y', 'https://gh-crm-123-web.vercel.app'],
+  ['  https://gh-crm-123-web.vercel.app/login  ', 'https://gh-crm-123-web.vercel.app'],
+]) {
+  const salida = await ejecutar(firmarCode, {
+    vars: { N8N_SHARED_SECRET: SECRETO, APP_BASE_URL: entrada },
+    item: { json: { run_id: 'r-1', flow: 'morning_digest', trigger: 'manual' } },
+    estado: {},
+  });
+  const url = salida[0].json.url;
+  const bien = url.startsWith(esperada + '/api/n8n/digest-payload');
+  if (!bien) fallos++;
+  console.log(`${bien ? '  ok  ' : ' FALLA'} · ${entrada.trim().padEnd(46)} → ${url.slice(0, 62)}`);
+}
+
+await caso('APP_BASE_URL sin sentido se rechaza', 'rechaza', () =>
+  ejecutar(firmarCode, {
+    vars: { N8N_SHARED_SECRET: SECRETO, APP_BASE_URL: 'no-es-una-url' },
+    item: { json: { run_id: 'r-1', flow: 'morning_digest', trigger: 'manual' } },
+    estado: {},
+  }),
+);
+
 console.log(`\n${fallos === 0 ? 'TODO PASA' : fallos + ' FALLOS'}\n`);
 process.exit(fallos === 0 ? 0 : 1);
