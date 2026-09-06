@@ -15,6 +15,7 @@
     "./audit": "./src/audit.ts",
     "./format": "./src/format.ts",
     "./labels": "./src/labels.ts",
+    "./phone": "./src/phone.ts",
     "./password": "./src/password.ts",
     "./rate-limit": "./src/rate-limit.ts",
     "./http": "./src/http.ts",

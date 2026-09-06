@@ -40,12 +40,18 @@ type Asiento = {
 };
 
 /**
- * Deja un asiento. `actor_id` lo pone la base con `auth.uid()` por defecto,
- * así que se escribe con el cliente de sesión, no con la clave de servicio.
+ * Deja un asiento, con el cliente de SESIÓN (nunca con la clave de servicio):
+ * así el actor es siempre quien de verdad hizo la acción.
  *
- * No lanza: una auditoría que falla no debe tumbar la operación que auditaba.
- * Se registra en el servidor y se sigue.  El detalle NUNCA lleva el teléfono
- * completo, ni el email, ni la contraseña (TECHNICAL_SPEC §4 R12).
+ * ⚠ `actor_id` se escribe EXPLÍCITAMENTE. La columna no tiene valor por
+ * defecto y la política `audit_log_insert_self` exige
+ * `actor_id = auth.uid()`, así que omitirlo deja la columna nula y RLS
+ * rechaza la fila. Como esta función no lanza, ese rechazo sería invisible:
+ * la auditoría quedaría vacía sin que nadie se enterara hasta necesitarla.
+ *
+ * No lanza a propósito: una auditoría que falla no debe tumbar la operación
+ * que auditaba. Se registra en el servidor y se sigue. El detalle NUNCA lleva
+ * el teléfono completo, ni el email, ni la contraseña (TECHNICAL_SPEC §4 R12).
  */
 export async function auditar({
   action,
@@ -55,7 +61,18 @@ export async function auditar({
 }: Asiento): Promise<void> {
   try {
     const supabase = createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.error(`[CRM-123] No se pudo auditar ${action}: no hay sesión.`);
+      return;
+    }
+
     const { error } = await supabase.from('audit_log').insert({
+      actor_id: user.id,
       action,
       entity_type: entityType,
       entity_id: entityId,
