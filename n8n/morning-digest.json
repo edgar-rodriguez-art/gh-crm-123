@@ -1,0 +1,221 @@
+{
+  "name": "CRM-123 · Resumen matutino",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 7 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Cron 07:30 L-V",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-560, -120],
+      "notes": "07:30, lunes a viernes, Europe/Madrid. La zona sale de settings.timezone del flujo, no del servidor."
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "crm123-morning-digest",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Webhook manual",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-560, 120],
+      "webhookId": "crm123-morning-digest",
+      "notes": "Lo llama la aplicación cuando el supervisor pulsa el botón en la PWA. Copia la Production URL de este nodo en N8N_WEBHOOK_MORNING_DIGEST_URL."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Preparar contexto\n//\n// Unifica los dos disparadores en una sola forma. La diferencia:\n//\n//   · Manual  → la aplicación YA creó la fila de automation_runs y manda su\n//               run_id. Ese run_id es el cerrojo del límite de 10 minutos.\n//   · Cron    → no hay nadie que la haya creado, así que se genera aquí un\n//               run_id y el endpoint digest-payload crea la fila si no existe\n//               (TECHNICAL_SPEC §9).\n\nconst entrada = $input.first()?.json ?? {};\nconst cuerpo = entrada.body ?? entrada;\n\nconst esManual = typeof cuerpo.run_id === 'string' && cuerpo.run_id.length > 0;\n\nreturn [{\n  json: {\n    run_id: esManual ? cuerpo.run_id : crypto.randomUUID(),\n    flow: 'morning_digest',\n    trigger: esManual ? 'manual' : 'scheduled',\n  },\n}];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "Preparar contexto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-320, 0]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Firmar la petición de datos\n//\n// Cadena que se firma:  `${timestamp}.${nonce}.${cuerpoCrudo}`\n// Para el GET de digest-payload el cuerpo es la CADENA VACÍA\n// (TECHNICAL_SPEC §8, «Contratos de los endpoints de n8n»).\n//\n// Se usa Web Crypto (crypto.subtle), que existe como global en Node 18+ y\n// funciona en n8n Cloud sin habilitar módulos extra.\n\nconst secreto = $vars.N8N_SHARED_SECRET;\nconst base    = $vars.APP_BASE_URL;\n\nif (!secreto) throw new Error('Falta la variable N8N_SHARED_SECRET en n8n (Settings → Variables).');\nif (!base)    throw new Error('Falta la variable APP_BASE_URL en n8n (Settings → Variables).');\n\nconst { run_id, flow, trigger } = $input.first().json;\n\nconst timestamp = String(Math.floor(Date.now() / 1000));\nconst nonce     = crypto.randomUUID();\nconst cuerpo    = '';\n\nconst codificador = new TextEncoder();\nconst clave = await crypto.subtle.importKey(\n  'raw',\n  codificador.encode(secreto),\n  { name: 'HMAC', hash: 'SHA-256' },\n  false,\n  ['sign'],\n);\nconst firma = await crypto.subtle.sign(\n  'HMAC',\n  clave,\n  codificador.encode(`${timestamp}.${nonce}.${cuerpo}`),\n);\nconst hex = [...new Uint8Array(firma)].map((b) => b.toString(16).padStart(2, '0')).join('');\n\nreturn [{\n  json: {\n    run_id,\n    flow,\n    trigger,\n    url: `${base.replace(/\\/$/, '')}/api/n8n/digest-payload?run_id=${encodeURIComponent(run_id)}&trigger=${encodeURIComponent(trigger)}`,\n    timestamp,\n    nonce,\n    signature: `sha256=${hex}`,\n  },\n}];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "Firmar petición de datos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-100, 0]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-crm123-timestamp", "value": "={{ $json.timestamp }}" },
+            { "name": "x-crm123-nonce", "value": "={{ $json.nonce }}" },
+            { "name": "x-crm123-signature", "value": "={{ $json.signature }}" }
+          ]
+        },
+        "options": { "timeout": 30000 }
+      },
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Pedir datos del resumen",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [120, 0],
+      "onError": "continueErrorOutput",
+      "notes": "GET /api/n8n/digest-payload. Si la firma no cuadra, la aplicación responde 401 y este nodo sale por su salida de error, que informa del fallo."
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "recipients",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "Separar destinatarios",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [360, -100],
+      "notes": "Un elemento por vendedor activo. Cada correo lleva SOLO los datos de su destinatario."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Componer el correo de un vendedor.  TECHNICAL_SPEC §9.\n//\n// Sin datos de otros vendedores. Sin el teléfono completo del cliente.\n// Texto y listas, sin gráficos.\n\nconst v = $json;\n\nconst eur = (n) =>\n  new Intl.NumberFormat('es-ES', {\n    style: 'currency', currency: 'EUR',\n    minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always',\n  }).format(Number(n ?? 0));\n\nconst pct = (n) =>\n  n === null || n === undefined\n    ? '—'\n    : `${new Intl.NumberFormat('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(Number(n))} %`;\n\nconst hora = (iso) =>\n  new Intl.DateTimeFormat('es-ES', {\n    timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', hour12: false,\n  }).format(new Date(iso));\n\nconst fechaLarga = new Intl.DateTimeFormat('es-ES', {\n  timeZone: 'Europe/Madrid', weekday: 'long', day: 'numeric', month: 'long',\n}).format(new Date());\n\nconst lineas = [];\nlineas.push(`Hola, ${v.full_name}.`);\nlineas.push('');\n\n// 1 · Atrasadas\nlineas.push('ATRASADAS');\nif (!v.needs_attention || v.needs_attention.length === 0) {\n  lineas.push('Nada atrasado. Buen trabajo.');\n} else {\n  for (const o of v.needs_attention) {\n    const motivo = o.is_overdue\n      ? 'acción vencida'\n      : `${o.days_without_activity} ${o.days_without_activity === 1 ? 'día' : 'días'} sin actividad`;\n    lineas.push(\n      `· ${o.customer_name}${o.customer_company ? ` (${o.customer_company})` : ''} — ` +\n      `${o.stage} — ${eur(o.estimated_amount)} — ${motivo}`,\n    );\n  }\n}\nlineas.push('');\n\n// 2 · Para hoy\nlineas.push('PARA HOY');\nif (!v.due_today || v.due_today.length === 0) {\n  lineas.push('No tienes acciones agendadas para hoy.');\n} else {\n  for (const o of v.due_today) {\n    lineas.push(`· ${hora(o.next_action_at)} — ${o.customer_name} — ${o.stage} — ${eur(o.estimated_amount)}`);\n  }\n}\nlineas.push('');\n\n// 3 · Tu mes\nconst m = v.month ?? {};\nlineas.push('TU MES');\nif (m.quota_amount) {\n  lineas.push(`Cerrado: ${eur(m.closed_amount)} de ${eur(m.quota_amount)} — ${pct(m.quota_percent)}`);\n  lineas.push(`Te faltan ${eur(m.remaining_amount)}.`);\n} else {\n  lineas.push(`Cerrado: ${eur(m.closed_amount)}. Tu supervisor aún no ha fijado tu meta de este mes.`);\n}\nlineas.push('');\nlineas.push('Importes sin IVA.');\nlineas.push('');\nlineas.push($('Firmar petición de datos').first().json.url.split('/api/')[0]);\n\nreturn {\n  json: {\n    profile_id: v.profile_id,\n    to: v.email,\n    subject: `CRM-123 · Tu resumen del ${fechaLarga}`,\n    text: lineas.join('\\n'),\n  },\n};"
+      },
+      "id": "a1000000-0000-4000-8000-000000000007",
+      "name": "Componer correo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [580, -100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: $vars.RESEND_FROM, to: [$json.to], subject: $json.subject, text: $json.text }) }}",
+        "options": { "timeout": 30000 }
+      },
+      "id": "a1000000-0000-4000-8000-000000000008",
+      "name": "Resend · enviar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [800, -100],
+      "onError": "continueRegularOutput",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REEMPLAZAR",
+          "name": "Resend CRM-123"
+        }
+      },
+      "notes": "Credencial Header Auth: Name = Authorization, Value = Bearer <RESEND_API_KEY>. La clave de Resend vive SOLO en n8n. Si un correo falla, el flujo continúa y el fallo se cuenta al final."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Contar y firmar el resultado.\n//\n// Se cuentan los envíos que Resend aceptó (respuesta con `id`). Los que\n// fallaron no se cuentan, pero tampoco tumban el flujo: el nodo de envío\n// continúa ante el error para que un correo malo no deje a los otros nueve\n// sin resumen.\n\nconst secreto = $vars.N8N_SHARED_SECRET;\nconst base    = $vars.APP_BASE_URL;\n\nconst { run_id } = $('Preparar contexto').first().json;\n\nconst items = $input.all();\nconst enviados = items.filter((i) => i.json && i.json.id).length;\nconst fallidos = items.length - enviados;\n\nconst cuerpoObjeto = {\n  run_id,\n  status: enviados > 0 || items.length === 0 ? 'success' : 'failed',\n  emails_sent: enviados,\n};\nif (fallidos > 0) {\n  cuerpoObjeto.error_message = `${fallidos} de ${items.length} correos no se pudieron enviar.`;\n}\n\n// El cuerpo se firma como CADENA EXACTA y se envía esa misma cadena. Si se\n// volviera a serializar por el camino, el orden de las claves o el espaciado\n// cambiarían y la firma no cuadraría (TECHNICAL_SPEC §8).\nconst cuerpo = JSON.stringify(cuerpoObjeto);\n\nconst timestamp = String(Math.floor(Date.now() / 1000));\nconst nonce     = crypto.randomUUID();\n\nconst codificador = new TextEncoder();\nconst clave = await crypto.subtle.importKey(\n  'raw', codificador.encode(secreto),\n  { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],\n);\nconst firma = await crypto.subtle.sign(\n  'HMAC', clave, codificador.encode(`${timestamp}.${nonce}.${cuerpo}`),\n);\nconst hex = [...new Uint8Array(firma)].map((b) => b.toString(16).padStart(2, '0')).join('');\n\nreturn [{\n  json: {\n    url: `${base.replace(/\\/$/, '')}/api/n8n/digest-result`,\n    cuerpo,\n    timestamp,\n    nonce,\n    signature: `sha256=${hex}`,\n  },\n}];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000009",
+      "name": "Contar y firmar resultado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1020, -100]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Informar de un fallo temprano.\n//\n// Se llega aquí si la petición de datos falló: firma inválida, aplicación\n// caída, red. Sin este camino, la fila de automation_runs se quedaría en\n// «running» para siempre y el límite de 10 minutos bloquearía los reintentos\n// sin que nadie supiera por qué.\n\nconst secreto = $vars.N8N_SHARED_SECRET;\nconst base    = $vars.APP_BASE_URL;\n\nconst { run_id } = $('Preparar contexto').first().json;\n\nconst cuerpo = JSON.stringify({\n  run_id,\n  status: 'failed',\n  emails_sent: 0,\n  error_message: 'No se pudieron obtener los datos del resumen.',\n});\n\nconst timestamp = String(Math.floor(Date.now() / 1000));\nconst nonce     = crypto.randomUUID();\n\nconst codificador = new TextEncoder();\nconst clave = await crypto.subtle.importKey(\n  'raw', codificador.encode(secreto),\n  { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'],\n);\nconst firma = await crypto.subtle.sign(\n  'HMAC', clave, codificador.encode(`${timestamp}.${nonce}.${cuerpo}`),\n);\nconst hex = [...new Uint8Array(firma)].map((b) => b.toString(16).padStart(2, '0')).join('');\n\nreturn [{\n  json: {\n    url: `${base.replace(/\\/$/, '')}/api/n8n/digest-result`,\n    cuerpo,\n    timestamp,\n    nonce,\n    signature: `sha256=${hex}`,\n  },\n}];"
+      },
+      "id": "a1000000-0000-4000-8000-00000000000a",
+      "name": "Firmar fallo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [360, 160]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-crm123-timestamp", "value": "={{ $json.timestamp }}" },
+            { "name": "x-crm123-nonce", "value": "={{ $json.nonce }}" },
+            { "name": "x-crm123-signature", "value": "={{ $json.signature }}" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.cuerpo }}",
+        "options": { "timeout": 30000 }
+      },
+      "id": "a1000000-0000-4000-8000-00000000000b",
+      "name": "Devolver resultado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1240, 0],
+      "notes": "POST /api/n8n/digest-result. Se manda el cuerpo CRUDO, la misma cadena que se firmó: si n8n lo volviera a serializar, la firma no cuadraría."
+    }
+  ],
+  "connections": {
+    "Cron 07:30 L-V": {
+      "main": [[{ "node": "Preparar contexto", "type": "main", "index": 0 }]]
+    },
+    "Webhook manual": {
+      "main": [[{ "node": "Preparar contexto", "type": "main", "index": 0 }]]
+    },
+    "Preparar contexto": {
+      "main": [[{ "node": "Firmar petición de datos", "type": "main", "index": 0 }]]
+    },
+    "Firmar petición de datos": {
+      "main": [[{ "node": "Pedir datos del resumen", "type": "main", "index": 0 }]]
+    },
+    "Pedir datos del resumen": {
+      "main": [
+        [{ "node": "Separar destinatarios", "type": "main", "index": 0 }],
+        [{ "node": "Firmar fallo", "type": "main", "index": 0 }]
+      ]
+    },
+    "Separar destinatarios": {
+      "main": [[{ "node": "Componer correo", "type": "main", "index": 0 }]]
+    },
+    "Componer correo": {
+      "main": [[{ "node": "Resend · enviar", "type": "main", "index": 0 }]]
+    },
+    "Resend · enviar": {
+      "main": [[{ "node": "Contar y firmar resultado", "type": "main", "index": 0 }]]
+    },
+    "Contar y firmar resultado": {
+      "main": [[{ "node": "Devolver resultado", "type": "main", "index": 0 }]]
+    },
+    "Firmar fallo": {
+      "main": [[{ "node": "Devolver resultado", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "timezone": "Europe/Madrid",
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "crm-123"
+  },
+  "tags": []
+}

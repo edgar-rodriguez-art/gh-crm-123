@@ -26,7 +26,7 @@ import { z } from 'zod';
  * aplicación — ahí sí, el proceso no levanta si falta algo.
  */
 
-const HITO_ACTUAL = 2;
+const HITO_ACTUAL = 4;
 
 const secretoN8n = z
   .string()
@@ -121,8 +121,8 @@ export function env(): Env {
 
     throw new Error(
       `CRM-123 no puede arrancar: faltan variables de entorno o su valor no es válido.\n${detalle}\n\n` +
-        'Ponlas en Vercel → Settings → Environment Variables (Production, Preview y Development) ' +
-        'y vuelve a desplegar. Las variables no se aplican al despliegue anterior.',
+        'Ponlas en Vercel → Settings → Environment Variables, en CADA UNO de los dos ' +
+        'proyectos, y vuelve a desplegar. Las variables no se aplican al despliegue anterior.',
     );
   }
 

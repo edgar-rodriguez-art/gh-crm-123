@@ -15,7 +15,10 @@
  * sin cobertura salga un aviso propio en lugar del error del navegador.
  */
 
-const CACHE = 'crm123-shell-v1';
+// Al subir el número, `activate` borra todas las cachés anteriores. Se sube a
+// v2 en el Hito 4 a propósito: la v1 podía haber guardado cargas `_rsc` con
+// datos del CRM, y este cambio las tira en el primer arranque.
+const CACHE = 'crm123-shell-v2';
 
 const ARMAZON = ['/sin-conexion.html', '/icons/icon-192.png', '/icons/icon-512.png'];
 
@@ -50,6 +53,24 @@ self.addEventListener('fetch', (evento) => {
     evento.respondWith(fetch(peticion).catch(() => caches.match('/sin-conexion.html')));
     return;
   }
+
+  // ── Lista blanca de lo cacheable ────────────────────────────────────
+  // Solo se guarda en disco lo que es idéntico para cualquiera: los estáticos
+  // que Next publica con huella en el nombre, los iconos, el manifiesto y el
+  // aviso de sin conexión.
+  //
+  // Sin esta lista se colaría lo peor: Next pide sus propias cargas de datos
+  // como `/panel?_rsc=…`, que no son navegaciones ni empiezan por `/api/`,
+  // pero traen los nombres de los clientes y las cifras del equipo. Guardarlas
+  // dejaría datos del CRM en el disco de un móvil que puede ser compartido.
+  const ruta = new URL(peticion.url).pathname;
+  const cacheable =
+    ruta.startsWith('/_next/static/') ||
+    ruta.startsWith('/icons/') ||
+    ruta === '/manifest.webmanifest' ||
+    ruta === '/sin-conexion.html';
+
+  if (!cacheable) return;
 
   // Estáticos del armazón: se sirve lo cacheado y se revalida por detrás.
   evento.respondWith(

@@ -90,3 +90,42 @@ export const esquemaCambioContrasena = z.object({
   password: z.string().min(LONGITUD_MINIMA),
   confirmacion: z.string().min(LONGITUD_MINIMA),
 });
+
+/**
+ * Genera una contraseña inicial, en el SERVIDOR.
+ *
+ * Forma `Xxxx-tela-9RM`: tres bloques legibles en voz alta, porque el
+ * supervisor va a tener que dictársela a alguien en persona
+ * (TECHNICAL_SPEC §6). Cumple los diez caracteres mínimos con holgura.
+ *
+ * Usa `crypto.getRandomValues`, no `Math.random`: una contraseña predecible
+ * no es una contraseña. Web Crypto es global en Node 18+ y en el navegador,
+ * así que este módulo sigue sirviendo para los dos lados.
+ *
+ * Se excluyen los caracteres que se confunden al dictar: I, l, 1, O, 0.
+ */
+const CONSONANTES = 'bcdfgjkmnpqrstvwxz';
+const VOCALES = 'aeiuy';
+const MAYUSCULAS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+const DIGITOS = '23456789';
+
+function elegir(alfabeto: string, n: number): string {
+  const bytes = new Uint32Array(n);
+  globalThis.crypto.getRandomValues(bytes);
+  let salida = '';
+  for (let i = 0; i < n; i++) salida += alfabeto[bytes[i]! % alfabeto.length];
+  return salida;
+}
+
+function silabas(pares: number): string {
+  let salida = '';
+  for (let i = 0; i < pares; i++) salida += elegir(CONSONANTES, 1) + elegir(VOCALES, 1);
+  return salida;
+}
+
+export function generarContrasena(): string {
+  const bloque1 = elegir(MAYUSCULAS, 1) + silabas(2);
+  const bloque2 = silabas(2);
+  const bloque3 = elegir(DIGITOS, 1) + elegir(MAYUSCULAS, 2);
+  return `${bloque1}-${bloque2}-${bloque3}`;
+}

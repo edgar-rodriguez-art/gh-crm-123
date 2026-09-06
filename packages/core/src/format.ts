@@ -115,6 +115,32 @@ export function fphone(p: string | null | undefined): string {
   return m ? `+34 ${m[1]} ${m[2]} ${m[3]}` : p;
 }
 
+/**
+ * Desfase de Madrid respecto a UTC, en milisegundos, para un instante dado.
+ * Varía con el horario de verano (+1 h en invierno, +2 h en verano), así que
+ * no se puede fijar como constante.
+ */
+function desfaseMadridMs(instante: Date): number {
+  const enMadrid = new Date(instante.toLocaleString('en-US', { timeZone: ZONA }));
+  const enUtc = new Date(instante.toLocaleString('en-US', { timeZone: 'UTC' }));
+  return enMadrid.getTime() - enUtc.getTime();
+}
+
+/**
+ * `aaaa-mm-dd` → el instante UTC en que empieza ese día EN MADRID.
+ *
+ * Filtrar por fecha con `T00:00:00Z` a secas desplaza el corte una o dos
+ * horas: «desde el 5» se comería las primeras horas del día 5, y «hasta el 5»
+ * dejaría fuera su última hora. Con `fin = true` devuelve el último
+ * milisegundo del día, para que el rango incluya ambos extremos.
+ */
+export function limiteDiaMadrid(fecha: string, fin = false): string {
+  const supuesto = Date.parse(`${fecha}T${fin ? '23:59:59.999' : '00:00:00.000'}Z`);
+  if (Number.isNaN(supuesto)) return new Date(fin ? 8.64e15 : 0).toISOString();
+  const desfase = desfaseMadridMs(new Date(supuesto));
+  return new Date(supuesto - desfase).toISOString();
+}
+
 /** `Buenos días` · `Buenas tardes` · `Buenas noches`, en hora de Madrid. */
 export function saludo(ahora: Date = new Date()): string {
   const h = Number(partes(ahora).hour ?? '0');

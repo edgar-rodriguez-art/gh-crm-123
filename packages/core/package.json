@@ -19,6 +19,7 @@
     "./password": "./src/password.ts",
     "./rate-limit": "./src/rate-limit.ts",
     "./http": "./src/http.ts",
+    "./hmac": "./src/hmac.ts",
     "./diagnostico": "./src/diagnostico.ts",
     "./styles/tokens.css": "./styles/tokens.css"
   },
