@@ -66,7 +66,35 @@ const urlDeProyecto = z
     },
   );
 
-const base = {
+/**
+ * ── Dos esquemas, y el motivo es una avería real ──────────────────────
+ *
+ * Al principio esto era UN esquema con todo dentro, y en el Hito 4 las dos
+ * variables de n8n pasaban a ser obligatorias. El resultado, en producción:
+ * `createClient()` llama a `env()` en CADA petición, así que faltar la URL de
+ * un webhook —que no interviene en nada de lo que hace un vendedor— tiraba el
+ * CRM entero con un «Application error» y un número de digest. Diez personas
+ * sin poder trabajar porque el envío de correos de las 07:30 aún no estaba
+ * cableado.
+ *
+ * Y no era un descuido de despliegue evitable: el propio BUILD_PLAN §4.5 manda
+ * subir el código (paso 1) ANTES de poder conocer la URL del webhook (paso 5),
+ * porque esa URL solo existe una vez importado el flujo. La ventana rota
+ * estaba garantizada.
+ *
+ * Así que se separan:
+ *
+ *   · `env()`               lo que el CRM necesita para funcionar. Si falta
+ *                           algo de aquí, no hay CRM y fallar es lo correcto.
+ *   · `envAutomatizacion()` lo que SOLO necesita el resumen matutino. Si falta,
+ *                           el botón de envío avisa y el resto sigue en pie.
+ *
+ * Esto se aparta de la lectura literal de BUILD_PLAN §2.1 («en el Hito 4 pasan
+ * a ser obligatorias»). Se mantiene el fondo —siguen siendo obligatorias para
+ * que el resumen funcione, y se avisa a voces en el registro— pero no se
+ * acepta que la configuración de una automatización pueda apagar el CRM.
+ */
+const schema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: urlDeProyecto,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(20),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(20),
@@ -74,22 +102,15 @@ const base = {
   APP_LOCALE: z.literal('es-ES'),
   APP_CURRENCY: z.literal('EUR'),
   APP_BASE_URL: z.string().url().optional(),
-};
+});
 
-const schema =
-  HITO_ACTUAL >= 4
-    ? z.object({
-        ...base,
-        N8N_SHARED_SECRET: secretoN8n,
-        N8N_WEBHOOK_MORNING_DIGEST_URL: z.string().url(),
-      })
-    : z.object({
-        ...base,
-        N8N_SHARED_SECRET: secretoN8n.optional(),
-        N8N_WEBHOOK_MORNING_DIGEST_URL: z.string().url().optional(),
-      });
+const schemaAutomatizacion = z.object({
+  N8N_SHARED_SECRET: secretoN8n,
+  N8N_WEBHOOK_MORNING_DIGEST_URL: z.string().url(),
+});
 
 export type Env = z.infer<typeof schema> & { APP_BASE_URL: string };
+export type EnvAutomatizacion = z.infer<typeof schemaAutomatizacion>;
 
 /** Dónde se obtiene cada valor. Se imprime cuando falta alguno. */
 const DONDE: Record<string, string> = {
@@ -136,13 +157,43 @@ export function env(): Env {
   return cache;
 }
 
+/**
+ * Las variables del resumen matutino, o `null` si no están listas.
+ *
+ * Devuelve `null` en vez de lanzar a propósito: los tres sitios que la usan
+ * —el disparo, `digest-payload` y `digest-result`— ya saben responder a eso
+ * con un mensaje escrito para una persona. Ninguno de ellos se ejecuta
+ * mientras alguien mira una lista de clientes.
+ */
+export function envAutomatizacion(): EnvAutomatizacion | null {
+  const parsed = schemaAutomatizacion.safeParse(process.env);
+  if (parsed.success) return parsed.data;
+
+  const detalle = parsed.error.issues
+    .map((i) => `${String(i.path[0] ?? '(desconocida)')}: ${i.message}`)
+    .join(' · ');
+  console.warn(`[CRM-123] El resumen matutino no está configurado. ${detalle}`);
+  return null;
+}
+
 /** Llamado desde `instrumentation.ts`: el proceso no levanta si falta algo. */
 export function assertEnv(): void {
   env();
-  if (HITO_ACTUAL < 4 && !process.env.APP_BASE_URL) {
+
+  if (!process.env.APP_BASE_URL) {
     console.warn(
       '[CRM-123] APP_BASE_URL no está configurada. Se usa la URL que asigna Vercel. ' +
         'Ponla en Vercel con la URL real del despliegue y vuelve a desplegar (BUILD_PLAN §2.4).',
+    );
+  }
+
+  // A partir del Hito 4 la falta de estas dos NO impide arrancar, pero se
+  // avisa en cada arranque: el resumen de las 07:30 no saldrá hasta ponerlas.
+  if (HITO_ACTUAL >= 4 && !envAutomatizacion()) {
+    console.warn(
+      '[CRM-123] El CRM funciona, pero el resumen matutino NO se enviará. ' +
+        'Faltan N8N_SHARED_SECRET y/o N8N_WEBHOOK_MORNING_DIGEST_URL en Vercel ' +
+        '(BUILD_PLAN §4.2 y §4.3).',
     );
   }
 }

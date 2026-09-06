@@ -1,7 +1,7 @@
 import { createClient } from '@crm123/core/supabase/server';
 import { createAdminClient } from '@crm123/core/supabase/admin';
 import { cabecerasFirmadas } from '@crm123/core/hmac';
-import { env } from '@crm123/core/env';
+import { envAutomatizacion } from '@crm123/core/env';
 import { auditar } from '@crm123/core/audit';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 import { ftime } from '@crm123/core/format';
@@ -47,7 +47,20 @@ export async function POST() {
     }
 
     const admin = createAdminClient();
-    const configuracion = env();
+
+    // n8n sin configurar se comprueba ANTES de tocar `automation_runs`: si se
+    // insertara la fila primero, un fallo de configuración arrancaría el
+    // enfriamiento de diez minutos y el supervisor no podría ni reintentar
+    // después de arreglarlo.
+    const configuracion = envAutomatizacion();
+    if (!configuracion) {
+      registrarFallo('trigger', 'n8n no está configurado (faltan las variables del Hito 4)');
+      return jsonError(
+        503,
+        'automation_not_configured',
+        'El envío del resumen todavía no está configurado. Avisa a quien administra el sistema.',
+      );
+    }
 
     // ── Capa 2 · Un disparo cada 10 minutos ───────────────────────────
     // El minuto exacto sale de `settings.morning_digest`, no de una constante
@@ -126,14 +139,8 @@ export async function POST() {
       trigger: 'manual',
     });
 
-    const urlWebhook = configuracion.N8N_WEBHOOK_MORNING_DIGEST_URL;
-    if (!urlWebhook || !configuracion.N8N_SHARED_SECRET) {
-      await cerrarConFallo(admin, ejecucion.id, 'n8n no está configurado.');
-      return jsonError(500, 'internal_error', 'Algo ha fallado. Vuelve a intentarlo.');
-    }
-
     try {
-      const respuesta = await fetch(urlWebhook, {
+      const respuesta = await fetch(configuracion.N8N_WEBHOOK_MORNING_DIGEST_URL, {
         method: 'POST',
         headers: cabecerasFirmadas(cuerpo, configuracion.N8N_SHARED_SECRET),
         body: cuerpo,

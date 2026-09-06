@@ -1,6 +1,6 @@
 import { createAdminClient } from '@crm123/core/supabase/admin';
 import { verificar } from '@crm123/core/hmac';
-import { env } from '@crm123/core/env';
+import { envAutomatizacion } from '@crm123/core/env';
 import { ETAPA } from '@crm123/core/labels';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 
@@ -23,8 +23,8 @@ export const dynamic = 'force-dynamic';
  * comunicar (TECHNICAL_SPEC §8).
  */
 export async function GET(request: Request) {
-  const configuracion = env();
-  const secreto = configuracion.N8N_SHARED_SECRET;
+  const configuracion = envAutomatizacion();
+  const secreto = configuracion?.N8N_SHARED_SECRET;
 
   if (!secreto) {
     registrarFallo('digest-payload', 'N8N_SHARED_SECRET no está configurado');

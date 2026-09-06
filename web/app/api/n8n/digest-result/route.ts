@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createAdminClient } from '@crm123/core/supabase/admin';
 import { verificar } from '@crm123/core/hmac';
-import { env } from '@crm123/core/env';
+import { envAutomatizacion } from '@crm123/core/env';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 
 // `node:crypto` no existe en el entorno de borde (CLAUDE.md §8).
@@ -28,8 +28,8 @@ const esquema = z.object({
 });
 
 export async function POST(request: Request) {
-  const configuracion = env();
-  const secreto = configuracion.N8N_SHARED_SECRET;
+  const configuracion = envAutomatizacion();
+  const secreto = configuracion?.N8N_SHARED_SECRET;
 
   if (!secreto) {
     registrarFallo('digest-result', 'N8N_SHARED_SECRET no está configurado');

@@ -53,6 +53,7 @@ export function EnvioResumen({
     'cerrada' | 'confirmar' | 'enviando' | 'largo' | 'hecho' | 'fallo'
   >('cerrada');
   const [limite, setLimite] = React.useState<{ minutos: number; hora: string } | null>(null);
+  const [sinConfigurar, setSinConfigurar] = React.useState<string | null>(null);
   const [resultado, setResultado] = React.useState<Ejecucion | null>(null);
 
   const temporizador = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -88,6 +89,7 @@ export function EnvioResumen({
       return;
     }
     setLimite(null);
+    setSinConfigurar(null);
     setEstado('confirmar');
   }
 
@@ -111,6 +113,14 @@ export function EnvioResumen({
           hora: String(r.extra.retry_at ?? ''),
         });
         router.refresh();
+        return;
+      }
+      if (r.error === 'automation_not_configured') {
+        // No es un fallo del envío: es que todavía no hay a dónde enviar.
+        // Decir «vuelve a intentarlo en unos minutos» sería mentir, porque
+        // esperar no lo arregla.
+        setEstado('cerrada');
+        setSinConfigurar(r.message);
         return;
       }
       setEstado('fallo');
@@ -181,6 +191,16 @@ export function EnvioResumen({
               {limite.minutos === 1 ? 'minuto' : 'minutos'}.
             </strong>{' '}
             {limite.hora ? `Podrás volver a enviarlo a las ${limite.hora}.` : null}
+          </p>
+        ) : null}
+
+        {sinConfigurar ? (
+          <p
+            role="status"
+            className="mb-s2 rounded border border-neutro-300 bg-neutro-100 px-s3 py-s2
+                       text-secundario text-tinta"
+          >
+            {sinConfigurar}
           </p>
         ) : null}
 
