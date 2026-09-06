@@ -4,10 +4,31 @@
  */
 import fs from 'node:fs';
 import nodeCrypto from 'node:crypto';
+import { createRequire } from 'node:module';
 
 const flujo = JSON.parse(fs.readFileSync(new URL('./morning-digest.json', import.meta.url), 'utf8'));
-const jsCode = flujo.nodes.find((n) => n.name === 'Verificar firma').parameters.jsCode;
-const prepararCode = flujo.nodes.find((n) => n.name === 'Preparar contexto').parameters.jsCode;
+const codigoDe = (nombre) => flujo.nodes.find((n) => n.name === nombre).parameters.jsCode;
+
+const jsCode = codigoDe('Verificar firma');
+const prepararCode = codigoDe('Preparar contexto');
+const firmarCode = codigoDe('Firmar petición de datos');
+
+/**
+ * Los dos entornos donde tiene que funcionar el mismo código.
+ *
+ * `n8n Cloud` es el que rompió en producción: su sandbox no expone `crypto`
+ * como variable global —da «crypto is not defined»— pero sí deja usar
+ * `require('crypto')`. Se simula quitando el global Y sombreando `globalThis`,
+ * porque si no, el de Node se colaría y la prueba no probaría nada.
+ */
+const ENTORNOS = {
+  'crypto global': { crypto: globalThis.crypto, globalThis, require: undefined },
+  'n8n Cloud (solo require)': {
+    crypto: undefined,
+    globalThis: {},
+    require: createRequire(import.meta.url),
+  },
+};
 
 const SECRETO = 'a'.repeat(64);
 
@@ -22,16 +43,19 @@ function firmar(ts, nonce, cuerpo, secreto) {
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
 /** Ejecuta el jsCode del nodo con el entorno que n8n le da. */
-async function ejecutar(code, { vars, item, estado }) {
+async function ejecutar(code, { vars, item, estado, entorno = ENTORNOS['crypto global'] }) {
   const fn = new AsyncFunction(
-    '$vars', '$input', '$getWorkflowStaticData', 'crypto', 'Buffer', 'TextEncoder', 'TextDecoder',
+    '$vars', '$input', '$getWorkflowStaticData',
+    'crypto', 'globalThis', 'require', 'Buffer', 'TextEncoder', 'TextDecoder',
     code,
   );
   return fn(
     vars,
     { first: () => item },
     () => estado,
-    globalThis.crypto,
+    entorno.crypto,
+    entorno.globalThis,
+    entorno.require,
     Buffer,
     TextEncoder,
     TextDecoder,
@@ -165,6 +189,58 @@ const cron = salidaCron[0].json;
 const bienCron = cron.trigger === 'scheduled' && typeof cron.run_id === 'string' && cron.run_id.length === 36;
 if (!bienCron) fallos++;
 console.log(`${bienCron ? '  ok  ' : ' FALLA'} · el cron sigue generando su run_id            ${JSON.stringify(cron)}`);
+
+/* ────────────────────────────────────────────────────────────────────
+ * De dónde sale `crypto`
+ *
+ * En producción esto reventó con «crypto is not defined [línea 76]»: el
+ * sandbox de n8n Cloud no lo expone como global. Los cinco nodos de código
+ * tienen que funcionar en los dos entornos, así que se prueban en los dos.
+ * ──────────────────────────────────────────────────────────────────── */
+for (const [nombre, entorno] of Object.entries(ENTORNOS)) {
+  console.log(`\n— Entorno: ${nombre} —\n`);
+  const estadoAparte = {};
+
+  await caso(`${nombre} · Verificar firma acepta una firma válida`, 'acepta', () =>
+    ejecutar(jsCode, {
+      vars: { N8N_SHARED_SECRET: SECRETO },
+      item: peticion({ cuerpo: CUERPO }),
+      estado: estadoAparte,
+      entorno,
+    }),
+  );
+
+  await caso(`${nombre} · Verificar firma rechaza una inventada`, 'rechaza', () =>
+    ejecutar(jsCode, {
+      vars: { N8N_SHARED_SECRET: SECRETO },
+      item: peticion({ cuerpo: CUERPO, secreto: 'b'.repeat(64) }),
+      estado: estadoAparte,
+      entorno,
+    }),
+  );
+
+  await caso(`${nombre} · Preparar contexto genera run_id`, 'acepta', () =>
+    ejecutar(prepararCode, { vars: {}, item: { json: {} }, estado: estadoAparte, entorno }),
+  );
+
+  // El nodo que firma la salida: su firma tiene que ser la que la aplicación
+  // espera, byte a byte. Si no, `digest-payload` respondería 401.
+  const salida = await ejecutar(firmarCode, {
+    vars: { N8N_SHARED_SECRET: SECRETO, APP_BASE_URL: 'https://crm.ejemplo.es' },
+    item: { json: { run_id: 'r-1', flow: 'morning_digest', trigger: 'manual' } },
+    estado: estadoAparte,
+    entorno,
+  });
+  const s = salida[0].json;
+  const esperada = firmar(s.timestamp, s.nonce, '', SECRETO);
+  const cuadra = s.signature === esperada;
+  if (!cuadra) fallos++;
+  console.log(
+    `${cuadra ? '  ok  ' : ' FALLA'} · ${`${nombre} · Firmar petición produce la firma correcta`.padEnd(46)} ${
+      cuadra ? s.signature.slice(0, 22) + '…' : `${s.signature} ≠ ${esperada}`
+    }`,
+  );
+}
 
 console.log(`\n${fallos === 0 ? 'TODO PASA' : fallos + ' FALLOS'}\n`);
 process.exit(fallos === 0 ? 0 : 1);
