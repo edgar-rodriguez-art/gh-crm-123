@@ -59,3 +59,36 @@ export async function avisarSiLaClaveNoEsDeServicio(
     console.error('[CRM-123] No se pudo diagnosticar la clave de servicio:', e);
   }
 }
+
+/**
+ * Registra por qué falló `signInWithPassword`, distinguiendo lo esperado de
+ * lo que es un problema de configuración.
+ *
+ * Sin esto, una contraseña equivocada y una clave anónima mal puesta dejan
+ * exactamente el mismo rastro —ninguno—, y la persona ve el mismo mensaje en
+ * los dos casos. Eso último es correcto y no se toca (DESIGN_BRIEF §8.1); lo
+ * que no puede ser es que el servidor tampoco sepa distinguirlos.
+ */
+export function registrarFalloDeAutenticacion(error: unknown): void {
+  const e = error as { message?: string; code?: string; status?: number } | null;
+  const mensaje = e?.message ?? String(error);
+  const codigo = e?.code ?? '(sin código)';
+  const estado = e?.status ?? '(sin estado)';
+
+  // El caso normal: existe el usuario y la contraseña no es la suya.
+  if (e?.code === 'invalid_credentials' || e?.code === 'invalid_grant') {
+    console.info('[CRM-123] Ingreso rechazado: contraseña incorrecta.');
+    return;
+  }
+
+  console.error(
+    `[CRM-123] La autenticación falló por algo que NO es una contraseña equivocada. ` +
+      `code=${codigo} · status=${estado} · ${mensaje}\n` +
+      '  Sospechosos, por orden:\n' +
+      '   1. NEXT_PUBLIC_SUPABASE_ANON_KEY mal copiada, truncada, o de otro proyecto.\n' +
+      '   2. El proveedor de Email/contraseña está desactivado en Supabase → ' +
+      'Authentication → Providers → Email.\n' +
+      '   3. NEXT_PUBLIC_SUPABASE_URL apunta a un proyecto distinto del que tiene ' +
+      'los usuarios.',
+  );
+}

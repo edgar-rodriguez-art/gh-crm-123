@@ -4,7 +4,10 @@ import { createAdminClient } from '@crm123/core/supabase/admin';
 import { TEXTO } from '@crm123/core/labels';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 import { registrarIntento, olvidarIntentos, ipDe } from '@crm123/core/rate-limit';
-import { avisarSiLaClaveNoEsDeServicio } from '@crm123/core/diagnostico';
+import {
+  avisarSiLaClaveNoEsDeServicio,
+  registrarFalloDeAutenticacion,
+} from '@crm123/core/diagnostico';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -74,7 +77,10 @@ export async function POST(request: Request) {
       email: perfil.email,
       password: datos.password,
     });
-    if (error) return credencialesInvalidas();
+    if (error) {
+      registrarFalloDeAutenticacion(error);
+      return credencialesInvalidas();
+    }
 
     olvidarIntentos(`login-pwa:${ip}`);
 

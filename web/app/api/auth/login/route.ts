@@ -4,7 +4,10 @@ import { createAdminClient } from '@crm123/core/supabase/admin';
 import { TEXTO } from '@crm123/core/labels';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 import { registrarIntento, olvidarIntentos, ipDe } from '@crm123/core/rate-limit';
-import { avisarSiLaClaveNoEsDeServicio } from '@crm123/core/diagnostico';
+import {
+  avisarSiLaClaveNoEsDeServicio,
+  registrarFalloDeAutenticacion,
+} from '@crm123/core/diagnostico';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -88,7 +91,12 @@ export async function POST(request: Request) {
     });
 
     // Paso 6: contraseña errónea → el MISMO 401 genérico.
-    if (error) return credencialesInvalidas();
+    // El mensaje no cambia, pero el servidor sí deja constancia de si fue una
+    // contraseña o un problema de configuración.
+    if (error) {
+      registrarFalloDeAutenticacion(error);
+      return credencialesInvalidas();
+    }
 
     // Un ingreso correcto no debe consumir el cupo de la IP.
     olvidarIntentos(`login:${ip}`);
