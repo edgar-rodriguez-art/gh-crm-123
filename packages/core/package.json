@@ -18,6 +18,7 @@
     "./password": "./src/password.ts",
     "./rate-limit": "./src/rate-limit.ts",
     "./http": "./src/http.ts",
+    "./diagnostico": "./src/diagnostico.ts",
     "./styles/tokens.css": "./styles/tokens.css"
   },
   "scripts": {

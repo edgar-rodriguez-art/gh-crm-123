@@ -4,6 +4,7 @@ import { createAdminClient } from '@crm123/core/supabase/admin';
 import { TEXTO } from '@crm123/core/labels';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 import { registrarIntento, olvidarIntentos, ipDe } from '@crm123/core/rate-limit';
+import { avisarSiLaClaveNoEsDeServicio } from '@crm123/core/diagnostico';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -48,13 +49,25 @@ export async function POST(request: Request) {
   try {
     const admin = createAdminClient();
 
-    const { data: perfil } = await admin
+    const { data: perfil, error: errorPerfil } = await admin
       .from('profiles')
       .select('id, email, is_active, must_change_password, role')
       .ilike('username', datos.username.toLowerCase())
       .maybeSingle();
 
-    if (!perfil || !perfil.is_active) return credencialesInvalidas();
+    // Una consulta que falla NO es una credencial mala: es un problema
+    // nuestro, y devolver 401 lo escondería detrás de un mensaje falso.
+    if (errorPerfil) {
+      registrarFallo('login (pwa) · lectura de profiles con la clave de servicio', errorPerfil);
+      return jsonError(500, 'internal_error', TEXTO.errorGenerico);
+    }
+
+    if (!perfil || !perfil.is_active) {
+      // Deja en el registro si la causa real es que la clave de servicio no
+      // es de servicio. Lo que ve la persona no cambia.
+      if (!perfil) await avisarSiLaClaveNoEsDeServicio(admin);
+      return credencialesInvalidas();
+    }
 
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({

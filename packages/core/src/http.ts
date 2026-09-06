@@ -34,6 +34,34 @@ export function jsonOk<T extends Record<string, unknown>>(
  * contraseñas ni teléfonos completos (TECHNICAL_SPEC §12).
  */
 export function registrarFallo(contexto: string, e: unknown): void {
-  const detalle = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
-  console.error(`[CRM-123] ${contexto} — ${detalle}`);
+  console.error(`[CRM-123] ${contexto} — ${describir(e)}`);
+}
+
+/**
+ * Los errores de Supabase NO son `Error`: son objetos planos con `message`,
+ * `code`, `details` y `hint`. Pasarlos por `String()` da «[object Object]»,
+ * que es peor que no registrar nada porque parece un registro útil.
+ */
+function describir(e: unknown): string {
+  if (e instanceof Error) return `${e.name}: ${e.message}`;
+
+  if (e && typeof e === 'object') {
+    const o = e as Record<string, unknown>;
+    const partes = [
+      typeof o.message === 'string' ? o.message : null,
+      typeof o.code === 'string' ? `code=${o.code}` : null,
+      typeof o.details === 'string' && o.details ? `details=${o.details}` : null,
+      typeof o.hint === 'string' && o.hint ? `hint=${o.hint}` : null,
+    ].filter(Boolean);
+
+    if (partes.length > 0) return partes.join(' · ');
+
+    try {
+      return JSON.stringify(e);
+    } catch {
+      return '(objeto no serializable)';
+    }
+  }
+
+  return String(e);
 }

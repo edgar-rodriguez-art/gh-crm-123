@@ -4,6 +4,7 @@ import { createAdminClient } from '@crm123/core/supabase/admin';
 import { TEXTO } from '@crm123/core/labels';
 import { jsonError, jsonOk, registrarFallo } from '@crm123/core/http';
 import { registrarIntento, olvidarIntentos, ipDe } from '@crm123/core/rate-limit';
+import { avisarSiLaClaveNoEsDeServicio } from '@crm123/core/diagnostico';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -56,14 +57,28 @@ export async function POST(request: Request) {
     const admin = createAdminClient();
 
     // Paso 3 de TECHNICAL_SPEC §6. `lower(username)` en los dos lados.
-    const { data: perfil } = await admin
+    const { data: perfil, error: errorPerfil } = await admin
       .from('profiles')
       .select('id, email, is_active, must_change_password, role')
       .ilike('username', datos.username.toLowerCase())
       .maybeSingle();
 
+    // Una consulta que falla NO es una credencial mala: es un problema
+    // nuestro, y devolver 401 lo escondería detrás de un mensaje falso.
+    if (errorPerfil) {
+      registrarFallo('login · lectura de profiles con la clave de servicio', errorPerfil);
+      return jsonError(500, 'internal_error', TEXTO.errorGenerico);
+    }
+
     // Paso 4: no existe, o está desactivado → 401 genérico.
-    if (!perfil || !perfil.is_active) return credencialesInvalidas();
+    if (!perfil || !perfil.is_active) {
+      // Antes de darlo por credencial mala, se comprueba en el registro si la
+      // causa real es que la clave de servicio no es de servicio. Lo que ve
+      // la persona no cambia: el mensaje sigue siendo idéntico en los tres
+      // casos de fallo (DESIGN_BRIEF §8.1).
+      if (!perfil) await avisarSiLaClaveNoEsDeServicio(admin);
+      return credencialesInvalidas();
+    }
 
     // Paso 5: ahora sí, con el cliente de sesión, para que se escriba la cookie.
     const supabase = createClient();
