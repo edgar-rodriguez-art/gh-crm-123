@@ -32,8 +32,42 @@ const secretoN8n = z
   .string()
   .regex(/^[0-9a-f]{64}$/, 'Deben ser 64 caracteres hexadecimales (openssl rand -hex 32)');
 
+/**
+ * La URL del proyecto, y SOLO la del proyecto: `https://xxxx.supabase.co`.
+ *
+ * En la pantalla de Supabase → Settings → API hay dos direcciones muy
+ * parecidas, una encima de otra: la «Project URL» y la de la API de datos,
+ * que ya termina en `/rest/v1`. Si se copia la segunda, el cliente le añade
+ * su propio `/rest/v1` y acaba pidiendo `…/rest/v1/rest/v1/profiles`.
+ * PostgREST responde `PGRST125 Invalid path specified in request URL`, un
+ * error que no se parece en nada a su causa y que cuesta horas encontrar.
+ *
+ * `z.string().url()` acepta esa URL sin rechistar, así que se comprueba
+ * además que no lleve ruta, ni parámetros, ni ancla.
+ */
+const urlDeProyecto = z
+  .string()
+  .url()
+  .refine(
+    (v) => {
+      try {
+        const u = new URL(v);
+        return (u.pathname === '' || u.pathname === '/') && !u.search && !u.hash;
+      } catch {
+        return false;
+      }
+    },
+    {
+      message:
+        'Debe ser solo la Project URL, sin nada detrás del dominio ' +
+        '(https://xxxx.supabase.co). Si acaba en /rest/v1 has copiado la ' +
+        'dirección de la API de datos, que está justo al lado en Supabase → ' +
+        'Settings → API.',
+    },
+  );
+
 const base = {
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_URL: urlDeProyecto,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(20),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(20),
   APP_TIMEZONE: z.literal('Europe/Madrid'),

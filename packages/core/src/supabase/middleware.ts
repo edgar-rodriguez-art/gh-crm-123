@@ -27,9 +27,33 @@ export type SesionMiddleware = {
  * la va a leer no tiene por qué saber buscarlo.
  */
 const DONDE: Record<string, string> = {
-  NEXT_PUBLIC_SUPABASE_URL: 'Supabase → Settings → API → Project URL',
+  NEXT_PUBLIC_SUPABASE_URL:
+    'Supabase → Settings → API → Project URL. Solo el dominio ' +
+    '(https://xxxx.supabase.co): si acaba en /rest/v1 es la dirección de la API ' +
+    'de datos, que está justo al lado, y no sirve aquí.',
   NEXT_PUBLIC_SUPABASE_ANON_KEY: 'Supabase → Settings → API → Project API keys → anon public',
 };
+
+/**
+ * La Project URL no puede llevar ruta. Copiar la dirección de la API de datos
+ * —que acaba en `/rest/v1`— hace que el cliente pida `/rest/v1/rest/v1/...` y
+ * PostgREST conteste `PGRST125`, un error que no se parece a su causa.
+ * Se detecta aquí para que salga la pantalla de «falta configurar» en vez de
+ * dejar que todo falle más adelante con un mensaje incomprensible.
+ */
+function urlDeProyectoValida(v: string): boolean {
+  try {
+    const u = new URL(v);
+    return (
+      (u.protocol === 'https:' || u.protocol === 'http:') &&
+      (u.pathname === '' || u.pathname === '/') &&
+      !u.search &&
+      !u.hash
+    );
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Refresca la sesión y lee el perfil, para el middleware de ambas aplicaciones.
@@ -52,7 +76,7 @@ export async function actualizarSesion(request: NextRequest): Promise<SesionMidd
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   const faltanVariables = [
-    ...(url ? [] : ['NEXT_PUBLIC_SUPABASE_URL']),
+    ...(url && urlDeProyectoValida(url) ? [] : ['NEXT_PUBLIC_SUPABASE_URL']),
     ...(anon ? [] : ['NEXT_PUBLIC_SUPABASE_ANON_KEY']),
   ];
 
