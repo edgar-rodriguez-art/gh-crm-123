@@ -16,6 +16,7 @@
     "dev:pwa": "npm run dev --workspace pwa",
     "build": "npm run build --workspace web && npm run build --workspace pwa",
     "lint": "npm run lint --workspace web && npm run lint --workspace pwa",
-    "typecheck": "npm run typecheck --workspace @crm123/core && npm run typecheck --workspace web && npm run typecheck --workspace pwa"
+    "typecheck": "npm run typecheck --workspace @crm123/core && npm run typecheck --workspace web && npm run typecheck --workspace pwa",
+    "probar:n8n": "node n8n/probar-verificacion.mjs"
   }
 }
