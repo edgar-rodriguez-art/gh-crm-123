@@ -27,6 +27,7 @@ const PANTALLAS = [
   ['c19', '19-pwa-hoja-b-enviando'],
   ['c20', '20-pwa-hoja-c-enviado'],
   ['c21', '21-pwa-estado-e-bloqueado'],
+  ['c22', '22-correo-resumen-matutino'],
 ];
 
 const navegador = await chromium.launch({

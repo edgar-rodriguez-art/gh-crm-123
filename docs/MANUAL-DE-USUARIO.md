@@ -486,24 +486,28 @@ Los supervisores no lo reciben: para eso tienen el panel.
 
 Asunto: **CRM-123 · Tu resumen del \<día\>**
 
-```
-Hola, Pedro.
+![El correo del resumen matutino](capturas/22-correo-resumen-matutino.png)
 
-ATRASADAS
-· Carmen Ruiz Navarro (Calzados Aurora) — Negociación — 2.400 € — acción vencida
+Tres bloques, siempre en el mismo orden:
 
-PARA HOY
-· 12:30 — Marta Ibáñez Gil — Nuevo — 1.600 €
+- **ATRASADAS** — lo que reclama atención, con el motivo de cada una.
+- **PARA HOY** — lo que hay agendado para ese día, con su hora.
+- **TU MES** — cerrado, meta, porcentaje y cuánto falta.
 
-TU MES
-Cerrado: 6.140,00 € de 9.000,00 € — 68,2 %
-Te faltan 2.860,00 €.
+Es un correo de texto: sin imágenes ni botones. Se lee igual de bien en
+cualquier móvil y no acaba recortado.
 
-Importes sin IVA.
-```
+Cuando un bloque está vacío, lo dice —*«No tienes acciones agendadas para
+hoy.»*—. Y si un vendedor no tiene nada atrasado, **recibe el correo igualmente**
+con su avance: que no haya nada pendiente también es una noticia que merece
+contarse.
 
-Si un vendedor no tiene nada atrasado, **recibe el correo igualmente** con su
-avance: que no haya nada pendiente también es una noticia que merece contarse.
+Si aún no le han fijado la meta del mes, en lugar del porcentaje lee:
+*«Tu supervisor aún no ha fijado tu meta de este mes.»*
+
+> **El remitente depende de vuestro dominio.** Mientras el sistema esté en
+> pruebas puede llegar desde una dirección genérica y **acabar en la carpeta de
+> spam**. Pide al equipo que lo marque como «No es spam» la primera vez.
 
 ## Si un vendedor dice que no le llega
 
@@ -588,7 +592,7 @@ dejan de contar. Después, reasigna sus clientes a quien corresponda.
 
 ## Sobre este manual
 
-*Escrito a partir del código en producción de CRM-123. Las imágenes son
+*Escrito a partir del código en producción de CRM-123. Las 22 imágenes son
 maquetas hechas con el sistema de diseño de la aplicación, con datos de ejemplo
 inventados; se regeneran con `docs/maqueta-capturas/`. Si la interfaz cambia,
 hay que revisar este documento y rehacer las imágenes afectadas.*
