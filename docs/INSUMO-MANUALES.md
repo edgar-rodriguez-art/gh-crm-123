@@ -482,15 +482,80 @@ Conviene un apartado corto, porque evita expectativas y reclamaciones:
 
 ---
 
-## 13. Notas para quien redacte
+## 13. Las pantallas, en imágenes
+
+Están en `docs/capturas/`, veintiuna, con **datos de ejemplo inventados** —
+Pedro Ventas, Carmen Ruiz Navarro, Calzados Aurora—. Ninguna lleva datos
+reales, que es como debe ser un manual.
+
+> **Qué son exactamente.** Son **maquetas fieles**, no fotos de la aplicación
+> funcionando: usan el mismo Tailwind, los mismos tokens de color y tipografía
+> y los mismos textos literales que el código, pero el marcado está escrito a
+> mano. Se hicieron así porque el entorno donde se construyeron no tenía salida
+> de red hacia la aplicación desplegada. **Sirven perfectamente para maquetar
+> los manuales**, y conviene sustituirlas por capturas reales cuando exista un
+> entorno de demostración estable. Se regeneran con
+> `docs/maqueta-capturas/` (ver su README).
+
+### Comunes a los dos roles
+
+| Archivo | Qué ilustra | Dónde va |
+|---|---|---|
+| `01-escritorio-inicio-sesion.png` | La pantalla de entrada, con usuario y contraseña | §5 |
+| `02-escritorio-credenciales-incorrectas.png` | *«Usuario o contraseña incorrectos.»* | §5 y §10 |
+| `03-escritorio-cambiar-contrasena.png` | El cambio obligatorio del primer acceso, con los dos requisitos marcados | §5 |
+
+### Manual del vendedor
+
+| Archivo | Qué ilustra | Dónde va |
+|---|---|---|
+| `04-vendedor-tablero-del-dia.png` | El tablero completo: atrasadas con su motivo, para hoy, y «Mi mes» con la barra | §6.1 |
+| `05-vendedor-tablero-sin-atrasos.png` | El vacío sereno: *«Nada atrasado. Todo tu embudo está al día.»* | §6.1 |
+| `06-vendedor-oportunidades.png` | La tabla densa, filtrada por atrasadas, con el punto de señal | §6.2 |
+| `07-vendedor-clientes.png` | La lista con buscador y la columna de oportunidad | §6.3 |
+| `08-vendedor-ficha-de-cliente.png` | Identidad, oportunidad abierta, formulario de actividad e historial | §6.4 |
+| `09-vendedor-confirmar-venta.png` | La ventana de «Confirmar venta» con el importe final obligatorio | §6.5 |
+
+### Manual del supervisor — escritorio
+
+| Archivo | Qué ilustra | Dónde va |
+|---|---|---|
+| `10-supervisor-equipo.png` | Las cuatro cifras, la tabla ordenada de menor a mayor avance y los motivos de pérdida | §7.1 |
+| `11-supervisor-admin-usuarios.png` | La lista con un usuario desactivado y las acciones disponibles | §7.2 |
+| `12-supervisor-contrasena-una-sola-vez.png` | **La más importante del manual.** La contraseña inicial y su aviso | §7.2 |
+| `13-supervisor-admin-cuotas.png` | Selector de mes, metas editables y total del equipo | §7.3 |
+| `14-supervisor-admin-auditoria.png` | El registro con filtros y, debajo, las ejecuciones del resumen | §7.4 |
+
+### Manual del supervisor — móvil
+
+| Archivo | Qué ilustra | Dónde va |
+|---|---|---|
+| `15-pwa-inicio-sesion.png` | La entrada, con el aviso de que es solo para supervisores | §8 |
+| `16-pwa-panel.png` | El panel entero: avance, alerta de atrasos, semáforo, botón y último envío | §8.1 |
+| `17-pwa-detalle-vendedor.png` | Las cuatro cifras del vendedor y sus atrasadas, solo lectura | §8.2 |
+| `18-pwa-hoja-a-confirmacion.png` | Estado A · la hoja pregunta antes de enviar | §8.3 |
+| `19-pwa-hoja-b-enviando.png` | Estado B · *«Enviando resúmenes…»*, sin poder cerrar | §8.3 |
+| `20-pwa-hoja-c-enviado.png` | Estado C · *«N correos enviados a las HH:MM»* | §8.3 |
+| `21-pwa-estado-e-bloqueado.png` | Estado E · el bloqueo de diez minutos, presentado como protección | §8.3 |
+
+**Falta una imagen**, y es de las útiles: el **correo del resumen matutino** tal
+como llega al buzón. Esa no se puede maquetar con fidelidad porque depende del
+cliente de correo de cada uno; hazle una captura a uno real cuando lo recibas y
+añádela en §9. Recuerda tapar la dirección del destinatario si es una cuenta
+personal.
+
+---
+
+## 14. Notas para quien redacte
 
 - **Los textos entre comillas de este documento son literales de la pantalla.**
   No los reescribas ni los mejores: el manual debe poder seguirse leyendo lo que
   se ve.
 - **Español de España**, tuteando. Es el registro del producto.
 - El dinero se escribe `1.234,56 €`. Las fechas, `dd/MM/aaaa`. La hora, 24 horas.
-- **No inventes capturas de pantalla ni nombres de menú que no estén aquí.** Si
-  algo falta, márcalo como pendiente de confirmar en vez de suponerlo.
+- **Usa las imágenes de `docs/capturas/`** (§13). No inventes otras ni describas
+  pantallas que no estén ahí: si falta algo, márcalo como pendiente de
+  confirmar en vez de suponerlo.
 - Tres manuales separados funcionan mejor que uno: el vendedor no necesita saber
   qué hay en Administración, y mezclarlo solo consigue que no lea ninguno.
 - El manual del vendedor cabe en unas seis páginas. El del supervisor en
@@ -498,5 +563,6 @@ Conviene un apartado corto, porque evita expectativas y reclamaciones:
 
 ---
 
-*Generado a partir del código en producción de `gh-crm-123`. Si la aplicación
+*Texto generado a partir del código en producción de `gh-crm-123`; imágenes
+maquetadas con su sistema de diseño. Si la aplicación
 cambia, este documento hay que regenerarlo antes de tocar los manuales.*

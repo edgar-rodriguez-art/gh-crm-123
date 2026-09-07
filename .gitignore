@@ -18,3 +18,7 @@ coverage/
 
 # Lo genera Next en cada arranque
 next-env.d.ts
+
+# Generados por docs/maqueta-capturas (ver su README)
+docs/maqueta-capturas/salida.css
+docs/maqueta-capturas/fuente-local.css

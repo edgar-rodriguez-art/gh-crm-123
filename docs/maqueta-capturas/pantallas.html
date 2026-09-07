@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="./fuente-local.css">
+<link rel="stylesheet" href="./salida.css">
+<style>
+  body { margin: 0; background: #ffffff; }
+  .captura { margin: 0 0 48px 0; overflow: hidden; }
+  .esc { width: 1280px; }
+  .mov { width: 390px; }
+</style>
+</head>
+<body class="font-cuerpo text-cuerpo text-tinta">
+
+<!-- ══════════════ 01 · Inicio de sesión (escritorio) ══════════════ -->
+<div class="captura esc" id="c01">
+  <div class="flex min-h-[720px] items-center justify-center bg-lienzo px-s4">
+    <div class="w-full max-w-[380px]">
+      <h1 class="font-titulo text-h1">CRM-123</h1>
+      <p class="mt-s1 text-secundario text-neutro-800">Gestión comercial</p>
+
+      <div class="mt-s6 rounded border border-filete bg-superficie px-s4 py-s4">
+        <div>
+          <label class="block text-secundario text-neutro-800">Usuario</label>
+          <div class="mt-s1 flex h-[38px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">pedro.ventas</div>
+        </div>
+        <div class="mt-s3">
+          <label class="block text-secundario text-neutro-800">Contraseña</label>
+          <div class="mt-s1 flex h-[38px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo text-neutro-800">••••••••••</div>
+        </div>
+        <div class="mt-s4">
+          <div class="flex h-[38px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Entrar</div>
+        </div>
+        <p class="mt-s3 text-nota text-neutro-800">Si has olvidado tu contraseña, pídesela a tu supervisor.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 02 · Credenciales incorrectas ══════════════ -->
+<div class="captura esc" id="c02">
+  <div class="flex min-h-[720px] items-center justify-center bg-lienzo px-s4">
+    <div class="w-full max-w-[380px]">
+      <h1 class="font-titulo text-h1">CRM-123</h1>
+      <p class="mt-s1 text-secundario text-neutro-800">Gestión comercial</p>
+      <div class="mt-s6 rounded border border-filete bg-superficie px-s4 py-s4">
+        <p role="alert" class="mb-s3 rounded border border-neutro-300 bg-neutro-200 px-s2 py-s2 text-secundario text-neutro-900">Usuario o contraseña incorrectos.</p>
+        <div>
+          <label class="block text-secundario text-neutro-800">Usuario</label>
+          <div class="mt-s1 flex h-[38px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">pedro.ventas</div>
+        </div>
+        <div class="mt-s3">
+          <label class="block text-secundario text-neutro-800">Contraseña</label>
+          <div class="mt-s1 flex h-[38px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo text-neutro-800">••••••</div>
+        </div>
+        <div class="mt-s4">
+          <div class="flex h-[38px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Entrar</div>
+        </div>
+        <p class="mt-s3 text-nota text-neutro-800">Si has olvidado tu contraseña, pídesela a tu supervisor.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 03 · Cambio de contraseña obligatorio ══════════════ -->
+<div class="captura esc" id="c03">
+  <div class="flex min-h-[720px] items-center justify-center bg-lienzo px-s4">
+    <div class="w-full max-w-[420px]">
+      <h1 class="font-titulo text-h1">Cambia tu contraseña</h1>
+      <p class="mt-s2 text-cuerpo text-neutro-800">Es tu primer acceso. Elige una contraseña que solo sepas tú.</p>
+
+      <div class="mt-s4 rounded border border-filete bg-superficie px-s4 py-s4">
+        <div>
+          <label class="block text-secundario text-neutro-800">Contraseña nueva</label>
+          <div class="mt-s1 flex h-[38px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo text-neutro-800">••••••••••••</div>
+        </div>
+        <div class="mt-s3">
+          <label class="block text-secundario text-neutro-800">Repite la contraseña</label>
+          <div class="mt-s1 flex h-[38px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo text-neutro-800">••••••••••••</div>
+        </div>
+
+        <ul class="mt-s3 space-y-s1">
+          <li class="flex items-center gap-s2 text-secundario text-ganada"><span>✓</span> Mínimo 10 caracteres</li>
+          <li class="flex items-center gap-s2 text-secundario text-ganada"><span>✓</span> No puede contener tu nombre de usuario</li>
+        </ul>
+
+        <div class="mt-s4">
+          <div class="flex h-[38px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Guardar y continuar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 04 · Tablero del día (vendedor) ══════════════ -->
+<div class="captura esc" id="c04">
+  <div class="flex min-h-[860px] bg-lienzo">
+    <!-- barra lateral -->
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+      </ul>
+      <div class="border-t border-filete px-s4 py-s3">
+        <p class="text-secundario text-tinta">Pedro Ventas</p>
+        <p class="text-nota text-neutro-800">Vendedor</p>
+        <p class="mt-s2 text-secundario text-marca-800">Cerrar sesión</p>
+      </div>
+    </nav>
+
+    <main class="flex-1 px-s6 py-s4">
+      <header class="flex flex-wrap items-baseline justify-between gap-s3">
+        <h1 class="font-titulo text-h1">Buenos días, Pedro</h1>
+        <div class="flex items-center gap-s3">
+          <span class="text-secundario text-neutro-800">lunes, 7 de septiembre de 2026</span>
+          <span class="flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Nuevo cliente</span>
+        </div>
+      </header>
+
+      <div class="mt-s6 space-y-s6">
+        <section>
+          <h2 class="font-titulo text-h2">Atrasadas <span class="text-neutro-700">(3)</span></h2>
+          <div class="mt-s2 rounded border border-filete bg-superficie">
+            <!-- fila 1 -->
+            <div class="grid h-[82px] items-center gap-x-s4 gap-y-s1 border-b border-filete px-s3" style="grid-template-columns: minmax(0,1fr) 132px 96px auto; grid-template-areas: 'nombre etapa importe acciones' 'motivo motivo motivo acciones';">
+              <div style="grid-area: nombre" class="min-h-[36px] min-w-0">
+                <span class="block truncate font-semibold text-tinta">Carmen Ruiz Navarro</span>
+                <span class="block truncate text-secundario text-neutro-700">Calzados Aurora</span>
+              </div>
+              <div style="grid-area: etapa"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Negociación</span></div>
+              <div style="grid-area: importe" class="text-right text-cuerpo">2.400 €</div>
+              <div style="grid-area: motivo" class="min-w-0 truncate">
+                <span class="inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>Acción vencida el 4 sept</span>
+              </div>
+              <div style="grid-area: acciones" class="flex gap-s2">
+                <span class="flex h-[30px] items-center rounded border border-neutro-400 px-s2 text-secundario">Registrar actividad</span>
+              </div>
+            </div>
+            <!-- fila 2 -->
+            <div class="grid h-[82px] items-center gap-x-s4 gap-y-s1 border-b border-filete px-s3" style="grid-template-columns: minmax(0,1fr) 132px 96px auto; grid-template-areas: 'nombre etapa importe acciones' 'motivo motivo motivo acciones';">
+              <div style="grid-area: nombre" class="min-h-[36px] min-w-0">
+                <span class="block truncate font-semibold text-tinta">Javier Soler Peña</span>
+              </div>
+              <div style="grid-area: etapa"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Propuesta enviada</span></div>
+              <div style="grid-area: importe" class="text-right text-cuerpo">1.150 €</div>
+              <div style="grid-area: motivo" class="min-w-0 truncate">
+                <span class="inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>4 días sin actividad</span>
+              </div>
+              <div style="grid-area: acciones" class="flex gap-s2">
+                <span class="flex h-[30px] items-center rounded border border-neutro-400 px-s2 text-secundario">Registrar actividad</span>
+              </div>
+            </div>
+            <!-- fila 3 -->
+            <div class="grid h-[82px] items-center gap-x-s4 gap-y-s1 px-s3" style="grid-template-columns: minmax(0,1fr) 132px 96px auto; grid-template-areas: 'nombre etapa importe acciones' 'motivo motivo motivo acciones';">
+              <div style="grid-area: nombre" class="min-h-[36px] min-w-0">
+                <span class="block truncate font-semibold text-tinta">Lucía Ferrer Blasco</span>
+                <span class="block truncate text-secundario text-neutro-700">Boutique Marés</span>
+              </div>
+              <div style="grid-area: etapa"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Contactado</span></div>
+              <div style="grid-area: importe" class="text-right text-cuerpo">890 €</div>
+              <div style="grid-area: motivo" class="min-w-0 truncate">
+                <span class="inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>3 días sin actividad</span>
+              </div>
+              <div style="grid-area: acciones" class="flex gap-s2">
+                <span class="flex h-[30px] items-center rounded border border-neutro-400 px-s2 text-secundario">Registrar actividad</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="font-titulo text-h2menor">Para hoy <span class="text-neutro-700">(1)</span></h2>
+          <div class="mt-s2 rounded border border-filete bg-superficie">
+            <div class="grid h-[82px] items-center gap-x-s4 gap-y-s1 px-s3" style="grid-template-columns: minmax(0,1fr) 132px 96px auto; grid-template-areas: 'nombre etapa importe acciones' 'motivo motivo motivo acciones';">
+              <div style="grid-area: nombre" class="min-h-[36px] min-w-0">
+                <span class="block truncate font-semibold text-tinta">Marta Ibáñez Gil</span>
+                <span class="block truncate text-secundario text-neutro-700">Zapatería Duero</span>
+              </div>
+              <div style="grid-area: etapa"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Nuevo</span></div>
+              <div style="grid-area: importe" class="text-right text-cuerpo">1.600 €</div>
+              <div style="grid-area: motivo" class="min-w-0 truncate"><span class="text-secundario text-neutro-800">Hoy a las 12:30</span></div>
+              <div style="grid-area: acciones" class="flex gap-s2">
+                <span class="flex h-[30px] items-center rounded border border-neutro-400 px-s2 text-secundario">Registrar actividad</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="font-titulo text-h2menor">Mi mes</h2>
+          <div class="mt-s2 rounded border border-filete bg-superficie px-s4 py-s3">
+            <dl class="flex flex-wrap gap-s8">
+              <div><dt class="text-rotulo uppercase text-neutro-700">Cerrado</dt><dd class="mt-0.5 font-titulo text-cifra">6.140,00 €</dd></div>
+              <div><dt class="text-rotulo uppercase text-neutro-700">Meta</dt><dd class="mt-0.5 font-titulo text-cifra">9.000,00 €</dd></div>
+              <div><dt class="text-rotulo uppercase text-neutro-700">Falta</dt><dd class="mt-0.5 font-titulo text-cifra">2.860,00 €</dd></div>
+              <div><dt class="text-rotulo uppercase text-neutro-700">Avance</dt><dd class="mt-0.5 font-titulo text-cifra">68,2 %</dd></div>
+            </dl>
+            <div class="mt-s3">
+              <div class="h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full bg-marca" style="width:68.2%"></div></div>
+            </div>
+            <p class="mt-s3 text-nota text-neutro-800">4 oportunidades ganadas este mes.</p>
+            <p class="mt-s1 text-nota text-neutro-800">Importes sin IVA</p>
+          </div>
+        </section>
+      </div>
+
+      <p class="mt-s6 text-secundario text-marca-800">Ver todas mis oportunidades</p>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 05 · Tablero sin atrasos (estado vacío sereno) ══════════════ -->
+<div class="captura esc" id="c05">
+  <div class="flex min-h-[560px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <header class="flex flex-wrap items-baseline justify-between gap-s3">
+        <h1 class="font-titulo text-h1">Buenas tardes, Sara</h1>
+        <span class="text-secundario text-neutro-800">lunes, 7 de septiembre de 2026</span>
+      </header>
+      <div class="mt-s6 space-y-s6">
+        <section>
+          <h2 class="font-titulo text-h2">Atrasadas <span class="text-neutro-700">(0)</span></h2>
+          <div class="mt-s2 rounded border border-filete bg-superficie">
+            <p class="px-s3 py-s8 text-center text-cuerpo text-neutro-700">Nada atrasado. Todo tu embudo está al día.</p>
+          </div>
+        </section>
+        <section>
+          <h2 class="font-titulo text-h2menor">Para hoy <span class="text-neutro-700">(0)</span></h2>
+          <div class="mt-s2 rounded border border-filete bg-superficie">
+            <p class="px-s3 py-s8 text-center text-cuerpo text-neutro-700">No tienes acciones agendadas para hoy.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 06 · Oportunidades ══════════════ -->
+<div class="captura esc" id="c06">
+  <div class="flex min-h-[620px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <h1 class="font-titulo text-h1">Oportunidades</h1>
+
+      <div class="mt-s4 flex flex-wrap items-end gap-s3">
+        <div>
+          <label class="block text-secundario text-neutro-800">Etapa</label>
+          <div class="mt-s1 flex h-[34px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">Todas</div>
+        </div>
+        <div>
+          <label class="block text-secundario text-neutro-800">Estado</label>
+          <div class="mt-s1 flex h-[34px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">Solo atrasadas</div>
+        </div>
+        <p class="ml-auto text-secundario text-neutro-800">3 oportunidades</p>
+      </div>
+
+      <div class="mt-s3 overflow-hidden rounded border border-filete bg-superficie">
+        <table class="w-full border-collapse text-tabla">
+          <thead>
+            <tr class="border-b border-filete">
+              <th class="w-8 px-s2 py-s1"></th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Cliente</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Etapa</th>
+              <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Importe</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Próxima acción</th>
+              <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Días</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-fila border-b border-filete">
+              <td class="px-s2"><span class="block h-2 w-2 rounded-full bg-atraso"></span></td>
+              <td class="px-s2 font-semibold">Carmen Ruiz Navarro</td>
+              <td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Negociación</span></td>
+              <td class="px-s2 text-right">2.400 €</td>
+              <td class="px-s2 text-atraso-700 font-semibold">4 sept · vencida</td>
+              <td class="px-s2 text-right">6</td>
+            </tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100">
+              <td class="px-s2"><span class="block h-2 w-2 rounded-full bg-atraso"></span></td>
+              <td class="px-s2 font-semibold">Javier Soler Peña</td>
+              <td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Propuesta enviada</span></td>
+              <td class="px-s2 text-right">1.150 €</td>
+              <td class="px-s2 text-neutro-800">—</td>
+              <td class="px-s2 text-right">4</td>
+            </tr>
+            <tr class="h-fila">
+              <td class="px-s2"><span class="block h-2 w-2 rounded-full bg-atraso"></span></td>
+              <td class="px-s2 font-semibold">Lucía Ferrer Blasco</td>
+              <td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Contactado</span></td>
+              <td class="px-s2 text-right">890 €</td>
+              <td class="px-s2 text-neutro-800">9 sept · 10:00</td>
+              <td class="px-s2 text-right">3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-s2 text-nota text-neutro-800">Importes sin IVA</p>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 07 · Clientes ══════════════ -->
+<div class="captura esc" id="c07">
+  <div class="flex min-h-[560px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Clientes</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <header class="flex flex-wrap items-baseline justify-between gap-s3">
+        <h1 class="font-titulo text-h1">Clientes</h1>
+        <span class="flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Nuevo cliente</span>
+      </header>
+
+      <div class="mt-s4 flex items-end gap-s3">
+        <div class="w-[320px]">
+          <label class="block text-secundario text-neutro-800">Buscar</label>
+          <div class="mt-s1 flex h-[34px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo text-neutro-700">Nombre, empresa o teléfono</div>
+        </div>
+        <p class="ml-auto text-secundario text-neutro-800">5 clientes</p>
+      </div>
+
+      <div class="mt-s3 overflow-hidden rounded border border-filete bg-superficie">
+        <table class="w-full border-collapse text-tabla">
+          <thead>
+            <tr class="border-b border-filete">
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Cliente</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Empresa</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Teléfono</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Canal</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Oportunidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 font-semibold">Carmen Ruiz Navarro</td><td class="px-s2 text-neutro-800">Calzados Aurora</td><td class="px-s2 text-neutro-800">+34 612 34 56 78</td><td class="px-s2 text-neutro-800">Feria / showroom</td><td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Negociación</span></td></tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100"><td class="px-s2 font-semibold">Javier Soler Peña</td><td class="px-s2 text-neutro-800">—</td><td class="px-s2 text-neutro-800">+34 655 11 22 33</td><td class="px-s2 text-neutro-800">WhatsApp</td><td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Propuesta enviada</span></td></tr>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 font-semibold">Lucía Ferrer Blasco</td><td class="px-s2 text-neutro-800">Boutique Marés</td><td class="px-s2 text-neutro-800">+34 699 87 65 43</td><td class="px-s2 text-neutro-800">Instagram</td><td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Contactado</span></td></tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100"><td class="px-s2 font-semibold">Marta Ibáñez Gil</td><td class="px-s2 text-neutro-800">Zapatería Duero</td><td class="px-s2 text-neutro-800">+34 677 45 89 12</td><td class="px-s2 text-neutro-800">Tienda física</td><td class="px-s2"><span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Nuevo</span></td></tr>
+            <tr class="h-fila"><td class="px-s2 font-semibold">Andrés Pardo León</td><td class="px-s2 text-neutro-800">—</td><td class="px-s2 text-neutro-800">+34 644 22 33 11</td><td class="px-s2 text-neutro-800">Referido</td><td class="px-s2 text-neutro-700">Sin oportunidad abierta</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 08 · Ficha de cliente ══════════════ -->
+<div class="captura esc" id="c08">
+  <div class="flex min-h-[700px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Clientes</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <header class="flex flex-wrap items-baseline justify-between gap-s3">
+        <div>
+          <h1 class="font-titulo text-h1">Carmen Ruiz Navarro</h1>
+          <p class="mt-s1 text-secundario text-neutro-800">Calzados Aurora</p>
+        </div>
+        <div class="flex gap-s2">
+          <span class="flex h-[34px] items-center rounded border border-neutro-400 px-s3 text-secundario">Editar</span>
+          <span class="flex h-[34px] items-center rounded border border-neutro-400 px-s3 text-secundario">Archivar</span>
+        </div>
+      </header>
+
+      <div class="mt-s4 grid gap-s4" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="space-y-s4">
+          <section class="rounded border border-filete bg-superficie px-s4 py-s3">
+            <h2 class="font-titulo text-h2menor">Identidad</h2>
+            <dl class="mt-s2 space-y-s2">
+              <div class="flex justify-between gap-s3"><dt class="text-secundario text-neutro-700">Teléfono</dt><dd class="text-cuerpo">+34 612 34 56 78</dd></div>
+              <div class="flex justify-between gap-s3"><dt class="text-secundario text-neutro-700">Canal</dt><dd class="text-cuerpo">Feria / showroom</dd></div>
+              <div class="flex justify-between gap-s3"><dt class="text-secundario text-neutro-700">Vendedor</dt><dd class="text-cuerpo">Pedro Ventas</dd></div>
+              <div class="flex justify-between gap-s3"><dt class="text-secundario text-neutro-700">Cliente desde</dt><dd class="text-cuerpo">12/06/2026</dd></div>
+            </dl>
+          </section>
+
+          <section class="rounded border border-filete bg-superficie px-s4 py-s3">
+            <h2 class="font-titulo text-h2menor">Oportunidad abierta</h2>
+            <div class="mt-s2 flex items-center gap-s3">
+              <span class="inline-block rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Negociación</span>
+              <span class="font-titulo text-cifra">2.400,00 €</span>
+            </div>
+            <p class="mt-s2 inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>Acción vencida el 4 sept</p>
+            <div class="mt-s3 flex flex-wrap gap-s2">
+              <span class="flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Marcar como ganada</span>
+              <span class="flex h-[34px] items-center rounded border border-neutro-400 px-s3 text-secundario">Marcar como perdida</span>
+              <span class="flex h-[34px] items-center rounded border border-neutro-400 px-s3 text-secundario">Cambiar etapa</span>
+            </div>
+            <p class="mt-s2 text-nota text-neutro-800">Importes sin IVA</p>
+          </section>
+        </div>
+
+        <div>
+          <section class="rounded border border-filete bg-superficie px-s4 py-s3">
+            <h2 class="font-titulo text-h2menor">Actividad</h2>
+            <p class="mt-s1 text-nota text-neutro-800">El historial no se puede modificar.</p>
+
+            <div class="mt-s3 rounded border border-neutro-300 bg-neutro-100 px-s3 py-s3">
+              <label class="block text-secundario text-neutro-800">Tipo</label>
+              <div class="mt-s1 flex h-[34px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">Llamada</div>
+              <label class="mt-s2 block text-secundario text-neutro-800">¿Qué ha pasado?</label>
+              <div class="mt-s1 h-[56px] rounded border border-neutro-400 bg-superficie px-s2 py-s1 text-cuerpo text-neutro-700">Le he llamado para revisar la propuesta…</div>
+              <label class="mt-s2 block text-secundario text-neutro-800">Próxima acción</label>
+              <div class="mt-s1 flex h-[34px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">09/09/2026 10:00</div>
+              <div class="mt-s3"><span class="inline-flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Registrar</span></div>
+            </div>
+
+            <ul class="mt-s3 divide-y divide-filete">
+              <li class="py-s2">
+                <p class="text-secundario"><span class="font-semibold">Llamada</span> · 4 sept, 09:15</p>
+                <p class="mt-s1 text-cuerpo text-neutro-800">Pide una muestra del modelo de otoño antes de decidir.</p>
+              </li>
+              <li class="py-s2">
+                <p class="text-secundario"><span class="font-semibold">WhatsApp</span> · 1 sept, 17:40</p>
+                <p class="mt-s1 text-cuerpo text-neutro-800">Enviada la propuesta con los precios de temporada.</p>
+              </li>
+              <li class="py-s2">
+                <p class="text-secundario"><span class="font-semibold">Visita</span> · 28 ago, 11:00</p>
+                <p class="mt-s1 text-cuerpo text-neutro-800">Primera reunión en la feria. Muy interesada en la línea de piel.</p>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 09 · Ventana: marcar como ganada ══════════════ -->
+<div class="captura esc" id="c09">
+  <div class="relative flex min-h-[420px] items-center justify-center bg-neutro-900/35 p-s4">
+    <div class="w-full max-w-[420px] rounded-lg border border-filete bg-superficie p-s4 shadow-lg">
+      <h2 class="font-titulo text-h2menor">Confirmar venta</h2>
+      <p class="mt-s1 text-secundario text-neutro-800">Esta oportunidad se cerrará como ganada. No se puede reabrir.</p>
+      <div class="mt-s3">
+        <label class="block text-secundario text-neutro-800">Importe final</label>
+        <div class="mt-s1 flex w-[200px]">
+          <div class="flex h-[34px] flex-1 items-center rounded rounded-r-none border border-neutro-400 bg-superficie px-s2 text-right text-cuerpo">2.250,00</div>
+          <span class="flex h-[34px] items-center rounded-r border border-l-0 border-neutro-400 bg-neutro-200 px-s2 text-cuerpo text-neutro-800">€</span>
+        </div>
+        <p class="mt-s2 text-nota text-neutro-800">Importes sin IVA</p>
+      </div>
+      <div class="mt-s4 flex justify-end gap-s2">
+        <span class="flex h-[34px] items-center rounded border border-neutro-400 px-s3 text-secundario">Cancelar</span>
+        <span class="flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Marcar como ganada</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 10 · Equipo (supervisor) ══════════════ -->
+<div class="captura esc" id="c10">
+  <div class="flex min-h-[760px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Equipo</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Administración</span></li>
+      </ul>
+      <div class="border-t border-filete px-s4 py-s3">
+        <p class="text-secundario text-tinta">Ana Supervisora</p>
+        <p class="text-nota text-neutro-800">Supervisor</p>
+      </div>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <h1 class="font-titulo text-h1">Equipo</h1>
+
+      <section class="mt-s4 rounded border border-filete bg-superficie px-s4 py-s3">
+        <dl class="flex flex-wrap gap-s8">
+          <div><dt class="text-rotulo uppercase text-neutro-700">Cerrado</dt><dd class="mt-0.5 font-titulo text-cifra">18.420,00 €</dd></div>
+          <div><dt class="text-rotulo uppercase text-neutro-700">Meta</dt><dd class="mt-0.5 font-titulo text-cifra">27.000,00 €</dd></div>
+          <div><dt class="text-rotulo uppercase text-neutro-700">Avance</dt><dd class="mt-0.5 font-titulo text-cifra">68,2 %</dd></div>
+          <div><dt class="text-rotulo uppercase text-neutro-700">Atrasadas</dt><dd class="mt-0.5 font-titulo text-cifra">9</dd></div>
+        </dl>
+        <p class="mt-s3 text-nota text-neutro-800">Importes sin IVA</p>
+      </section>
+
+      <section class="mt-s6">
+        <h2 class="font-titulo text-h2menor">Vendedores</h2>
+        <div class="mt-s2 overflow-hidden rounded border border-filete bg-superficie">
+          <table class="w-full border-collapse text-tabla">
+            <thead>
+              <tr class="border-b border-filete">
+                <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Vendedor</th>
+                <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Cerrado</th>
+                <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Meta</th>
+                <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Avance</th>
+                <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Ganadas</th>
+                <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Atrasadas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="h-fila border-b border-filete">
+                <td class="px-s2 font-semibold">Sara Comercial</td><td class="px-s2 text-right">3.980 €</td><td class="px-s2 text-right">9.000 €</td>
+                <td class="px-s2"><div class="flex items-center gap-s2"><div class="w-24"><div class="h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full bg-marca" style="width:44.2%"></div></div></div><span>44,2 %</span></div></td>
+                <td class="px-s2 text-right">2</td><td class="px-s2 text-right font-semibold text-atraso-700">5</td>
+              </tr>
+              <tr class="h-fila border-b border-filete bg-neutro-100">
+                <td class="px-s2 font-semibold">Pedro Ventas</td><td class="px-s2 text-right">6.140 €</td><td class="px-s2 text-right">9.000 €</td>
+                <td class="px-s2"><div class="flex items-center gap-s2"><div class="w-24"><div class="h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full bg-marca" style="width:68.2%"></div></div></div><span>68,2 %</span></div></td>
+                <td class="px-s2 text-right">4</td><td class="px-s2 text-right text-neutro-800">3</td>
+              </tr>
+              <tr class="h-fila">
+                <td class="px-s2 font-semibold">Nuria Casal</td><td class="px-s2 text-right">8.300 €</td><td class="px-s2 text-right">9.000 €</td>
+                <td class="px-s2"><div class="flex items-center gap-s2"><div class="w-24"><div class="h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full bg-marca" style="width:92.2%"></div></div></div><span>92,2 %</span></div></td>
+                <td class="px-s2 text-right">6</td><td class="px-s2 text-right text-neutro-800">1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-s2 text-nota text-neutro-800">Ordenados por avance, de menor a mayor: quien necesita ayuda va arriba.</p>
+      </section>
+
+      <section class="mt-s6">
+        <h2 class="font-titulo text-h2menor">Motivos de pérdida del mes</h2>
+        <div class="mt-s2 rounded border border-filete bg-superficie">
+          <ul class="divide-y divide-filete">
+            <li class="flex items-baseline justify-between gap-s3 px-s3 py-s2"><span class="text-cuerpo">Precio</span><span class="text-secundario text-neutro-800">4 casos</span><span class="text-cuerpo">5.200 €</span></li>
+            <li class="flex items-baseline justify-between gap-s3 px-s3 py-s2"><span class="text-cuerpo">No responde</span><span class="text-secundario text-neutro-800">3 casos</span><span class="text-cuerpo">2.900 €</span></li>
+            <li class="flex items-baseline justify-between gap-s3 px-s3 py-s2"><span class="text-cuerpo">Compró a la competencia</span><span class="text-secundario text-neutro-800">1 caso</span><span class="text-cuerpo">1.400 €</span></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 11 · Administración › Usuarios ══════════════ -->
+<div class="captura esc" id="c11">
+  <div class="flex min-h-[560px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Equipo</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Administración</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <header class="mb-s4">
+        <h1 class="font-titulo text-h1">Administración</h1>
+        <div class="mt-s3">
+          <ul class="flex gap-s1 border-b border-filete">
+            <li><span class="block border-b-2 border-marca px-s3 py-s2 text-cuerpo font-semibold text-marca-800">Usuarios</span></li>
+            <li><span class="block px-s3 py-s2 text-cuerpo text-neutro-800">Cuotas</span></li>
+            <li><span class="block px-s3 py-s2 text-cuerpo text-neutro-800">Auditoría</span></li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="flex justify-end"><span class="flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Nuevo usuario</span></div>
+
+      <div class="mt-s3 overflow-hidden rounded border border-filete bg-superficie">
+        <table class="w-full border-collapse text-tabla">
+          <thead>
+            <tr class="border-b border-filete">
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Nombre</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Usuario</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Rol</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Estado</th>
+              <th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 font-semibold">Ana Supervisora</td><td class="px-s2 text-neutro-800">demo.supervisor</td><td class="px-s2">Supervisor</td><td class="px-s2 text-ganada">Activo</td><td class="px-s2 text-right text-secundario text-marca-800">Restablecer contraseña</td></tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100"><td class="px-s2 font-semibold">Pedro Ventas</td><td class="px-s2 text-neutro-800">demo.vendedor1</td><td class="px-s2">Vendedor</td><td class="px-s2 text-ganada">Activo</td><td class="px-s2 text-right text-secundario text-marca-800">Desactivar · Restablecer contraseña</td></tr>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 font-semibold">Sara Comercial</td><td class="px-s2 text-neutro-800">demo.vendedor2</td><td class="px-s2">Vendedor</td><td class="px-s2 text-ganada">Activo</td><td class="px-s2 text-right text-secundario text-marca-800">Desactivar · Restablecer contraseña</td></tr>
+            <tr class="h-fila"><td class="px-s2 font-semibold text-neutro-700">Nuria Casal</td><td class="px-s2 text-neutro-700">demo.vendedor3</td><td class="px-s2 text-neutro-700">Vendedor</td><td class="px-s2 text-neutro-700">Desactivado</td><td class="px-s2 text-right text-secundario text-marca-800">Reactivar</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-s2 text-nota text-neutro-800">Los usuarios no se eliminan: se desactivan. Sus clientes y ventas se conservan.</p>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 12 · Contraseña inicial (una sola vez) ══════════════ -->
+<div class="captura esc" id="c12">
+  <div class="relative flex min-h-[420px] items-center justify-center bg-neutro-900/35 p-s4">
+    <div class="w-full max-w-[420px] rounded-lg border border-filete bg-superficie p-s4 shadow-lg">
+      <h2 class="font-titulo text-h2menor">Usuario creado</h2>
+      <p class="mt-s1 text-secundario text-neutro-800">Nuria Casal · <span class="font-semibold">nuria.casal</span></p>
+
+      <div class="mt-s3 rounded border border-atraso bg-atraso-100 px-s3 py-s3">
+        <p class="text-rotulo uppercase text-atraso-800">Contraseña inicial</p>
+        <p class="mt-s1 font-titulo text-cifra tracking-wide">Ropa-tela-9RM</p>
+        <p class="mt-s2 text-secundario text-atraso-800">
+          <strong class="font-semibold">Se muestra una sola vez.</strong> Cópiala y entrégasela en persona.
+          Si cierras esta ventana no podrás volver a verla; tendrías que restablecerla.
+        </p>
+      </div>
+
+      <p class="mt-s3 text-nota text-neutro-800">La persona tendrá que cambiarla la primera vez que entre.</p>
+
+      <div class="mt-s4 flex justify-end gap-s2">
+        <span class="flex h-[34px] items-center rounded border border-neutro-400 px-s3 text-secundario">Copiar</span>
+        <span class="flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Hecho</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 13 · Administración › Cuotas ══════════════ -->
+<div class="captura esc" id="c13">
+  <div class="flex min-h-[560px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Equipo</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Administración</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <header class="mb-s4">
+        <h1 class="font-titulo text-h1">Administración</h1>
+        <div class="mt-s3">
+          <ul class="flex gap-s1 border-b border-filete">
+            <li><span class="block px-s3 py-s2 text-cuerpo text-neutro-800">Usuarios</span></li>
+            <li><span class="block border-b-2 border-marca px-s3 py-s2 text-cuerpo font-semibold text-marca-800">Cuotas</span></li>
+            <li><span class="block px-s3 py-s2 text-cuerpo text-neutro-800">Auditoría</span></li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="mb-s3 flex flex-wrap items-end gap-s3">
+        <div><label class="block text-secundario text-neutro-800">Mes</label><div class="mt-s1 flex h-[34px] w-[140px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">Septiembre</div></div>
+        <div><label class="block text-secundario text-neutro-800">Año</label><div class="mt-s1 flex h-[34px] w-[100px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">2026</div></div>
+        <span class="flex h-[30px] items-center rounded border border-neutro-400 px-s2 text-secundario">Copiar las metas del mes anterior</span>
+      </div>
+
+      <div class="overflow-hidden rounded border border-filete bg-superficie" style="max-width:520px">
+        <table class="w-full border-collapse text-tabla">
+          <thead><tr class="border-b border-filete"><th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Vendedor</th><th class="px-s2 py-s1 text-right text-rotulo uppercase text-neutro-700">Meta del mes</th></tr></thead>
+          <tbody>
+            <tr class="h-fila border-b border-filete"><td class="px-s2">Pedro Ventas</td><td class="px-s2"><div class="flex justify-end"><div class="flex w-[180px]"><div class="flex h-[34px] flex-1 items-center justify-end rounded rounded-r-none border border-neutro-400 bg-superficie px-s2 text-cuerpo">9000</div><span class="flex h-[34px] items-center rounded-r border border-l-0 border-neutro-400 bg-neutro-200 px-s2 text-cuerpo text-neutro-800">€</span></div></div></td></tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100"><td class="px-s2">Sara Comercial</td><td class="px-s2"><div class="flex justify-end"><div class="flex w-[180px]"><div class="flex h-[34px] flex-1 items-center justify-end rounded rounded-r-none border border-neutro-400 bg-superficie px-s2 text-cuerpo">9000</div><span class="flex h-[34px] items-center rounded-r border border-l-0 border-neutro-400 bg-neutro-200 px-s2 text-cuerpo text-neutro-800">€</span></div></div></td></tr>
+            <tr class="h-fila"><td class="px-s2">Nuria Casal</td><td class="px-s2"><div class="flex justify-end"><div class="flex w-[180px]"><div class="flex h-[34px] flex-1 items-center justify-end rounded rounded-r-none border border-neutro-400 bg-superficie px-s2 text-cuerpo">9000</div><span class="flex h-[34px] items-center rounded-r border border-l-0 border-neutro-400 bg-neutro-200 px-s2 text-cuerpo text-neutro-800">€</span></div></div></td></tr>
+          </tbody>
+          <tfoot><tr class="border-t border-filete"><th class="px-s2 py-s2 text-left text-cuerpo font-semibold">Total del equipo</th><td class="px-s2 py-s2 text-right text-cuerpo font-semibold">27.000,00 €</td></tr></tfoot>
+        </table>
+      </div>
+      <p class="mt-s2 text-nota text-neutro-800">Importes sin IVA</p>
+      <div class="mt-s4"><span class="inline-flex h-[34px] items-center rounded bg-marca px-s3 text-secundario font-semibold text-white">Guardar cambios</span></div>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 14 · Administración › Auditoría ══════════════ -->
+<div class="captura esc" id="c14">
+  <div class="flex min-h-[620px] bg-lienzo">
+    <nav class="flex w-barra shrink-0 flex-col border-r border-filete bg-superficie">
+      <div class="px-s4 py-s4"><span class="font-titulo text-h2menor tracking-tight text-tinta">CRM-123</span></div>
+      <ul class="flex-1 px-s2">
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Tablero del día</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Oportunidades</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Clientes</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo text-neutro-800">Equipo</span></li>
+        <li><span class="block rounded px-s3 py-s2 text-cuerpo font-semibold bg-marca-100 text-marca-800">Administración</span></li>
+      </ul>
+    </nav>
+    <main class="flex-1 px-s6 py-s4">
+      <header class="mb-s4">
+        <h1 class="font-titulo text-h1">Administración</h1>
+        <div class="mt-s3">
+          <ul class="flex gap-s1 border-b border-filete">
+            <li><span class="block px-s3 py-s2 text-cuerpo text-neutro-800">Usuarios</span></li>
+            <li><span class="block px-s3 py-s2 text-cuerpo text-neutro-800">Cuotas</span></li>
+            <li><span class="block border-b-2 border-marca px-s3 py-s2 text-cuerpo font-semibold text-marca-800">Auditoría</span></li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="flex flex-wrap items-end gap-s3">
+        <div><label class="block text-secundario text-neutro-800">Desde</label><div class="mt-s1 flex h-[34px] w-[150px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">01/09/2026</div></div>
+        <div><label class="block text-secundario text-neutro-800">Hasta</label><div class="mt-s1 flex h-[34px] w-[150px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">07/09/2026</div></div>
+        <div><label class="block text-secundario text-neutro-800">Tipo</label><div class="mt-s1 flex h-[34px] w-[150px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">Todos</div></div>
+        <div><label class="block text-secundario text-neutro-800">Usuario</label><div class="mt-s1 flex h-[34px] w-[170px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">Todos</div></div>
+        <p class="ml-auto text-secundario text-neutro-800">6 asientos</p>
+      </div>
+
+      <div class="mt-s3 overflow-hidden rounded border border-filete bg-superficie">
+        <table class="w-full border-collapse text-tabla">
+          <thead><tr class="border-b border-filete">
+            <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Fecha y hora</th>
+            <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Quién</th>
+            <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Qué hizo</th>
+            <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Sobre qué</th>
+            <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Detalle</th>
+          </tr></thead>
+          <tbody>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 text-neutro-800">07/09/2026 09:12</td><td class="px-s2">Ana Supervisora</td><td class="px-s2">Disparó el resumen matutino</td><td class="px-s2 text-neutro-800">Automatización</td><td class="px-s2 text-nota text-neutro-700">morning_digest</td></tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100"><td class="px-s2 text-neutro-800">07/09/2026 08:55</td><td class="px-s2">Pedro Ventas</td><td class="px-s2">Marcó una venta como ganada</td><td class="px-s2 text-neutro-800">Oportunidad</td><td class="px-s2 text-nota text-neutro-700">final 2.250,00 €</td></tr>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 text-neutro-800">07/09/2026 08:40</td><td class="px-s2">Pedro Ventas</td><td class="px-s2">Cambió la etapa</td><td class="px-s2 text-neutro-800">Oportunidad</td><td class="px-s2 text-nota text-neutro-700">contacted → proposal_sent</td></tr>
+            <tr class="h-fila border-b border-filete bg-neutro-100"><td class="px-s2 text-neutro-800">06/09/2026 17:20</td><td class="px-s2">Ana Supervisora</td><td class="px-s2">Cambió una meta</td><td class="px-s2 text-neutro-800">Meta</td><td class="px-s2 text-nota text-neutro-700">8.000,00 € → 9.000,00 € · 9/2026</td></tr>
+            <tr class="h-fila border-b border-filete"><td class="px-s2 text-neutro-800">06/09/2026 16:05</td><td class="px-s2">Ana Supervisora</td><td class="px-s2">Creó un usuario</td><td class="px-s2 text-neutro-800">Usuario</td><td class="px-s2 text-nota text-neutro-700">nuria.casal · seller</td></tr>
+            <tr class="h-fila"><td class="px-s2 text-neutro-800">06/09/2026 11:31</td><td class="px-s2">Sara Comercial</td><td class="px-s2">Creó un cliente</td><td class="px-s2 text-neutro-800">Cliente</td><td class="px-s2 text-nota text-neutro-700">teléfono ···43 12</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="mt-s6">
+        <h2 class="font-titulo text-h2">Resumen matutino</h2>
+        <p class="mt-s1 text-secundario text-neutro-800">Últimas diez ejecuciones. Se registran solas: las escribe la automatización, no una persona.</p>
+        <div class="mt-s3 overflow-hidden rounded border border-filete bg-superficie">
+          <table class="w-full border-collapse text-tabla">
+            <thead><tr class="border-b border-filete">
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Cuándo</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Cómo se disparó</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Estado</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Correos</th>
+              <th class="px-s2 py-s1 text-left text-rotulo uppercase text-neutro-700">Detalle</th>
+            </tr></thead>
+            <tbody>
+              <tr class="h-fila border-b border-filete"><td class="px-s2 text-neutro-800">7 sept, 09:12</td><td class="px-s2 text-neutro-800">A mano</td><td class="px-s2">Enviado</td><td class="px-s2 text-right tabular-nums text-neutro-800">3</td><td class="px-s2 text-nota text-neutro-700">Terminó a las 09:12</td></tr>
+              <tr class="h-fila bg-neutro-100"><td class="px-s2 text-neutro-800">7 sept, 07:30</td><td class="px-s2 text-neutro-800">Programado</td><td class="px-s2">Enviado</td><td class="px-s2 text-right tabular-nums text-neutro-800">3</td><td class="px-s2 text-nota text-neutro-700">Terminó a las 07:30</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 15 · PWA · Inicio de sesión ══════════════ -->
+<div class="captura mov" id="c15">
+  <div class="flex min-h-[720px] flex-col justify-center bg-lienzo px-s4">
+    <h1 class="font-titulo text-h2">CRM-123</h1>
+    <p class="mt-s1 text-secundario text-neutro-800">Supervisión</p>
+    <div class="mt-s4 rounded border border-filete bg-superficie px-s4 py-s4">
+      <div><label class="block text-secundario text-neutro-800">Usuario</label><div class="mt-s1 flex h-[44px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo">demo.supervisor</div></div>
+      <div class="mt-s3"><label class="block text-secundario text-neutro-800">Contraseña</label><div class="mt-s1 flex h-[44px] items-center rounded border border-neutro-400 bg-superficie px-s2 text-cuerpo text-neutro-800">••••••••••</div></div>
+      <div class="mt-s4"><div class="flex h-[48px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Entrar</div></div>
+      <p class="mt-s3 text-nota text-neutro-800">Esta aplicación es solo para supervisores. Entra desde el escritorio.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 16 · PWA · Panel ══════════════ -->
+<div class="captura mov" id="c16">
+  <div class="min-h-[820px] bg-lienzo">
+    <main class="px-s4 pb-[150px] pt-s4">
+      <header>
+        <h1 class="font-titulo text-h2">El equipo hoy</h1>
+        <p class="mt-s1 text-secundario text-neutro-800">lunes, 7 de septiembre de 2026</p>
+      </header>
+
+      <section class="mt-s4 rounded border border-filete bg-superficie px-s4 py-s3">
+        <p class="font-titulo text-h1">68,2 %</p>
+        <div class="mt-s2"><div class="h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full bg-marca" style="width:68.2%"></div></div></div>
+        <p class="mt-s2 text-secundario text-neutro-800">Cerrado 18.420 € · Meta 27.000 €</p>
+      </section>
+
+      <section class="mt-s3 rounded border border-atraso bg-atraso-100 px-s4 py-s3">
+        <p class="text-cuerpo text-atraso-800"><strong class="font-semibold">9 oportunidades atrasadas</strong> en 3 vendedores.</p>
+      </section>
+
+      <section class="mt-s6">
+        <h2 class="font-titulo text-h2menor">Semáforo del equipo</h2>
+        <ul class="mt-s2 divide-y divide-filete rounded border border-filete bg-superficie">
+          <li><div class="flex items-center gap-s3 px-s3 py-s3">
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-cuerpo text-tinta">Sara Comercial</span>
+              <span class="mt-s1 flex items-center gap-s2">
+                <span class="block h-1.5 w-24 overflow-hidden rounded-sm bg-neutro-300"><span class="block h-full bg-marca" style="width:44.2%"></span></span>
+                <span class="text-secundario text-neutro-800">44,2 %</span>
+              </span>
+            </span>
+            <span class="shrink-0 text-right text-secundario font-semibold text-atraso-800">5</span>
+          </div></li>
+          <li><div class="flex items-center gap-s3 px-s3 py-s3">
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-cuerpo text-tinta">Pedro Ventas</span>
+              <span class="mt-s1 flex items-center gap-s2">
+                <span class="block h-1.5 w-24 overflow-hidden rounded-sm bg-neutro-300"><span class="block h-full bg-marca" style="width:68.2%"></span></span>
+                <span class="text-secundario text-neutro-800">68,2 %</span>
+              </span>
+            </span>
+            <span class="shrink-0 text-right text-secundario font-semibold text-atraso-800">3</span>
+          </div></li>
+          <li><div class="flex items-center gap-s3 px-s3 py-s3">
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-cuerpo text-tinta">Nuria Casal</span>
+              <span class="mt-s1 flex items-center gap-s2">
+                <span class="block h-1.5 w-24 overflow-hidden rounded-sm bg-neutro-300"><span class="block h-full bg-marca" style="width:92.2%"></span></span>
+                <span class="text-secundario text-neutro-800">92,2 %</span>
+              </span>
+            </span>
+            <span class="shrink-0 text-right text-secundario font-semibold text-atraso-800">1</span>
+          </div></li>
+        </ul>
+        <p class="mt-s2 text-nota text-neutro-800">Ordenados por avance, de menor a mayor: quien necesita ayuda va arriba.</p>
+      </section>
+    </main>
+
+    <div class="border-t border-filete bg-superficie px-s4 pb-s3 pt-s3">
+      <div class="flex h-[48px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Enviar resumen matutino ahora</div>
+      <p class="mt-s2 text-center text-nota text-neutro-800">Último envío: hoy a las 07:30 · 3 correos.</p>
+    </div>
+    <nav class="border-t border-filete bg-superficie">
+      <ul class="flex">
+        <li class="flex-1"><span class="flex h-[56px] items-center justify-center text-cuerpo font-semibold text-marca-800">Panel</span></li>
+        <li class="flex-1"><span class="flex h-[56px] items-center justify-center text-cuerpo text-neutro-800">Equipo</span></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- ══════════════ 17 · PWA · Detalle de vendedor ══════════════ -->
+<div class="captura mov" id="c17">
+  <div class="min-h-[720px] bg-lienzo">
+    <main class="px-s4 pb-s6 pt-s4">
+      <p><span class="text-secundario text-marca-800">← El equipo hoy</span></p>
+      <header class="mt-s2"><h1 class="font-titulo text-h2">Sara Comercial</h1></header>
+
+      <section class="mt-s4 rounded border border-filete bg-superficie px-s4 py-s3">
+        <p class="font-titulo text-h1">44,2 %</p>
+        <div class="mt-s2"><div class="h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full bg-marca" style="width:44.2%"></div></div></div>
+        <dl class="mt-s3 grid grid-cols-2 gap-s3">
+          <div><dt class="text-rotulo uppercase text-neutro-700">Cerrado</dt><dd class="mt-0.5 font-titulo text-cifra">3.980 €</dd></div>
+          <div><dt class="text-rotulo uppercase text-neutro-700">Meta</dt><dd class="mt-0.5 font-titulo text-cifra">9.000 €</dd></div>
+          <div><dt class="text-rotulo uppercase text-neutro-700">Ganadas</dt><dd class="mt-0.5 font-titulo text-cifra">2</dd></div>
+          <div><dt class="text-rotulo uppercase text-neutro-700">Restante</dt><dd class="mt-0.5 font-titulo text-cifra">5.020 €</dd></div>
+        </dl>
+      </section>
+
+      <section class="mt-s6">
+        <h2 class="font-titulo text-h2menor">5 oportunidades atrasadas</h2>
+        <ul class="mt-s2 divide-y divide-filete rounded border border-filete bg-superficie">
+          <li class="px-s3 py-s3">
+            <p class="truncate text-cuerpo text-tinta">Álvaro Cid Ramos<span class="text-neutro-800"> · Moda Ribera</span></p>
+            <p class="mt-s1 flex flex-wrap items-center gap-x-s2 gap-y-s1">
+              <span class="rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Negociación</span>
+              <span class="inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>Acción vencida el 2 sept</span>
+            </p>
+          </li>
+          <li class="px-s3 py-s3">
+            <p class="truncate text-cuerpo text-tinta">Elena Vidal Suárez</p>
+            <p class="mt-s1 flex flex-wrap items-center gap-x-s2 gap-y-s1">
+              <span class="rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Propuesta enviada</span>
+              <span class="inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>6 días sin actividad</span>
+            </p>
+          </li>
+          <li class="px-s3 py-s3">
+            <p class="truncate text-cuerpo text-tinta">Tomás Aguirre Roldán<span class="text-neutro-800"> · Pieles del Sur</span></p>
+            <p class="mt-s1 flex flex-wrap items-center gap-x-s2 gap-y-s1">
+              <span class="rounded bg-neutro-200 px-s1 py-0.5 text-nota font-semibold text-neutro-900">Contactado</span>
+              <span class="inline-flex items-center gap-s1 text-secundario font-semibold text-atraso-700"><span class="h-2 w-2 shrink-0 rounded-full bg-atraso"></span>4 días sin actividad</span>
+            </p>
+          </li>
+        </ul>
+        <p class="mt-s2 text-nota text-neutro-800">Se enseñan las 3 más antiguas. El resto, en el escritorio.</p>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════ 18 · PWA · Hoja A · Confirmación ══════════════ -->
+<div class="captura mov" id="c18">
+  <div class="relative min-h-[560px] bg-neutro-900/35">
+    <div class="absolute inset-x-0 bottom-0 rounded-t-lg border-t border-filete bg-superficie px-s4 pb-s6 pt-s4 shadow-lg">
+      <h2 class="font-titulo text-h2menor">Enviar el resumen matutino</h2>
+      <p class="mt-s2 text-cuerpo text-neutro-800">Se enviará un correo a cada vendedor activo con sus oportunidades atrasadas, sus acciones de hoy y su avance de meta.</p>
+      <div class="mt-s4 flex gap-s2">
+        <div class="flex h-[44px] flex-1 items-center justify-center rounded border border-neutro-400 text-cuerpo">Cancelar</div>
+        <div class="flex h-[44px] flex-1 items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Enviar ahora</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 19 · PWA · Hoja B · Enviando ══════════════ -->
+<div class="captura mov" id="c19">
+  <div class="relative min-h-[560px] bg-neutro-900/35">
+    <div class="absolute inset-x-0 bottom-0 rounded-t-lg border-t border-filete bg-superficie px-s4 pb-s6 pt-s4 shadow-lg">
+      <h2 class="font-titulo text-h2menor">Enviando resúmenes…</h2>
+      <div class="mt-s3 h-1.5 w-full overflow-hidden rounded-sm bg-neutro-300"><div class="h-full w-1/3 bg-marca"></div></div>
+      <p class="mt-s3 text-cuerpo text-neutro-800">Esto tarda menos de un minuto. Puedes cerrar la aplicación, el envío continuará.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 20 · PWA · Hoja C · Enviado ══════════════ -->
+<div class="captura mov" id="c20">
+  <div class="relative min-h-[560px] bg-neutro-900/35">
+    <div class="absolute inset-x-0 bottom-0 rounded-t-lg border-t border-filete bg-superficie px-s4 pb-s6 pt-s4 shadow-lg">
+      <h2 class="font-titulo text-h2menor text-ganada"><span>✓</span> Resúmenes enviados</h2>
+      <p class="mt-s2 text-cuerpo text-neutro-800">3 correos enviados a las 09:42.</p>
+      <div class="mt-s4"><div class="flex h-[44px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Cerrar</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 21 · PWA · Estado E · Bloqueado por el límite ══════════════ -->
+<div class="captura mov" id="c21">
+  <div class="min-h-[300px] bg-lienzo">
+    <div class="border-t border-filete bg-superficie px-s4 pb-s3 pt-s3">
+      <p class="mb-s2 rounded border border-neutro-300 bg-neutro-100 px-s3 py-s2 text-secundario text-tinta">
+        <strong class="font-semibold">Ya has enviado el resumen hace 4 minutos.</strong> Podrás volver a enviarlo a las 09:52.
+      </p>
+      <div class="flex h-[48px] w-full items-center justify-center rounded bg-marca text-cuerpo font-semibold text-white">Enviar resumen matutino ahora</div>
+      <p class="mt-s2 text-center text-nota text-neutro-800">Último envío: hoy a las 09:42 · 3 correos.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
