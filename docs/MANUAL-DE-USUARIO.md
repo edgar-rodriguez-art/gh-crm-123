@@ -21,6 +21,92 @@ Las imágenes son de un entorno de pruebas: los nombres, importes y fechas que
 verás en ellas son inventados.
 
 ---
+
+## Quiero hacer…
+
+Lo que más se busca, directo:
+
+| | |
+|---|---|
+| Entrar por primera vez | [§1.2](#12-tu-primera-vez-cambiar-la-contraseña) |
+| No me deja entrar | [§1.1](#si-no-te-deja-entrar) |
+| Registrar un cliente nuevo | [§2.5](#registrar-un-cliente-nuevo) |
+| Apuntar una llamada o una visita | [§2.5](#registrar-lo-que-ha-pasado) |
+| Abrir una oportunidad | [§2.5](#abrir-una-oportunidad) |
+| Cerrar una venta ganada | [§2.5](#cerrar-una-venta-ganada) |
+| Cerrar una oportunidad perdida | [§2.5](#cerrar-una-oportunidad-perdida) |
+| Quitar algo de «atrasadas» | [§2.1](#21-el-tablero-del-día) |
+| Retirar un cliente que ya no procede | [§2.5](#archivar-un-cliente) |
+| Dar de alta a alguien del equipo | [§3.2](#crear-un-usuario) |
+| Dar de baja a alguien que se va | [§3.2](#desactivar-y-reactivar) |
+| Recuperar la contraseña de un vendedor | [§3.2](#restablecer-una-contraseña) |
+| Fijar o cambiar las metas del mes | [§3.3](#33-administración--cuotas) |
+| Pasar un cliente a otro vendedor | [§3.5](#35-reasignar-un-cliente) |
+| Ver quién hizo qué | [§3.4](#34-administración--auditoría) |
+| Enviar el resumen fuera de hora | [§4.4](#44-enviar-el-resumen-matutino-a-mano) |
+| Un vendedor dice que no le llega el correo | [§5](#si-un-vendedor-dice-que-no-le-llega) |
+| No entiendo un mensaje que me ha salido | [Anexo A](#anexo-a--mensajes-del-sistema) |
+| Tengo una duda suelta | [Anexo B](#anexo-b--dudas-frecuentes) |
+| ¿Qué significa esta palabra? | [Anexo C](#anexo-c--glosario) |
+
+---
+
+## Contenido
+
+**[Parte 1 · Para todos](#parte-1--para-todos)**
+
+- [1.1 Entrar](#11-entrar) · [Si no te deja entrar](#si-no-te-deja-entrar)
+- [1.2 Tu primera vez: cambiar la contraseña](#12-tu-primera-vez-cambiar-la-contraseña)
+- [1.3 Salir](#13-salir)
+
+**[Parte 2 · Manual del vendedor](#parte-2--manual-del-vendedor)**
+
+- [2.1 El tablero del día](#21-el-tablero-del-día)
+- [2.2 Oportunidades](#22-oportunidades)
+- [2.3 Clientes](#23-clientes)
+- [2.4 La ficha de cliente](#24-la-ficha-de-cliente)
+- [2.5 Los seis procedimientos](#25-los-seis-procedimientos)
+  - [Registrar un cliente nuevo](#registrar-un-cliente-nuevo)
+  - [Abrir una oportunidad](#abrir-una-oportunidad)
+  - [Registrar lo que ha pasado](#registrar-lo-que-ha-pasado)
+  - [Mover la etapa](#mover-la-etapa)
+  - [Cerrar una venta ganada](#cerrar-una-venta-ganada)
+  - [Cerrar una oportunidad perdida](#cerrar-una-oportunidad-perdida)
+  - [Archivar un cliente](#archivar-un-cliente)
+- [2.6 Cosas que el sistema no te va a dejar hacer](#26-cosas-que-el-sistema-no-te-va-a-dejar-hacer)
+
+**[Parte 3 · Manual del supervisor · Ordenador](#parte-3--manual-del-supervisor--ordenador)**
+
+- [3.1 Equipo](#31-equipo)
+- [3.2 Administración › Usuarios](#32-administración--usuarios)
+  - [Crear un usuario](#crear-un-usuario)
+  - [La contraseña inicial](#la-contraseña-inicial)
+  - [Desactivar y reactivar](#desactivar-y-reactivar)
+  - [Restablecer una contraseña](#restablecer-una-contraseña)
+- [3.3 Administración › Cuotas](#33-administración--cuotas)
+- [3.4 Administración › Auditoría](#34-administración--auditoría)
+- [3.5 Reasignar un cliente](#35-reasignar-un-cliente)
+
+**[Parte 4 · Manual del supervisor · Móvil](#parte-4--manual-del-supervisor--móvil)**
+
+- [4.1 Instalarla y entrar](#41-instalarla-y-entrar)
+- [4.2 El panel](#42-el-panel)
+- [4.3 Ver a un vendedor](#43-ver-a-un-vendedor)
+- [4.4 Enviar el resumen matutino a mano](#44-enviar-el-resumen-matutino-a-mano)
+  - [Paso 1 · Confirmar](#paso-1--confirmar) · [Paso 2 · Esperar](#paso-2--esperar) · [Paso 3 · Resultado](#paso-3--resultado)
+  - [Si lo pulsas otra vez enseguida](#si-lo-pulsas-otra-vez-enseguida)
+
+**[Parte 5 · El resumen matutino](#parte-5--el-resumen-matutino)**
+
+- [Qué es](#qué-es) · [Qué trae](#qué-trae) · [Si un vendedor dice que no le llega](#si-un-vendedor-dice-que-no-le-llega)
+
+**Anexos**
+
+- [A · Mensajes del sistema](#anexo-a--mensajes-del-sistema)
+- [B · Dudas frecuentes](#anexo-b--dudas-frecuentes)
+- [C · Glosario](#anexo-c--glosario)
+
+---
 ---
 
 # Parte 1 · Para todos
@@ -75,6 +161,8 @@ El botón **Cerrar sesión** está al final de la barra lateral, debajo de tu
 nombre. En el móvil, al final del panel.
 
 Ciérrala siempre si compartes el ordenador.
+
+[↑ Volver al contenido](#contenido)
 
 ---
 ---
@@ -248,6 +336,8 @@ Para que no las busques:
 - **Pasar un cliente a otro vendedor.** Eso lo hace el supervisor.
 - **Ver nada de otro vendedor.**
 
+[↑ Volver al contenido](#contenido)
+
 ---
 ---
 
@@ -372,6 +462,8 @@ vendedor**.
 Se lleva consigo su oportunidad abierta y todo su historial. Queda registrado
 en la auditoría con tu nombre.
 
+[↑ Volver al contenido](#contenido)
+
 ---
 ---
 
@@ -468,6 +560,8 @@ repetirlo.
 > El límite son **diez minutos** y cuenta también los envíos automáticos: si el
 > de las 07:30 acaba de salir y pulsas a las 07:33, te frenará.
 
+[↑ Volver al contenido](#contenido)
+
 ---
 ---
 
@@ -518,6 +612,8 @@ Por este orden:
    correo bien escrito.
 3. Mira en **Administración › Auditoría**, en el bloque del resumen matutino,
    si el envío de esa mañana salió y cuántos correos fueron.
+
+[↑ Volver al contenido](#contenido)
 
 ---
 ---
@@ -586,6 +682,8 @@ dejan de contar. Después, reasigna sus clientes a quien corresponda.
 | **Archivar** | Retirar un cliente sin perder nada. Reversible |
 | **Desactivar** | Dejar a un usuario sin acceso sin perder su historial. Reversible |
 | **Resumen matutino** | El correo diario de las 07:30 con lo que hay que atender |
+
+[↑ Volver al contenido](#contenido)
 
 ---
 ---
